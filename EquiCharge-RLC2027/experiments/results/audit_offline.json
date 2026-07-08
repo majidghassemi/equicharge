@@ -1,0 +1,76 @@
+{
+  "n_days": 32,
+  "lp_success": 32,
+  "box1": {
+    "profit_optimal_disparity": {
+      "median": 0.5580400139505688,
+      "iqr": 0.2853359406310113,
+      "min": 0.14815031097993614,
+      "max": 1.0,
+      "mean": 0.5877948737038897
+    },
+    "maximin_disparity": {
+      "median": 5.041256951721085e-06,
+      "iqr": 5.844199410270923e-06,
+      "min": 2.6908407830816827e-06,
+      "max": 0.15910340997097627,
+      "mean": 0.012712745746896414
+    },
+    "revenue_price_of_fairness_pct": {
+      "median": 8.846895700988899,
+      "iqr": 5.8477550345740745,
+      "min": 2.2089473665640584,
+      "max": 18.18959016286667,
+      "mean": 9.869103603471528
+    },
+    "worst_tier_under_profit_optimal": {
+      "budget": 31,
+      "mid": 1,
+      "premium": 0
+    },
+    "delivered_energy_max_dev_across_objectives_kwh": {
+      "median": 0.0,
+      "iqr": 0.0,
+      "min": 0.0,
+      "max": 5.684341886080802e-14,
+      "mean": 5.329070518200751e-15
+    }
+  },
+  "box2": {
+    "flat_disparity": {
+      "median": 0.17238109304170884,
+      "iqr": 0.1314483622798072,
+      "min": 0.014126283439705012,
+      "max": 0.46421934929934283,
+      "mean": 0.2056502708761612
+    },
+    "flat_worst_tier": {
+      "premium": 8,
+      "mid": 15,
+      "budget": 9
+    },
+    "budget_subsidy_parity_disparity": {
+      "median": 0.3739701453386919,
+      "iqr": 0.3313037999643469,
+      "min": 0.01188047476373455,
+      "max": 0.9066329713847172,
+      "mean": 0.39176651526262535
+    },
+    "budget_subsidy_parity_worst_tier": {
+      "mid": 19,
+      "budget": 12,
+      "premium": 1
+    },
+    "premium_cap_1.0_disparity": {
+      "median": 0.5086133099314738,
+      "iqr": 0.2613681846792,
+      "min": 0.14886320974696454,
+      "max": 0.9693003785529614,
+      "mean": 0.5593713314331185
+    },
+    "premium_cap_1.0_worst_tier": {
+      "budget": 31,
+      "mid": 1
+    }
+  }
+}

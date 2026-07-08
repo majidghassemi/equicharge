@@ -1,0 +1,147 @@
+{
+  "n_days": 32,
+  "configs": {
+    "reference_16ch_30kW_residential_eu": {
+      "lp_success": 32,
+      "n_days": 32,
+      "mean_customers_per_day": 23.21875,
+      "profit_optimal_disparity": {
+        "median": 0.5580400139505688,
+        "iqr": 0.2853359406310113,
+        "min": 0.14815031097993614,
+        "max": 1.0
+      },
+      "worst_tier_days": {
+        "budget": 31,
+        "mid": 1,
+        "premium": 0
+      },
+      "budget_worst_fraction": 0.96875,
+      "revenue_pof_pct": {
+        "median": 8.846895700988899,
+        "iqr": 5.8477550345740745,
+        "min": 2.2089473665640584,
+        "max": 18.18959016286667
+      },
+      "delivered_energy_max_dev_kwh": {
+        "median": 0.0,
+        "iqr": 0.0,
+        "min": 0.0,
+        "max": 5.684341886080802e-14
+      },
+      "layout": {
+        "n_evses": 8,
+        "grid_kw": 30.0
+      }
+    },
+    "workplace_24ch_55kW_us": {
+      "lp_success": 26,
+      "n_days": 32,
+      "mean_customers_per_day": 39.76923076923077,
+      "profit_optimal_disparity": {
+        "median": 0.07260625014762079,
+        "iqr": 0.05416712887123057,
+        "min": 0.0,
+        "max": 0.14927263800576895
+      },
+      "worst_tier_days": {
+        "budget": 10,
+        "mid": 7,
+        "premium": 9
+      },
+      "budget_worst_fraction": 0.38461538461538464,
+      "revenue_pof_pct": {
+        "median": 0.0,
+        "iqr": 0.0,
+        "min": -1.898581804048198e-14,
+        "max": 2.2392773180508465
+      },
+      "delivered_energy_max_dev_kwh": {
+        "median": 0.0,
+        "iqr": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "layout": {
+        "n_evses": 12,
+        "grid_kw": 55.0
+      }
+    },
+    "shopping_8ch_16kW_world": {
+      "lp_success": 32,
+      "n_days": 32,
+      "mean_customers_per_day": 15.21875,
+      "profit_optimal_disparity": {
+        "median": 0.18702840808636184,
+        "iqr": 0.2030089991204286,
+        "min": 0.0,
+        "max": 0.44963273557543465
+      },
+      "worst_tier_days": {
+        "budget": 15,
+        "mid": 11,
+        "premium": 6
+      },
+      "budget_worst_fraction": 0.46875,
+      "revenue_pof_pct": {
+        "median": 0.0,
+        "iqr": 1.0259897757555942,
+        "min": -1.8029504415681508e-14,
+        "max": 10.551996037702787
+      },
+      "delivered_energy_max_dev_kwh": {
+        "median": 0.0,
+        "iqr": 1.7763568394002505e-14,
+        "min": 0.0,
+        "max": 5.684341886080802e-14
+      },
+      "layout": {
+        "n_evses": 4,
+        "grid_kw": 16.0
+      }
+    },
+    "highway_20ch_45kW_eu_highrate": {
+      "lp_success": 32,
+      "n_days": 32,
+      "mean_customers_per_day": 37.5,
+      "profit_optimal_disparity": {
+        "median": 0.2729610099227038,
+        "iqr": 0.1437327891205834,
+        "min": 0.025711601843930176,
+        "max": 0.46640319686996756
+      },
+      "worst_tier_days": {
+        "budget": 25,
+        "mid": 7,
+        "premium": 0
+      },
+      "budget_worst_fraction": 0.78125,
+      "revenue_pof_pct": {
+        "median": 6.130337406690003,
+        "iqr": 5.01115125934384,
+        "min": 0.4607113257906327,
+        "max": 13.280698241833486
+      },
+      "delivered_energy_max_dev_kwh": {
+        "median": 0.0,
+        "iqr": 0.0,
+        "min": 0.0,
+        "max": 1.1368683772161603e-13
+      },
+      "layout": {
+        "n_evses": 10,
+        "grid_kw": 45.0
+      }
+    }
+  },
+  "verdict": {
+    "budget_worst_fraction_by_config": {
+      "reference_16ch_30kW_residential_eu": 0.96875,
+      "workplace_24ch_55kW_us": 0.38461538461538464,
+      "shopping_8ch_16kW_world": 0.46875,
+      "highway_20ch_45kW_eu_highrate": 0.78125
+    },
+    "disparate_impact_structural": false,
+    "interpretation": "Budget-worst does NOT hold at every config -> the result is operating-point dependent; report the dependence."
+  }
+}

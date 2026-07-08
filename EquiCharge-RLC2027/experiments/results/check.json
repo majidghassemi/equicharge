@@ -1,0 +1,379 @@
+{
+  "budget": 3000000,
+  "ent_coef": 0.01,
+  "n_seeds": 10,
+  "config": "egal_l050",
+  "baselines": {
+    "max_charge": {
+      "welfare_mean": 0.4986032545566559,
+      "welfare_sem": 0.023410298287532556,
+      "profit_mean": 185.6134796142578,
+      "profit_sem": 11.205821758104127,
+      "served_mean_sat": 0.7091083526611328,
+      "n_served": 559.0,
+      "n_rejected": 169.0,
+      "rejection_rate": 0.23214285714285715,
+      "inclusive_mean_sat": 0.5444939198320383,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.41568100452423096,
+      "atkinson": 0.9499496221542358,
+      "group_means": [
+        0.5688239336013794,
+        0.5239713788032532,
+        0.5382741689682007
+      ],
+      "group_disparity": 0.04485255479812622
+    },
+    "least_laxity": {
+      "welfare_mean": 0.48364368081092834,
+      "welfare_sem": 0.023559683130087827,
+      "profit_mean": 175.61802673339844,
+      "profit_sem": 10.561133663261947,
+      "served_mean_sat": 0.7011173367500305,
+      "n_served": 556.0,
+      "n_rejected": 172.0,
+      "rejection_rate": 0.23626373626373626,
+      "inclusive_mean_sat": 0.5354687277589679,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.42795419692993164,
+      "atkinson": 0.953162431716919,
+      "group_means": [
+        0.5505706667900085,
+        0.5121551752090454,
+        0.543217122554779
+      ],
+      "group_disparity": 0.038415491580963135
+    },
+    "proportional_fair": {
+      "welfare_mean": 0.407562255859375,
+      "welfare_sem": 0.02218674023366008,
+      "profit_mean": 176.80274963378906,
+      "profit_sem": 11.086403090650135,
+      "served_mean_sat": 0.6149917244911194,
+      "n_served": 536.0,
+      "n_rejected": 192.0,
+      "rejection_rate": 0.26373626373626374,
+      "inclusive_mean_sat": 0.4527961180959879,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.4681023359298706,
+      "atkinson": 0.9792512059211731,
+      "group_means": [
+        0.41225001215934753,
+        0.46778324246406555,
+        0.4781036376953125
+      ],
+      "group_disparity": 0.06585362553596497
+    },
+    "saffe": {
+      "welfare_mean": 0.3962046205997467,
+      "welfare_sem": 0.021724309549037618,
+      "profit_mean": 174.9389190673828,
+      "profit_sem": 10.960216207748312,
+      "served_mean_sat": 0.5997058749198914,
+      "n_served": 536.0,
+      "n_rejected": 192.0,
+      "rejection_rate": 0.26373626373626374,
+      "inclusive_mean_sat": 0.4415417107431075,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.4771868586540222,
+      "atkinson": 0.9793245196342468,
+      "group_means": [
+        0.399639755487442,
+        0.45807358622550964,
+        0.4666689336299896
+      ],
+      "group_disparity": 0.06702917814254761
+    },
+    "random": {
+      "welfare_mean": 0.471788614988327,
+      "welfare_sem": 0.022023809238978162,
+      "profit_mean": 161.0393829345703,
+      "profit_sem": 9.300082439653316,
+      "served_mean_sat": 0.6810605525970459,
+      "n_served": 552.0,
+      "n_rejected": 176.0,
+      "rejection_rate": 0.24175824175824176,
+      "inclusive_mean_sat": 0.5164085979871503,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.4387492537498474,
+      "atkinson": 0.9558237195014954,
+      "group_means": [
+        0.5384324193000793,
+        0.48622554540634155,
+        0.5225192308425903
+      ],
+      "group_disparity": 0.05220687389373779
+    }
+  },
+  "seeds": [
+    {
+      "welfare_mean": 0.4923509657382965,
+      "welfare_sem": 0.03777348550750277,
+      "profit_mean": 179.4690399169922,
+      "profit_sem": 11.3249601037034,
+      "served_mean_sat": 0.7007133364677429,
+      "n_served": 551.0,
+      "n_rejected": 164.0,
+      "rejection_rate": 0.22937062937062938,
+      "inclusive_mean_sat": 0.539990272821038,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.42878299951553345,
+      "atkinson": 0.9566030502319336,
+      "group_means": [
+        0.5479195713996887,
+        0.5360152721405029,
+        0.5355650782585144
+      ],
+      "group_disparity": 0.012354493141174316,
+      "seed": 0,
+      "sec": 101.8
+    },
+    {
+      "welfare_mean": 0.5614690780639648,
+      "welfare_sem": 0.022473872425105748,
+      "profit_mean": 194.7759246826172,
+      "profit_sem": 7.540548877890367,
+      "served_mean_sat": 0.7553139925003052,
+      "n_served": 556.0,
+      "n_rejected": 158.0,
+      "rejection_rate": 0.22128851540616246,
+      "inclusive_mean_sat": 0.5881717009606826,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.3872910439968109,
+      "atkinson": 0.9465388059616089,
+      "group_means": [
+        0.5959869623184204,
+        0.5971634387969971,
+        0.5708428621292114
+      ],
+      "group_disparity": 0.026320576667785645,
+      "seed": 1,
+      "sec": 97.7
+    },
+    {
+      "welfare_mean": 0.5673065185546875,
+      "welfare_sem": 0.023812412323076453,
+      "profit_mean": 206.7895050048828,
+      "profit_sem": 8.943428165222329,
+      "served_mean_sat": 0.7557433843612671,
+      "n_served": 583.0,
+      "n_rejected": 118.0,
+      "rejection_rate": 0.16833095577746077,
+      "inclusive_mean_sat": 0.6285283583137984,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.34769052267074585,
+      "atkinson": 0.8991059064865112,
+      "group_means": [
+        0.6352589130401611,
+        0.6358062028884888,
+        0.6144912242889404
+      ],
+      "group_disparity": 0.02131497859954834,
+      "seed": 2,
+      "sec": 96.1
+    },
+    {
+      "welfare_mean": 0.5874359011650085,
+      "welfare_sem": 0.021663145790187577,
+      "profit_mean": 209.0493621826172,
+      "profit_sem": 9.766263134753983,
+      "served_mean_sat": 0.7972105741500854,
+      "n_served": 571.0,
+      "n_rejected": 141.0,
+      "rejection_rate": 0.19803370786516855,
+      "inclusive_mean_sat": 0.6393360335058061,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.34154319763183594,
+      "atkinson": 0.924359917640686,
+      "group_means": [
+        0.6170448064804077,
+        0.664238452911377,
+        0.6365128755569458
+      ],
+      "group_disparity": 0.04719364643096924,
+      "seed": 3,
+      "sec": 96.0
+    },
+    {
+      "welfare_mean": 0.5182626247406006,
+      "welfare_sem": 0.0201307029217789,
+      "profit_mean": 212.16741943359375,
+      "profit_sem": 6.878463697275588,
+      "served_mean_sat": 0.7314613461494446,
+      "n_served": 575.0,
+      "n_rejected": 169.0,
+      "rejection_rate": 0.2271505376344086,
+      "inclusive_mean_sat": 0.5653095107521832,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.4062385559082031,
+      "atkinson": 0.9548091888427734,
+      "group_means": [
+        0.5749092102050781,
+        0.5582001805305481,
+        0.5626131892204285
+      ],
+      "group_disparity": 0.01670902967453003,
+      "seed": 4,
+      "sec": 95.8
+    },
+    {
+      "welfare_mean": 0.5074861645698547,
+      "welfare_sem": 0.02429975442252259,
+      "profit_mean": 200.09107971191406,
+      "profit_sem": 10.09492960800672,
+      "served_mean_sat": 0.7341600656509399,
+      "n_served": 558.0,
+      "n_rejected": 174.0,
+      "rejection_rate": 0.23770491803278687,
+      "inclusive_mean_sat": 0.5596465960175532,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.41886770725250244,
+      "atkinson": 0.9637812376022339,
+      "group_means": [
+        0.5500074625015259,
+        0.5653429627418518,
+        0.5631234049797058
+      ],
+      "group_disparity": 0.015335500240325928,
+      "seed": 5,
+      "sec": 96.7
+    },
+    {
+      "welfare_mean": 0.4548490047454834,
+      "welfare_sem": 0.034459519081003386,
+      "profit_mean": 168.140380859375,
+      "profit_sem": 10.159378717093924,
+      "served_mean_sat": 0.6268450617790222,
+      "n_served": 571.0,
+      "n_rejected": 150.0,
+      "rejection_rate": 0.20804438280166435,
+      "inclusive_mean_sat": 0.49643346435815383,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.46988609433174133,
+      "atkinson": 0.9677429795265198,
+      "group_means": [
+        0.49707236886024475,
+        0.4745541214942932,
+        0.5157804489135742
+      ],
+      "group_disparity": 0.041226327419281006,
+      "seed": 6,
+      "sec": 96.1
+    },
+    {
+      "welfare_mean": 0.5412125587463379,
+      "welfare_sem": 0.029079672444165018,
+      "profit_mean": 195.1383819580078,
+      "profit_sem": 6.216962520524808,
+      "served_mean_sat": 0.743820309638977,
+      "n_served": 553.0,
+      "n_rejected": 116.0,
+      "rejection_rate": 0.17339312406576982,
+      "inclusive_mean_sat": 0.6148470279388965,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.35974031686782837,
+      "atkinson": 0.9085164666175842,
+      "group_means": [
+        0.6105819344520569,
+        0.6220596432685852,
+        0.6116183400154114
+      ],
+      "group_disparity": 0.01147770881652832,
+      "seed": 7,
+      "sec": 96.5
+    },
+    {
+      "welfare_mean": 0.5750181674957275,
+      "welfare_sem": 0.022933530612217614,
+      "profit_mean": 216.4331817626953,
+      "profit_sem": 11.264556973385975,
+      "served_mean_sat": 0.7541394829750061,
+      "n_served": 593.0,
+      "n_rejected": 125.0,
+      "rejection_rate": 0.17409470752089137,
+      "inclusive_mean_sat": 0.6228477875844765,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.3521255850791931,
+      "atkinson": 0.9091271758079529,
+      "group_means": [
+        0.6006221175193787,
+        0.6374539136886597,
+        0.6294525861740112
+      ],
+      "group_disparity": 0.036831796169281006,
+      "seed": 8,
+      "sec": 97.0
+    },
+    {
+      "welfare_mean": 0.5666113495826721,
+      "welfare_sem": 0.025488222056723107,
+      "profit_mean": 199.23101806640625,
+      "profit_sem": 14.36461378324225,
+      "served_mean_sat": 0.7701651453971863,
+      "n_served": 550.0,
+      "n_rejected": 153.0,
+      "rejection_rate": 0.21763869132290184,
+      "inclusive_mean_sat": 0.60254736492148,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.37579458951950073,
+      "atkinson": 0.9484087824821472,
+      "group_means": [
+        0.5934396386146545,
+        0.5732288956642151,
+        0.6360821723937988
+      ],
+      "group_disparity": 0.06285327672958374,
+      "seed": 9,
+      "sec": 99.0
+    }
+  ],
+  "analysis": {
+    "per_axis_vs_maxcharge": {
+      "profit_mean": {
+        "win_rate": 0.8,
+        "median": 199.66104888916016,
+        "maxcharge": 185.6134796142578
+      },
+      "inclusive_mean_sat": {
+        "win_rate": 0.8,
+        "median": 0.5953595329410812,
+        "maxcharge": 0.5444939198320383
+      },
+      "gini": {
+        "win_rate": 0.7,
+        "median": 0.3815428167581558,
+        "maxcharge": 0.41568100452423096
+      },
+      "rejection_rate": {
+        "win_rate": 0.9,
+        "median": 0.2128415370622831,
+        "maxcharge": 0.23214285714285715
+      }
+    },
+    "dominate_all4_seeds": 7,
+    "dominate_ge3of4_seeds": 7,
+    "n_seeds": 10,
+    "median_rejection": 0.2128415370622831,
+    "maxcharge_rejection": 0.23214285714285715,
+    "median_inclusive_welfare": 0.5513408184051514,
+    "maxcharge_inclusive_welfare": 0.4986032545566559,
+    "median_inclusive_sat": 0.5953595329410812,
+    "maxcharge_inclusive_sat": 0.5444939198320383,
+    "SURVIVES_survivorship_check": true
+  }
+}

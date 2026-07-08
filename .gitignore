@@ -1,0 +1,21 @@
+# private / process artifacts (must NOT be in the reviewable repo)
+_private_revision_history/
+.claude/
+
+# large / derived artifacts (~51 MB of serialized agents; backup snapshots)
+EquiCharge-RLC2027/experiments/results/checkpoints/
+EquiCharge-RLC2027/experiments/results/archive/
+
+# logs
+*.log
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# os / editor
+.DS_Store
+*.swp
