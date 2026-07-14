@@ -1,0 +1,41 @@
+{
+  "day_set": {
+    "used": 32,
+    "requested": 32,
+    "seed": 7
+  },
+  "cells": {
+    "statusquo_30kW": {
+      "between_tier_gap": 0.567,
+      "within_tier_gini": 0.27,
+      "overall_gini": 0.281
+    },
+    "flat_30kW": {
+      "between_tier_gap": 0.051,
+      "within_tier_gini": 0.205,
+      "overall_gini": 0.205
+    },
+    "statusquo_90kW": {
+      "between_tier_gap": 0.02,
+      "within_tier_gini": 0.042,
+      "overall_gini": 0.042
+    },
+    "flat_90kW": {
+      "between_tier_gap": 0.023,
+      "within_tier_gini": 0.041,
+      "overall_gini": 0.041
+    }
+  },
+  "pricing_lever_30kW_sq_to_flat": {
+    "d_between_tier_gap": 0.516,
+    "d_within_tier_gini": 0.065
+  },
+  "capacity_lever_sq_30_to_90kW": {
+    "d_between_tier_gap": 0.547,
+    "d_within_tier_gini": 0.228
+  },
+  "pricing_orthogonal_to_within": true,
+  "capacity_orthogonal_to_between": false,
+  "orthogonal": false,
+  "interpretation": "Levers are NOT fully orthogonal; the separation is APPROXIMATE. Report the cross-effects: state exactly which lever also moves the other harm and by how much."
+}

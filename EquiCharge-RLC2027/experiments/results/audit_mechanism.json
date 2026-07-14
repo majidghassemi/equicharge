@@ -1,0 +1,255 @@
+{
+  "day_set": {
+    "requested": 32,
+    "used_after_filter": 32,
+    "seed": 7,
+    "env": "ref 8ch/30kW, 4 disc",
+    "estimator": "max-min of day-averaged tier means"
+  },
+  "status_quo_gap": 0.567,
+  "subsidy_to_parity_gap": 0.32,
+  "box1": {
+    "profit": {
+      "tier_means": [
+        0.383,
+        0.807,
+        0.949
+      ],
+      "gap": 0.567,
+      "worst_tier": "budget",
+      "revenue": 389.6
+    },
+    "utilitarian": {
+      "tier_means": [
+        0.864,
+        0.804,
+        0.834
+      ],
+      "gap": 0.059,
+      "worst_tier": "mid",
+      "revenue": 347.9
+    },
+    "maximin": {
+      "tier_means": [
+        0.824,
+        0.821,
+        0.816
+      ],
+      "gap": 0.008,
+      "worst_tier": "premium",
+      "revenue": 351.6
+    },
+    "egalitarian_equal": {
+      "tier_means": [
+        0.814,
+        0.814,
+        0.814
+      ],
+      "gap": 0.0,
+      "worst_tier": "mid",
+      "revenue": 348.5
+    }
+  },
+  "revenue_price_of_fairness_pct_median": 8.8,
+  "mechanism": [
+    {
+      "config": "status_quo_distinct",
+      "margins": [
+        0.6,
+        1.0,
+        1.5
+      ],
+      "spread": 0.9,
+      "budget_uniquely_lowest": true,
+      "tier_means": [
+        0.383,
+        0.807,
+        0.949
+      ],
+      "gap": 0.567,
+      "worst_tier": "budget"
+    },
+    {
+      "config": "premium_capped_to_mid",
+      "margins": [
+        0.6,
+        1.0,
+        1.0
+      ],
+      "spread": 0.4,
+      "budget_uniquely_lowest": true,
+      "tier_means": [
+        0.382,
+        0.872,
+        0.909
+      ],
+      "gap": 0.527,
+      "worst_tier": "budget"
+    },
+    {
+      "config": "budget_tied_to_mid",
+      "margins": [
+        1.0,
+        1.0,
+        1.5
+      ],
+      "spread": 0.5,
+      "budget_uniquely_lowest": false,
+      "tier_means": [
+        0.675,
+        0.629,
+        0.949
+      ],
+      "gap": 0.32,
+      "worst_tier": "mid"
+    },
+    {
+      "config": "fully_flat",
+      "margins": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "spread": 0.0,
+      "budget_uniquely_lowest": false,
+      "tier_means": [
+        0.782,
+        0.745,
+        0.796
+      ],
+      "gap": 0.051,
+      "worst_tier": "mid"
+    }
+  ],
+  "elasticity_invariance": [
+    {
+      "eta": 0.0,
+      "margins": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gap": 0.051,
+      "budget_uniquely_lowest": false,
+      "worst_tier": "mid"
+    },
+    {
+      "eta": 0.1,
+      "margins": [
+        0.9,
+        1.0,
+        1.1
+      ],
+      "gap": 0.565,
+      "budget_uniquely_lowest": true,
+      "worst_tier": "budget"
+    },
+    {
+      "eta": 0.2,
+      "margins": [
+        0.8,
+        1.0,
+        1.1
+      ],
+      "gap": 0.563,
+      "budget_uniquely_lowest": true,
+      "worst_tier": "budget"
+    },
+    {
+      "eta": 0.3,
+      "margins": [
+        0.8,
+        1.0,
+        1.2
+      ],
+      "gap": 0.563,
+      "budget_uniquely_lowest": true,
+      "worst_tier": "budget"
+    },
+    {
+      "eta": 0.4,
+      "margins": [
+        0.7,
+        1.0,
+        1.3
+      ],
+      "gap": 0.568,
+      "budget_uniquely_lowest": true,
+      "worst_tier": "budget"
+    },
+    {
+      "eta": 0.5,
+      "margins": [
+        0.7,
+        1.0,
+        1.4
+      ],
+      "gap": 0.566,
+      "budget_uniquely_lowest": true,
+      "worst_tier": "budget"
+    },
+    {
+      "eta": 0.6,
+      "margins": [
+        0.6,
+        1.0,
+        1.5
+      ],
+      "gap": 0.567,
+      "budget_uniquely_lowest": true,
+      "worst_tier": "budget"
+    },
+    {
+      "eta": 0.7,
+      "margins": [
+        0.6,
+        1.0,
+        1.6
+      ],
+      "gap": 0.563,
+      "budget_uniquely_lowest": true,
+      "worst_tier": "budget"
+    },
+    {
+      "eta": 0.8,
+      "margins": [
+        0.5,
+        1.0,
+        1.7
+      ],
+      "gap": 0.566,
+      "budget_uniquely_lowest": true,
+      "worst_tier": "budget"
+    },
+    {
+      "eta": 0.9,
+      "margins": [
+        0.5,
+        1.0,
+        1.8
+      ],
+      "gap": 0.567,
+      "budget_uniquely_lowest": true,
+      "worst_tier": "budget"
+    },
+    {
+      "eta": 1.0,
+      "margins": [
+        0.4,
+        1.0,
+        2.0
+      ],
+      "gap": 0.565,
+      "budget_uniquely_lowest": true,
+      "worst_tier": "budget"
+    }
+  ],
+  "verdict": {
+    "premium_cap_spread": 0.4,
+    "premium_cap_gap": 0.527,
+    "budget_parity_spread": 0.5,
+    "budget_parity_gap": 0.32,
+    "rank_position_beats_spread_magnitude": true,
+    "interpretation": "CONFIRMED: the premium cap has the SMALLER spread yet the LARGER gap, so the harm cannot be a function of spread magnitude. It tracks rank position: the budget tier is starved exactly while it is uniquely lowest, and is relieved only when it stops being uniquely lowest (budget-parity or full flattening)."
+  }
+}

@@ -37,12 +37,17 @@ either the bundled real Dutch data or a real ACN-Data download.
 
 The one construct added for the equity analysis is the ability-to-pay segmentation.
 It is **not** an arbitrary multiplier: see `chargax/equity/segments.py`. Each segment
-is a household-income tercile (ACS medians ≈ \$30k / \$67k / \$130k), and its price
-weight is its willingness-to-pay per kWh relative to the median, computed with a
-sub-proportional income elasticity `η≈0.6` (charging is a quasi-necessity). This
-yields `(0.6, 1.0, 1.5)`. The energy-burden gradient corroborates the direction:
-low-income households spend ≈8.6% of income on energy vs ≈3% for high-income
-households (ACEEE 2020; US DOE LEAD), so the budget segment's marginal willingness
-to pay for discretionary charging is materially lower.
+is a household-income tercile from the **ACS 2024 1-year** data (median household income
+≈ \$81.6k; tercile boundaries ≈ \$54k / \$122k; representative within-tercile incomes
+≈ \$35k / \$82k / \$161k), and its price weight is its willingness-to-pay per kWh
+relative to the median, computed with a sub-proportional income elasticity `η≈0.6`
+(residential energy is empirically a necessity, elasticity in (0,1); defensible range
+≈0.2–0.9). This yields `(0.6, 1.0, 1.5)`. The energy-burden gradient corroborates the
+direction: low-income households (≤200% FPL) spend a median **8.1%** of income on home
+energy vs **2.3%** for higher-income households, a ~3.5× gap (Drehobl, Ross & Ayala
+2020, AHS 2017; US DOE LEAD). The **A1 grounding sweep**
+(`experiments/audit_grounding.py`) shows the disparate impact is invariant across the
+plausible elasticity and tier–income-correlation range, so the exact spread is not
+load-bearing.
 
 Run `python -m chargax.equity.segments` to reproduce the derivation.

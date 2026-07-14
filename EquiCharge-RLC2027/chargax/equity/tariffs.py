@@ -39,15 +39,25 @@ from typing import Callable, Dict
 
 import numpy as np
 
+from chargax.equity import segments as SEG
+
 # --------------------------------------------------------------------- structures
 # Each tariff maps the *base* per-segment ability-to-pay multipliers to the
 # per-segment price weight the operator earns. The status-quo value-weighted tariff
 # passes the multipliers through; a flat/equity tariff flattens them.
 
-#: Base ability-to-pay multipliers (budget / mid / premium). Grounded in the
-#: residential energy-burden gradient (low-income households spend ~3x the income
-#: share on energy of higher-income households; see ``segments.py``).
-BASE_MULTIPLIERS = (0.6, 1.0, 1.8)
+#: Base ability-to-pay multipliers (budget / mid / premium). These are NOT chosen by
+#: hand: they are the single grounded derivation in :func:`segments.derive_price_multipliers`
+#: (willingness-to-pay per kWh relative to the median household, from ACS income terciles
+#: under a sub-proportional income elasticity), so every magnitude the tariff analysis
+#: uses traces to that one source and matches the box-1 oracle exactly. The energy-burden
+#: gradient (low-income households spend ~3x the income share on energy; ACEEE 2020 / DOE
+#: LEAD) corroborates the *direction* but is a burden ratio, not the WTP multiplier, so we
+#: do not use it as the multiplier. At the reference elasticity (~0.6) this yields
+#: approximately ``(0.6, 1.0, 1.5)``. The A1 grounding sweep
+#: (``experiments/audit_grounding.py``) shows the disparate impact is invariant to the
+#: elasticity across its plausible empirical range, so the exact spread is not load-bearing.
+BASE_MULTIPLIERS = SEG.PRICE_BY_GROUP
 
 
 def value_weighted(base: tuple = BASE_MULTIPLIERS) -> tuple:

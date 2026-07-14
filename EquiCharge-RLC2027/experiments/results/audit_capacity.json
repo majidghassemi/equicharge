@@ -1,0 +1,83 @@
+{
+  "day_set": {
+    "oracle_days_used": 32,
+    "requested": 32,
+    "seed": 7,
+    "site": "reference 16ch",
+    "maxcharge_episodes": 32
+  },
+  "rows": [
+    {
+      "grid_kw": 16,
+      "between_tier_gap": 0.6823,
+      "maxcharge_gini": 0.5178
+    },
+    {
+      "grid_kw": 20,
+      "between_tier_gap": 0.7021,
+      "maxcharge_gini": 0.477
+    },
+    {
+      "grid_kw": 24,
+      "between_tier_gap": 0.6804,
+      "maxcharge_gini": 0.443
+    },
+    {
+      "grid_kw": 30,
+      "between_tier_gap": 0.5666,
+      "maxcharge_gini": 0.4049
+    },
+    {
+      "grid_kw": 40,
+      "between_tier_gap": 0.2818,
+      "maxcharge_gini": 0.3585
+    },
+    {
+      "grid_kw": 50,
+      "between_tier_gap": 0.1006,
+      "maxcharge_gini": 0.3268
+    },
+    {
+      "grid_kw": 60,
+      "between_tier_gap": 0.0183,
+      "maxcharge_gini": 0.3099
+    },
+    {
+      "grid_kw": 70,
+      "between_tier_gap": 0.0166,
+      "maxcharge_gini": 0.3055
+    },
+    {
+      "grid_kw": 80,
+      "between_tier_gap": 0.0177,
+      "maxcharge_gini": 0.3029
+    },
+    {
+      "grid_kw": 100,
+      "between_tier_gap": 0.0212,
+      "maxcharge_gini": 0.3029
+    },
+    {
+      "grid_kw": 120,
+      "between_tier_gap": 0.023,
+      "maxcharge_gini": 0.3029
+    },
+    {
+      "grid_kw": 200,
+      "between_tier_gap": 0.0245,
+      "maxcharge_gini": 0.3029
+    },
+    {
+      "grid_kw": 600,
+      "between_tier_gap": 0.0245,
+      "maxcharge_gini": 0.3029
+    }
+  ],
+  "threshold_between_tier_kw": 60,
+  "threshold_maxcharge_gini_kw": 60,
+  "between_tier_floor": 0.0245,
+  "between_tier_peak": 0.7021,
+  "maxcharge_gini_floor": 0.3029,
+  "maxcharge_gini_peak": 0.5178,
+  "interpretation": "The max-charge policy Gini reaches within 10% of its abundant floor by ~60 kW and the profit-optimal between-tier gap by ~60 kW for this 16-charger site. Above that range scarcity no longer drives the disadvantage."
+}

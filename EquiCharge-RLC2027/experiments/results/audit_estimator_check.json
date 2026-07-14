@@ -1,0 +1,132 @@
+{
+  "check1_rotation": {
+    "reference_16ch_30kW_residential_eu": {
+      "days": 32,
+      "per_day_gap_median": 0.558,
+      "per_day_gap_max": 1.0,
+      "day_averaged_gap": 0.567,
+      "worst_tier_counts": {
+        "budget": 31,
+        "mid": 1,
+        "premium": 0
+      },
+      "dominant_worst_tier": "budget",
+      "dominant_fraction": 0.97,
+      "worst_tier_entropy": 0.13,
+      "reading": "systematic between-tier (stable worst tier)"
+    },
+    "workplace_24ch_55kW_us": {
+      "days": 26,
+      "per_day_gap_median": 0.073,
+      "per_day_gap_max": 0.149,
+      "day_averaged_gap": 0.005,
+      "worst_tier_counts": {
+        "budget": 10,
+        "mid": 7,
+        "premium": 9
+      },
+      "dominant_worst_tier": "budget",
+      "dominant_fraction": 0.38,
+      "worst_tier_entropy": 0.99,
+      "reading": "NON-SYSTEMATIC / rotating (day-averaging hides per-day harm)"
+    },
+    "shopping_8ch_16kW_world": {
+      "days": 32,
+      "per_day_gap_median": 0.187,
+      "per_day_gap_max": 0.45,
+      "day_averaged_gap": 0.032,
+      "worst_tier_counts": {
+        "budget": 15,
+        "mid": 11,
+        "premium": 6
+      },
+      "dominant_worst_tier": "budget",
+      "dominant_fraction": 0.47,
+      "worst_tier_entropy": 0.94,
+      "reading": "NON-SYSTEMATIC / rotating (day-averaging hides per-day harm)"
+    },
+    "highway_20ch_45kW_eu_highrate": {
+      "days": 32,
+      "per_day_gap_median": 0.273,
+      "per_day_gap_max": 0.466,
+      "day_averaged_gap": 0.219,
+      "worst_tier_counts": {
+        "budget": 25,
+        "mid": 7,
+        "premium": 0
+      },
+      "dominant_worst_tier": "budget",
+      "dominant_fraction": 0.78,
+      "worst_tier_entropy": 0.48,
+      "reading": "systematic between-tier (stable worst tier)"
+    }
+  },
+  "check2_flat_floor": {
+    "32": {
+      "days_used": 32,
+      "status_quo_day_averaged": 0.567,
+      "flat_day_averaged": 0.0514,
+      "flat_per_day_median": 0.172,
+      "flat_worst_tier_counts": {
+        "budget": 9,
+        "mid": 15,
+        "premium": 8
+      }
+    },
+    "64": {
+      "days_used": 64,
+      "status_quo_day_averaged": 0.574,
+      "flat_day_averaged": 0.0435,
+      "flat_per_day_median": 0.153,
+      "flat_worst_tier_counts": {
+        "budget": 21,
+        "mid": 27,
+        "premium": 16
+      }
+    },
+    "128": {
+      "days_used": 128,
+      "status_quo_day_averaged": 0.583,
+      "flat_day_averaged": 0.0309,
+      "flat_per_day_median": 0.161,
+      "flat_worst_tier_counts": {
+        "budget": 49,
+        "mid": 47,
+        "premium": 32
+      }
+    },
+    "256": {
+      "days_used": 256,
+      "status_quo_day_averaged": 0.545,
+      "flat_day_averaged": 0.0116,
+      "flat_per_day_median": 0.181,
+      "flat_worst_tier_counts": {
+        "budget": 97,
+        "mid": 84,
+        "premium": 75
+      }
+    }
+  },
+  "check3_crack": {
+    "committed_(0.6,1.0,1.5)": 0.5666,
+    "eta0.6_raw": {
+      "margins": [
+        0.6,
+        1.0,
+        1.499
+      ],
+      "gap": 0.5644
+    },
+    "eta0.6_rounded": {
+      "margins": [
+        0.6,
+        1.0,
+        1.5
+      ],
+      "gap": 0.5666
+    },
+    "cause": "LP tie-breaking on the infinitesimal premium difference (1.5 vs 1.499)",
+    "fix": "use round_to=1 in the invariance sweep so eta=0.6 == committed reference",
+    "fixed": true
+  }
+}

@@ -155,9 +155,9 @@ You can similarly override `get_new_cars_arriving` (generates EVSE entries for n
 
 ## ⚖️ Research extension: equitable charging under scarcity — `chargax.equity`
 
-> **Target venue: AAAI-27, AI for Social Impact (AISI) special track.**
-> Topical fit: Energy, Mobility and Transportation, Social Welfare / Justice /
-> Fairness / Equality.
+> **Target venue: ACM FAccT 2027** (socio-technical audit).
+> Focus area: evaluations and evaluation practices (audits and evaluations for
+> fairness and justice).
 
 This repository includes a research extension on **equitable EV charging access
 under grid scarcity**. Under a hard grid limit a revenue-maximizing controller
@@ -232,8 +232,8 @@ env = EquiChargax(station=station, welfare_alpha=0.0, welfare_outer="rawlsian",
   [`tariffs`](chargax/equity/tariffs.py) analysis, and real-data
   [`data_calibration`](chargax/equity/data_calibration.py) provenance + ACN-Data hook.
 * **Data provenance** (what is real vs. modelled): see [`docs/DATA.md`](docs/DATA.md).
-* **The research write-up** (problem, method, positioning, experiments): see
-  [`RESEARCH.md`](RESEARCH.md). **Paper:** [`paper/aaai27_equicharge.tex`](paper/aaai27_equicharge.tex).
+* **Paper** (the socio-technical audit): [`paper/facct27_equicharge.tex`](paper/facct27_equicharge.tex).
+  Submission checklist and change log: [`docs/FACCT_SUBMISSION.md`](docs/FACCT_SUBMISSION.md).
 * **Reproduce:**
   ```bash
   # RL-free core (every offline finding above); fast, CPU-only:
@@ -241,11 +241,13 @@ env = EquiChargax(station=station, welfare_alpha=0.0, welfare_outer="rawlsian",
   # Full study incl. multi-seed learning benchmark (GPU-friendly):
   python -m experiments.run_experiments                 # 8 seeds (default)
   python -m experiments.run_experiments --quick         # fast smoke run
-  # Regenerate the results table, figures, and paper tables:
-  python -m experiments.summarize_results
-  python -m experiments.plot_results
-  python experiments/make_paper_tables.py
-  python -m pytest tests/test_equity.py -q              # tests
+  # Regenerate the audit results and the paper figures:
+  python -m experiments.audit_mechanism      # canonical box-1, mechanism, elasticity
+  python -m experiments.audit_robustness     # generalization across sites
+  python -m experiments.audit_grounding      # A1 grounding sweep
+  python -m experiments.audit_levers         # lever cross-effects
+  python -m experiments.plot_mechanism       # all FAccT figures -> results/figures/
+  python -m pytest tests/test_equity.py -q   # tests
   ```
 
 
