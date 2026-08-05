@@ -1,0 +1,116 @@
+{
+  "sites": {
+    "reference": {
+      "grid_kw": 30.0,
+      "n_connectors": 16,
+      "mean_daily_demand_kwh": 505.9,
+      "daily_capacity_kwh": 720.0,
+      "demand_capacity_ratio": 0.703,
+      "gamma": 0.5666,
+      "sweep_gamma_at_same_rho": 0.5666,
+      "residual": 0.0
+    },
+    "workplace": {
+      "grid_kw": 55.0,
+      "n_connectors": 24,
+      "mean_daily_demand_kwh": 453.7,
+      "daily_capacity_kwh": 1320.0,
+      "demand_capacity_ratio": 0.344,
+      "gamma": 0.0048,
+      "sweep_gamma_at_same_rho": 0.0181,
+      "residual": -0.0133
+    },
+    "shopping": {
+      "grid_kw": 16.0,
+      "n_connectors": 8,
+      "mean_daily_demand_kwh": 178.8,
+      "daily_capacity_kwh": 384.0,
+      "demand_capacity_ratio": 0.466,
+      "gamma": 0.0297,
+      "sweep_gamma_at_same_rho": 0.1815,
+      "residual": -0.1518
+    },
+    "highway": {
+      "grid_kw": 45.0,
+      "n_connectors": 20,
+      "mean_daily_demand_kwh": 1360.5,
+      "daily_capacity_kwh": 1080.0,
+      "demand_capacity_ratio": 1.26,
+      "gamma": 0.2199,
+      "sweep_gamma_at_same_rho": 0.6862,
+      "residual": -0.4663
+    }
+  },
+  "capacity_sweep": [
+    {
+      "grid_kw": 16,
+      "rho": 1.317,
+      "gamma": 0.6823
+    },
+    {
+      "grid_kw": 20,
+      "rho": 1.054,
+      "gamma": 0.7021
+    },
+    {
+      "grid_kw": 24,
+      "rho": 0.878,
+      "gamma": 0.6804
+    },
+    {
+      "grid_kw": 30,
+      "rho": 0.703,
+      "gamma": 0.5666
+    },
+    {
+      "grid_kw": 40,
+      "rho": 0.527,
+      "gamma": 0.2818
+    },
+    {
+      "grid_kw": 50,
+      "rho": 0.422,
+      "gamma": 0.1006
+    },
+    {
+      "grid_kw": 60,
+      "rho": 0.351,
+      "gamma": 0.0183
+    },
+    {
+      "grid_kw": 70,
+      "rho": 0.301,
+      "gamma": 0.0166
+    },
+    {
+      "grid_kw": 80,
+      "rho": 0.263,
+      "gamma": 0.0177
+    },
+    {
+      "grid_kw": 100,
+      "rho": 0.211,
+      "gamma": 0.0212
+    },
+    {
+      "grid_kw": 120,
+      "rho": 0.176,
+      "gamma": 0.023
+    },
+    {
+      "grid_kw": 200,
+      "rho": 0.105,
+      "gamma": 0.0245
+    },
+    {
+      "grid_kw": 600,
+      "rho": 0.035,
+      "gamma": 0.0245
+    }
+  ],
+  "collapse_residual_max": {
+    "site": "highway",
+    "residual": -0.4663
+  },
+  "interpretation": "rho does not collapse the two experiments onto one curve. Every site falls on or below the reference sweep read at the same rho (largest deviation: highway, -0.466), so a high demand-to-capacity ratio is necessary but not sufficient for a large systematic tier gap: the sweep is an upper envelope over rho, not a single boundary the sites lie on."
+}
