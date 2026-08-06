@@ -39,9 +39,29 @@ HARM = "#BF5A38"    # clay: the cost / the budget tier still lowest-ranked
 RELIEF = "#12A08A"  # teal: relief / the budget tier rescued from lowest rank
 
 
+# bar()/barh() take ecolor and capsize directly; everything else goes via error_kw.
+ERRBAR = dict(ecolor="#4d4d4d", capsize=2.5,
+              error_kw=dict(elinewidth=1.1, capthick=1.1, zorder=5))
+
+
 def _load(name):
     with open(os.path.join(RESULTS, name)) as f:
         return json.load(f)
+
+
+def _load_optional(name):
+    try:
+        return _load(name)
+    except FileNotFoundError:
+        return None
+
+
+def _asym(points, cis):
+    """Percentile CIs are asymmetric, so matplotlib needs [[below...],[above...]].
+    Clipped at 0 because a resampled bound can land a hair past the point estimate."""
+    lo = [max(p - c[0], 0.0) for p, c in zip(points, cis)]
+    hi = [max(c[1] - p, 0.0) for p, c in zip(points, cis)]
+    return np.array([lo, hi])
 
 
 def plot_oracle(M):
@@ -56,15 +76,20 @@ def plot_oracle(M):
                                   gridspec_kw={"width_ratios": [2.1, 1]})
     for j, t in enumerate(TIER_ORDER):
         vals = [box1[k]["tier_means"][j] for k, _ in objs]
+        cis = [box1[k].get("tier_means_ci95", [None] * 3)[j] for k, _ in objs]
+        yerr = _asym(vals, cis) if all(c for c in cis) else None
         ax.bar(x + (j - 1) * w, vals, w, color=TIER[t], edgecolor="white",
-               linewidth=0.8, zorder=3, label=t)
+               linewidth=0.8, zorder=3, label=t, yerr=yerr, **(ERRBAR if yerr is not None else {}))
     S.clean(ax)
     ax.set_xticks(x); ax.set_xticklabels(xl, rotation=18, ha="right")
     ax.set_ylabel("satisfaction"); ax.set_ylim(0, 1.06)
     ax.legend(loc="upper right", fontsize=9.5, frameon=False, handlelength=1.0,
               labelspacing=0.3, borderaxespad=0.1)
     revs = [box1[k]["revenue"] for k, _ in objs]
-    bars = ax2.bar(x, revs, 0.62, color=S.MUTED, edgecolor="white", linewidth=0.8, zorder=3)
+    rcis = [box1[k].get("revenue_ci95") for k, _ in objs]
+    rerr = _asym(revs, rcis) if all(rcis) else None
+    bars = ax2.bar(x, revs, 0.62, color=S.MUTED, edgecolor="white", linewidth=0.8, zorder=3,
+                   yerr=rerr, **(ERRBAR if rerr is not None else {}))
     bars[0].set_color(HARM)  # profit optimum earns the premium -- the cost of fairness
     S.clean(ax2)
     ax2.set_xticks(x); ax2.set_xticklabels(xl, rotation=18, ha="right")
@@ -89,18 +114,24 @@ def plot_rate_design(M):
     colors = [HARM if u else RELIEF for u in uniq]
     floor = by["fully_flat"]["gap"]
 
+    cis = [by[c].get("gap_ci95") for _, c in order]
+    xerr = _asym(gaps, cis) if all(cis) else None
+
     y = np.arange(len(order))[::-1]
     fig, ax = plt.subplots(figsize=(5.0, 3.0))
-    ax.barh(y, gaps, 0.62, color=colors, edgecolor="white", linewidth=0.8, zorder=3)
-    for yi, g in zip(y, gaps):
-        ax.annotate("%.2f" % g, (g + 0.012, yi), va="center", ha="left",
+    ax.barh(y, gaps, 0.62, color=colors, edgecolor="white", linewidth=0.8, zorder=3,
+            xerr=xerr, **(ERRBAR if xerr is not None else {}))
+    # Label past the CI whisker, not the bar end, so the two never collide.
+    tips = [c[1] for c in cis] if xerr is not None else gaps
+    for yi, g, t in zip(y, gaps, tips):
+        ax.annotate("%.2f" % g, (t + 0.014, yi), va="center", ha="left",
                     fontsize=10.5, color=S.INK)
     ax.axvline(floor, ls=(0, (4, 2)), color=S.MUTED, lw=1.5, zorder=2)
     S.clean(ax, ygrid=False)
     ax.grid(axis="x", which="major"); ax.grid(axis="y", visible=False)
     ax.set_yticks(y); ax.set_yticklabels(labels)
     ax.set_xlabel("profit-optimal tier gap")
-    ax.set_xlim(0, max(gaps) * 1.16)
+    ax.set_xlim(0, max(tips) * 1.20)
     from matplotlib.patches import Patch
     ax.legend(handles=[Patch(color=HARM, label="budget still lowest"),
                        Patch(color=RELIEF, label="budget rescued")],
@@ -132,16 +163,22 @@ def plot_grounding(M):
 
 def plot_scarcity_boundary(rob, chk):
     """Two measures of the gap per site: systematic (day-averaged, clay) vs typical per-day
-    (gray). Equal -> systematic disparate impact; per-day >> systematic -> rotating (within-pop)."""
+    (gray). Equal -> systematic disparate impact; per-day >> systematic -> rotating (within-pop).
+
+    Sites are listed power-bound first. The ACN-Data site is included whenever both inputs
+    carry it, so the figure cannot show four sites while the text describes five."""
     order = [("reference", "reference_16ch_30kW_residential_eu"),
+             ("ACN-Data", "acn_data_caltech_8ch_30kW"),
              ("highway", "highway_20ch_45kW_eu_highrate"),
              ("workplace", "workplace_24ch_55kW_us"),
              ("shopping", "shopping_8ch_16kW_world")]
+    order = [(l, c) for l, c in order
+             if c in rob["configs"] and c in chk["check1_rotation"]]
     labels = [l for l, _ in order]
     systm = [rob["configs"][c]["profit_optimal_disparity_dayavg"] for _, c in order]
     perday = [chk["check1_rotation"][c]["per_day_gap_median"] for _, c in order]
     x = np.arange(len(order)); w = 0.38
-    fig, ax = plt.subplots(figsize=(5.6, 3.0))
+    fig, ax = plt.subplots(figsize=(6.4 if len(order) > 4 else 5.6, 3.0))
     ax.bar(x - w / 2, systm, w, color=HARM, edgecolor="white", linewidth=0.8, zorder=3,
            label="systematic (day-averaged)")
     ax.bar(x + w / 2, perday, w, color=S.MUTED, edgecolor="white", linewidth=0.8, zorder=3,
@@ -202,7 +239,10 @@ def main():
     plot_oracle(M)
     plot_rate_design(M)
     plot_grounding(M)
-    plot_scarcity_boundary(_load("audit_robustness.json"), _load("audit_estimator_check.json"))
+    # The --acn estimator run repeats check 1 on the SAME bundled envs and adds the ACN
+    # site, so it is a strict superset; prefer it so the figure matches the 5-site sweep.
+    chk = _load_optional("audit_estimator_check_acn.json") or _load("audit_estimator_check.json")
+    plot_scarcity_boundary(_load("audit_robustness.json"), chk)
     plot_levers(_load("audit_levers.json"))
     plot_capacity(_load("audit_capacity.json"))
 

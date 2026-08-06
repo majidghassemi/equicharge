@@ -124,7 +124,22 @@ all changes are in the working tree. The AAAI files (`paper/aaai27_equicharge.te
   and `T.low_income_subsidy(subsidy_to_parity,base)` with `subsidy_to_parity=max(base[1]−base[0],0)`;
   records disparity + worst-tier per lever in a `tariff_lever` dict.
 - **ACN-Data hook** `_acn_config()`: reads `EQUICHARGE_ACN_JSON`, builds a 5th US session-level
-  config via `acn_data_kwargs`; skips with a log if unset/unparseable (never fabricates data).
+  config via `experiments.common.acn_env_or_none`; skips with a log if unset (never fabricates
+  data), but **raises** if the dump is present and unusable rather than falling back.
+- **ACN adapter defect, found and fixed.** The previous `acn_data_kwargs` returned
+  `get_num_cars_arriving` plus three dead `_acn_*` keys, and `_acn_config` passed the dict as
+  `data_kwargs` → `default_data_kwargs`. Chargax reads only `car_profile` / `user_profile` /
+  `average_cars_per_day` / `grid_price_dataset` out of that dict with `.get()`, so the callables
+  were **silently dropped** and `__post_init__` rebuilt the bundled Dutch loaders (defaulting to
+  `user_profile="highway"`, `average_cars_per_day="high"`). Had the env var ever been set, the
+  sweep would have published a row labelled `acn_data_caltech_8ch_30kW` containing **no ACN data
+  at all** — the exact fabrication the adapter's docstring promises against. Replaced with
+  `acn_scenario(station, path)`, which builds *both* callables (workday/weekend arrival rates,
+  dwell, energy demand) and returns them for passing as **top-level env fields**;
+  `acn_env_or_none` asserts they landed. Dwell and energy are now drawn as a **pair from the same
+  session**, and energy prefers driver-stated `kWhRequested` over `kWhDelivered` (the latter is an
+  outcome of a possibly power-limited session, so using it as the demand target would bake the
+  incumbent controller's rationing into the demand distribution).
 - **Verdict rewrite (fixed a bug):** first-pass binary threshold mis-scored highway/shopping;
   replaced with `_reduction=(a−b)/a` keyed to power-bound sites (`revenue_pof_pct.median>1.0`),
   reporting per-site income-neutral vs budget-subsidy reduction %, `neutral_beats_subsidy` (>5pp),
@@ -215,14 +230,24 @@ Borlaug), not in the mixing matrix.
 ### A2 — generalization + scarcity boundary (`results/audit_robustness.json`, day-averaged)
 
 `disparate_impact_structural = False` (scarcity-specific). `tariff_lever_consistent_at_power_bound_sites = True`.
-ACN-Data config skipped (`EQUICHARGE_ACN_JSON` unset).
+**ACN-Data config now included** (27,584 real Caltech sessions, 2018-04-25…2020-02-29).
 
 | site | budget-worst (days) | systematic gap | revenue PoF | income-neutral | budget-subsidy | power-bound? |
 |---|---|---|---|---|---|---|
 | reference (16ch / 30 kW / residential) | 97% | 0.567 | 8.8% | 0.051 (−91%) | 0.320 (−44%) | yes |
+| **ACN-Data Caltech (16ch / 30 kW / real US sessions)** | **84%** | **0.290** | **4.2%** | **0.014 (−95%)** | **0.141 (−51%)** | **yes** |
 | highway (20ch / 45 kW / high-rate) | 78% | 0.220 | 6.1% | 0.012 (−94%) | 0.170 (−23%) | yes |
 | workplace (24ch / 55 kW / spread dwell) | 38% | 0.005 | 0.0% | 0.006 | 0.007 | no (moot) |
 | shopping (8ch / 16 kW / low-traffic) | 47% | 0.032 | 0.0% | 0.026 | 0.020 | no (moot) |
+
+The four bundled sites reproduce their previously committed values **exactly** (0.567/97%,
+0.220/78%, 0.005/38%, 0.032/47%), so the adapter fix did not perturb the existing configs.
+The ACN-Data row is new evidence rather than a re-description of the old: it is a third
+power-bound site on independent US data where the lever behaves as claimed. **One documented
+exception:** at the reference site the budget subsidy relocates the worst-tier label to `mid`,
+but on ACN-Data the budget tier stays worst-served even once it is no longer uniquely lowest.
+Relocation is therefore reference-site-specific; what generalizes is that the subsidy leaves most
+of the harm and only removing the ordering reaches the floor.
 
 Takeaway: the boundary separates a **systematic** from a **rotating** disadvantage (see the
 stress-test below, which decides whether the day-averaged ~0 is real or an averaging artifact). At
@@ -243,6 +268,7 @@ structure rather than manufacturing it:
 | site | per-day gap (median) | day-averaged gap | worst tier | entropy | reading |
 |---|---|---|---|---|---|
 | reference | 0.558 | 0.567 | budget 97% | 0.13 | **systematic** |
+| **ACN-Data Caltech (real US sessions)** | **0.237** | **0.290** | **budget 84%** | **0.49** | **systematic** |
 | highway | 0.273 | 0.219 | budget 78% | 0.48 | **systematic** |
 | workplace | 0.073 | 0.005 | budget 38% | 0.99 | rotating (harm also *small*) |
 | shopping | 0.187 | 0.032 | budget 47% | 0.94 | **rotating (harm substantial, hidden by averaging)** |
@@ -265,6 +291,61 @@ capacity → within-population), not "pricing leaves a residual only capacity re
 margins to the reported 1-decimal precision, so eta=0.6 = the committed reference = 0.567 exactly,
 matching the oracle table. A1 table shows 0.563/0.567/0.565 (3 dp) so the flatness is visible
 without a rounding-induced false trend.
+
+### ACN-Data (US) re-run — all three checks replicate (`*_acn.json`)
+
+Re-ran the theory verification and the RL-free findings pipeline on 27,584 real Caltech sessions
+(`--acn`; see README "Reproducing the ACN-Data (US) run"). Outputs are written to `*_acn.json` and
+never overwrite the bundled-data results.
+
+**Mechanism / box 1 (`audit_mechanism_acn.json`, 32/32 days).** Budget tier worst-served under
+profit at 0.689 vs mid 0.959 / premium 0.979, gap **0.290 [0.200, 0.391]**. Revenue PoF **4.2%
+[2.4, 6.4]**. Elasticity invariance holds (gap 0.282–0.291 for every η>0, collapsing to 0.014 at
+η=0), so the harm again tracks *rank position*, not spread.
+
+**The decisive rank-vs-spread asymmetry replicates.** Premium cap (spread 0.4) gap **0.282**;
+budget subsidy to parity (spread 0.5) gap **0.141**. Paired bootstrap difference **0.141
+[0.086, 0.203]**, positive in **10,000/10,000** resamples. The smaller-spread intervention again
+leaves the larger harm, on data we did not generate.
+
+**Estimator checks 1–3 replicate** (`audit_estimator_check_acn.json`): the ACN site reads
+*systematic* (entropy 0.49, budget worst 84%); the flat-tariff floor shrinks toward zero with day
+count (0.0144 → 0.0069 → 0.0013 → 0.0051 at 32/64/128/256 days) while the status-quo gap holds
+~0.25 and the flat worst tier rotates evenly (86/88/81); and the η=0.6 rounding fix holds
+(raw 1.499 → 0.2884, rounded 1.5 → 0.2905 = committed).
+
+**Documented divergence.** Under the subsidy to parity the reference site *relocates* the
+worst-tier label to `mid` (bootstrap share 0.88); on ACN-Data the budget tier stays marginally
+worst (0.838 vs mid 0.862, share 0.84) — close to a tie. Relocation onto `mid` is therefore
+site-specific, not a general consequence of the subsidy. What generalizes is the weaker claim: the
+subsidy leaves most of the harm, and only removing the ordering reaches the floor. Paper text
+updated to say exactly this, with both bootstrap shares, rather than the stronger relocation claim.
+(Note that `run_experiments` §2 reports a *sweep* for the best budget-only subsidy, a different
+intervention from the subsidy-to-parity in Table 3; on ACN that sweep does land on `mid`. The two
+are not in conflict, but only the Table 3 estimator is the canonical one.)
+
+### Error bars on Tables 2 and 3 (`audit_mechanism.py`)
+
+Both tables were point estimates over 32 days with no reported spread. Added a **day-level
+nonparametric bootstrap** (B=10,000, seed 20260806, 95% percentile intervals) with **shared day
+indices across all configs**, so quantities stay paired. LP solves are cached per
+(day, margins, objective) and the bootstrap resamples cached rows, so this adds no solver cost.
+Point estimates are unchanged (0.567 / 0.527 / 0.320 / 0.051), confirming the bootstrap is
+attached to, not a re-derivation of, the committed numbers. Both tables promoted to `table*`
+(full width) to carry the intervals.
+
+Two additions beyond plain error bars:
+- **The decisive claim is now a tested difference, not two overlapping intervals.** Reference site:
+  premium-cap-minus-budget-parity = **0.207 [0.145, 0.268]**, P(diff>0) = **1.0**. Comparing the
+  two gaps' separate CIs would have been weaker — non-overlap is sufficient but not necessary.
+- **Worst-tier attribution stability** (`worst_tier_boot_share`): unanimous (1.00) where budget
+  stays uniquely lowest, **0.88** for `mid` under the budget subsidy, and genuinely roaming under
+  flat pricing (mid 0.86 / budget 0.10 / premium 0.04). Table 3 now reports this share.
+
+**Caveat stated in the Table 2 caption:** the gap is a max-minus-min of estimated means, so it is
+non-negative by construction and biased *upward* when the tiers are truly equal. The maximin and
+strict-equalization intervals therefore sit at/just above zero rather than straddling it, and must
+be read as "equal", not as a small real inequality.
 
 ### Citation corrections (spot-check of 5 more, generalizing the Ermagun mis-attribution risk)
 - **Ge 2021 (NREL):** "~25% lack home charging" confirmed; the "~80% charge at home today" is NOT

@@ -1,0 +1,579 @@
+{
+  "meta": {
+    "quick": false,
+    "oracle_only": true,
+    "timesteps": 1500000,
+    "seeds": 8,
+    "n_eval": 32,
+    "num_envs": 32,
+    "n_evses": 8,
+    "grid_kw": 30.0,
+    "num_disc": 4,
+    "oracle_days": 16,
+    "acn": true,
+    "price_by_group": [
+      0.6,
+      1.0,
+      1.5
+    ],
+    "profit_scale": 200.0
+  },
+  "trained": {},
+  "baselines": {
+    "random": {
+      "welfare_mean": 0.6014113426208496,
+      "welfare_sem": 0.01730170936765219,
+      "profit_mean": 183.0449676513672,
+      "profit_sem": 8.082136315813438,
+      "served_mean_sat": 0.7614376544952393,
+      "n_served": 1140,
+      "n_rejected": 262,
+      "rejection_rate": 0.18687589158345222,
+      "inclusive_mean_sat": 0.6191433436030019,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.3505326509475708,
+      "atkinson": 0.9130914211273193,
+      "group_means": [
+        0.6097155213356018,
+        0.6348527073860168,
+        0.6123524904251099
+      ],
+      "group_disparity": 0.02513718605041504,
+      "label": "random",
+      "kind": "baseline"
+    },
+    "max_charge": {
+      "welfare_mean": 0.6383785009384155,
+      "welfare_sem": 0.02211796013880463,
+      "profit_mean": 212.31851196289062,
+      "profit_sem": 9.80711174207409,
+      "served_mean_sat": 0.8055121302604675,
+      "n_served": 1128,
+      "n_rejected": 274,
+      "rejection_rate": 0.19543509272467904,
+      "inclusive_mean_sat": 0.6480868169459941,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.3305058479309082,
+      "atkinson": 0.9198774099349976,
+      "group_means": [
+        0.6409298181533813,
+        0.6675984263420105,
+        0.6358087658882141
+      ],
+      "group_disparity": 0.03178966045379639,
+      "label": "max_charge",
+      "kind": "baseline"
+    },
+    "proportional_fair": {
+      "welfare_mean": 0.5239700078964233,
+      "welfare_sem": 0.022329508342370966,
+      "profit_mean": 170.73135375976562,
+      "profit_sem": 9.159166997904466,
+      "served_mean_sat": 0.6940101981163025,
+      "n_served": 1081,
+      "n_rejected": 321,
+      "rejection_rate": 0.2289586305278174,
+      "inclusive_mean_sat": 0.5351105734769696,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.42091870307922363,
+      "atkinson": 0.9745015501976013,
+      "group_means": [
+        0.5253925919532776,
+        0.5350011587142944,
+        0.54425048828125
+      ],
+      "group_disparity": 0.018857896327972412,
+      "label": "proportional_fair",
+      "kind": "baseline"
+    },
+    "least_laxity": {
+      "welfare_mean": 0.6411677598953247,
+      "welfare_sem": 0.02156188252208599,
+      "profit_mean": 209.11720275878906,
+      "profit_sem": 9.34691873255334,
+      "served_mean_sat": 0.8014485239982605,
+      "n_served": 1137,
+      "n_rejected": 265,
+      "rejection_rate": 0.1890156918687589,
+      "inclusive_mean_sat": 0.6499621236986466,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.32803788781166077,
+      "atkinson": 0.9135556221008301,
+      "group_means": [
+        0.6446510553359985,
+        0.6668227314949036,
+        0.6386235356330872
+      ],
+      "group_disparity": 0.028199195861816406,
+      "label": "least_laxity",
+      "kind": "baseline"
+    },
+    "saffe": {
+      "welfare_mean": 0.5075610280036926,
+      "welfare_sem": 0.022482430279658648,
+      "profit_mean": 168.2440185546875,
+      "profit_sem": 9.018588039157713,
+      "served_mean_sat": 0.672714352607727,
+      "n_served": 1080,
+      "n_rejected": 322,
+      "rejection_rate": 0.2296718972895863,
+      "inclusive_mean_sat": 0.5182107626626563,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.436659038066864,
+      "atkinson": 0.9775038361549377,
+      "group_means": [
+        0.5056825280189514,
+        0.5217031836509705,
+        0.5264661312103271
+      ],
+      "group_disparity": 0.020783603191375732,
+      "label": "saffe",
+      "kind": "baseline"
+    }
+  },
+  "oracle": {
+    "label": "oracle (offline)",
+    "profit": {
+      "mean_satisfaction": 0.8716850167001204,
+      "min_satisfaction": 0.15845088243523958,
+      "worst_segment_mean": 0.6506248672383338,
+      "group_disparity": 0.33394631754673376,
+      "revenue_value": 405.5776078365743,
+      "delivered_kwh": 369.19716074317694,
+      "group_means": [
+        0.6506248672383338,
+        0.9599411954897166,
+        0.9845711847850676
+      ],
+      "worst_segment_index": 0
+    },
+    "utilitarian": {
+      "mean_satisfaction": 0.9403826361009302,
+      "min_satisfaction": 0.17721709638246685,
+      "worst_segment_mean": 0.9081450522041521,
+      "group_disparity": 0.046959184259972586,
+      "revenue_value": 377.1116715550422,
+      "delivered_kwh": 369.19716074317694,
+      "group_means": [
+        0.9081450522041521,
+        0.9551042364641247,
+        0.9490102888480149
+      ],
+      "worst_segment_index": 0
+    },
+    "maximin": {
+      "mean_satisfaction": 0.9292463313456704,
+      "min_satisfaction": 0.2072123650476487,
+      "worst_segment_mean": 0.9238271845151326,
+      "group_disparity": 0.008404817809895548,
+      "revenue_value": 373.9565601998396,
+      "delivered_kwh": 369.19716074317694,
+      "group_means": [
+        0.9322320023250281,
+        0.9238271845151326,
+        0.930417505919525
+      ],
+      "worst_segment_index": 1
+    },
+    "egalitarian_equal": {
+      "mean_satisfaction": 0.9172712524507868,
+      "min_satisfaction": 0.18200518156321008,
+      "worst_segment_mean": 0.9172712524507868,
+      "group_disparity": 1.1102230246251565e-16,
+      "revenue_value": 365.74144636476547,
+      "delivered_kwh": 360.57028755647667,
+      "group_means": [
+        0.9172712524507868,
+        0.9172712524507869,
+        0.9172712524507869
+      ],
+      "worst_segment_index": 0
+    },
+    "price_of_fairness_revenue": 0.07796546709106858,
+    "price_of_fairness_meansat": -0.06603453481100478,
+    "utilitarian_mean_sat_ceiling": 0.9403826361009302,
+    "maximin_min_sat_ceiling": 0.9238271845151326
+  },
+  "robustness": {
+    "rows": [
+      {
+        "premium_weight": 1.2,
+        "profit_premium_sat": 0.9845711847850676,
+        "maximin_premium_sat": 0.930417505919525,
+        "premium_sat_loss": 0.054153678865542565,
+        "profit_budget_sat": 0.6511419746166773,
+        "maximin_budget_sat": 0.9322320023250281,
+        "budget_sat_gain": 0.2810900277083508,
+        "mean_sat_profit": 0.8718199013235834,
+        "mean_sat_maximin": 0.9292463313456704,
+        "pof_revenue_pct": 6.452320065898695
+      },
+      {
+        "premium_weight": 1.5,
+        "profit_premium_sat": 0.9845711847850676,
+        "maximin_premium_sat": 0.930417505919525,
+        "premium_sat_loss": 0.054153678865542565,
+        "profit_budget_sat": 0.6506248672383338,
+        "maximin_budget_sat": 0.9322320023250281,
+        "budget_sat_gain": 0.2816071350866943,
+        "mean_sat_profit": 0.8716850167001204,
+        "mean_sat_maximin": 0.9292463313456704,
+        "pof_revenue_pct": 7.796546709106858
+      },
+      {
+        "premium_weight": 2.0,
+        "profit_premium_sat": 0.9845711847850676,
+        "maximin_premium_sat": 0.930417505919525,
+        "premium_sat_loss": 0.054153678865542565,
+        "profit_budget_sat": 0.6530911773749379,
+        "maximin_budget_sat": 0.9322320023250281,
+        "budget_sat_gain": 0.2791408249500902,
+        "mean_sat_profit": 0.8725797584228574,
+        "mean_sat_maximin": 0.9292463313456704,
+        "pof_revenue_pct": 9.496922543513788
+      },
+      {
+        "premium_weight": 3.0,
+        "profit_premium_sat": 0.9845646831379545,
+        "maximin_premium_sat": 0.930417505919525,
+        "premium_sat_loss": 0.05414717721842954,
+        "profit_budget_sat": 0.6544124583148131,
+        "maximin_budget_sat": 0.9322320023250281,
+        "budget_sat_gain": 0.277819544010215,
+        "mean_sat_profit": 0.8730014488651692,
+        "mean_sat_maximin": 0.9292463313456704,
+        "pof_revenue_pct": 11.71660242527867
+      }
+    ]
+  },
+  "tariffs": {
+    "rows": [
+      {
+        "disparity": 0.33394631754673376,
+        "worst_segment": 0.6506248672383338,
+        "worst_segment_name": "budget",
+        "revenue_value": 405.5776078365743,
+        "mean_satisfaction": 0.8716850167001204,
+        "group_means": [
+          0.6506248672383338,
+          0.9599411954897166,
+          0.9845711847850676
+        ],
+        "subsidy": 0.0,
+        "budget_weight": 0.6
+      },
+      {
+        "disparity": 0.3334453700648512,
+        "worst_segment": 0.6511258147202164,
+        "worst_segment_name": "budget",
+        "revenue_value": 423.35475312918425,
+        "mean_satisfaction": 0.8718278463126486,
+        "group_means": [
+          0.6511258147202164,
+          0.9599517251474337,
+          0.9845711847850676
+        ],
+        "subsidy": 0.2,
+        "budget_weight": 0.8
+      },
+      {
+        "disparity": 0.17653924854801795,
+        "worst_segment": 0.8080319362370496,
+        "worst_segment_name": "budget",
+        "revenue_value": 441.1318984217942,
+        "mean_satisfaction": 0.8867449471097497,
+        "group_means": [
+          0.8080319362370496,
+          0.8572240915988761,
+          0.9845711847850676
+        ],
+        "subsidy": 0.4,
+        "budget_weight": 1.0
+      },
+      {
+        "disparity": 0.2743816953433271,
+        "worst_segment": 0.7101894894417404,
+        "worst_segment_name": "mid",
+        "revenue_value": 469.011375400424,
+        "mean_satisfaction": 0.8679157529693258,
+        "group_means": [
+          0.9061054852768948,
+          0.7101894894417404,
+          0.9845711847850676
+        ],
+        "subsidy": 0.6,
+        "budget_weight": 1.2
+      },
+      {
+        "disparity": 0.2741225666592654,
+        "worst_segment": 0.7104486181258022,
+        "worst_segment_name": "mid",
+        "revenue_value": 496.8908523790538,
+        "mean_satisfaction": 0.8678160085875867,
+        "group_means": [
+          0.905075307802566,
+          0.7104486181258022,
+          0.9845711847850676
+        ],
+        "subsidy": 0.8,
+        "budget_weight": 1.4
+      },
+      {
+        "disparity": 0.2735816293022295,
+        "worst_segment": 0.7093618996988484,
+        "worst_segment_name": "mid",
+        "revenue_value": 526.4035119466485,
+        "mean_satisfaction": 0.8696850661751898,
+        "group_means": [
+          0.982943529001078,
+          0.7093618996988484,
+          0.9231647482946916
+        ],
+        "subsidy": 1.0,
+        "budget_weight": 1.6
+      },
+      {
+        "disparity": 0.27163854210055494,
+        "worst_segment": 0.711304986900523,
+        "worst_segment_name": "mid",
+        "revenue_value": 557.5493541032076,
+        "mean_satisfaction": 0.8700299284507265,
+        "group_means": [
+          0.982943529001078,
+          0.711304986900523,
+          0.9225599308379091
+        ],
+        "subsidy": 1.2,
+        "budget_weight": 1.7999999999999998
+      }
+    ],
+    "base_multipliers": [
+      0.6,
+      1.0,
+      1.5
+    ],
+    "value_weighted_disparity": 0.33394631754673376,
+    "value_weighted_worst_segment_name": "budget",
+    "flat_tariff_disparity": 0.04364935017724014,
+    "flat_tariff_worst_segment": 0.8721567300692448,
+    "flat_tariff_revenue": 369.19716074317694,
+    "price_driven_gap": 0.2902969673694936,
+    "residual_scarcity_gap": 0.04364935017724014,
+    "price_driven_reduction_pct": 86.92923121081459,
+    "best_budget_only_disparity": 0.17653924854801795,
+    "best_budget_only_subsidy": 0.4,
+    "best_budget_only_worst_segment": "budget",
+    "premium_cap": {
+      "rows": [
+        {
+          "disparity": 0.33394631754673376,
+          "worst_segment": 0.6506248672383338,
+          "worst_segment_name": "budget",
+          "revenue_value": 405.5776078365743,
+          "mean_satisfaction": 0.8716850167001204,
+          "group_means": [
+            0.6506248672383338,
+            0.9599411954897166,
+            0.9845711847850676
+          ],
+          "cap": 1.5
+        },
+        {
+          "disparity": 0.3319940080394811,
+          "worst_segment": 0.6525771767455865,
+          "worst_segment_name": "budget",
+          "revenue_value": 376.80371276512744,
+          "mean_satisfaction": 0.8722487071461573,
+          "group_means": [
+            0.6525771767455865,
+            0.9599434135059383,
+            0.9845711847850676
+          ],
+          "cap": 1.3
+        },
+        {
+          "disparity": 0.33191363542135166,
+          "worst_segment": 0.6526575493637159,
+          "worst_segment_name": "budget",
+          "revenue_value": 348.0298176936805,
+          "mean_satisfaction": 0.8722263207892652,
+          "group_means": [
+            0.6526575493637159,
+            0.9599621833388161,
+            0.9845711847850676
+          ],
+          "cap": 1.1
+        },
+        {
+          "disparity": 0.3193063429543528,
+          "worst_segment": 0.6551575452771397,
+          "worst_segment_name": "budget",
+          "revenue_value": 333.6428701579571,
+          "mean_satisfaction": 0.8749013340560889,
+          "group_means": [
+            0.6551575452771397,
+            0.9744638882314924,
+            0.9734635734947783
+          ],
+          "cap": 1.0
+        },
+        {
+          "disparity": 0.33106171598212486,
+          "worst_segment": 0.6437608729987826,
+          "worst_segment_name": "budget",
+          "revenue_value": 277.5805833019316,
+          "mean_satisfaction": 0.870987981239989,
+          "group_means": [
+            0.6437608729987826,
+            0.9748225889809075,
+            0.9718353223802215
+          ],
+          "cap": 0.8
+        },
+        {
+          "disparity": 0.06131714690946277,
+          "worst_segment": 0.8554569768524685,
+          "worst_segment_name": "budget",
+          "revenue_value": 221.51829644590615,
+          "mean_satisfaction": 0.8886743445292841,
+          "group_means": [
+            0.8554569768524685,
+            0.9167741237619312,
+            0.8826201966067451
+          ],
+          "cap": 0.6
+        }
+      ],
+      "base_multipliers": [
+        0.6,
+        1.0,
+        1.5
+      ]
+    },
+    "best_partial_cap_disparity": 0.3193063429543528
+  },
+  "capacity": {
+    "rows": [
+      {
+        "grid_kw": 20.0,
+        "gini": 0.4013215899467468,
+        "served_mean_sat": 0.7074124217033386,
+        "worst10_sat": 0.0,
+        "profit_mean": 169.73501586914062,
+        "oracle_profit_disparity": 0.5514584404230289
+      },
+      {
+        "grid_kw": 25.0,
+        "gini": 0.3628086745738983,
+        "served_mean_sat": 0.7585278749465942,
+        "worst10_sat": 0.0,
+        "profit_mean": 191.95631408691406,
+        "oracle_profit_disparity": 0.42949204357630644
+      },
+      {
+        "grid_kw": 30.0,
+        "gini": 0.3305058479309082,
+        "served_mean_sat": 0.8055121302604675,
+        "worst10_sat": 0.0,
+        "profit_mean": 212.31851196289062,
+        "oracle_profit_disparity": 0.33394631754673376
+      },
+      {
+        "grid_kw": 40.0,
+        "gini": 0.2901398241519928,
+        "served_mean_sat": 0.858905553817749,
+        "worst10_sat": 0.0,
+        "profit_mean": 243.72621154785156,
+        "oracle_profit_disparity": 0.12298101115383164
+      },
+      {
+        "grid_kw": 50.0,
+        "gini": 0.2673960328102112,
+        "served_mean_sat": 0.8856809735298157,
+        "worst10_sat": 0.0,
+        "profit_mean": 257.5574951171875,
+        "oracle_profit_disparity": 0.018301939419761326
+      },
+      {
+        "grid_kw": 70.0,
+        "gini": 0.2619718909263611,
+        "served_mean_sat": 0.8924545645713806,
+        "worst10_sat": 0.0,
+        "profit_mean": 263.6976318359375,
+        "oracle_profit_disparity": 0.010950748895181217
+      },
+      {
+        "grid_kw": 100.0,
+        "gini": 0.26234662532806396,
+        "served_mean_sat": 0.8928697109222412,
+        "worst10_sat": 0.0,
+        "profit_mean": 256.7142639160156,
+        "oracle_profit_disparity": 0.010950748895181217
+      },
+      {
+        "grid_kw": 150.0,
+        "gini": 0.26234662532806396,
+        "served_mean_sat": 0.8928697109222412,
+        "worst10_sat": 0.0,
+        "profit_mean": 256.64166259765625,
+        "oracle_profit_disparity": 0.010950748895181217
+      },
+      {
+        "grid_kw": 300.0,
+        "gini": 0.26234662532806396,
+        "served_mean_sat": 0.8928697109222412,
+        "worst10_sat": 0.0,
+        "profit_mean": 256.64166259765625,
+        "oracle_profit_disparity": 0.010950748895181217
+      },
+      {
+        "grid_kw": 600.0,
+        "gini": 0.26234662532806396,
+        "served_mean_sat": 0.8928697109222412,
+        "worst10_sat": 0.0,
+        "profit_mean": 256.64166259765625,
+        "oracle_profit_disparity": 0.010950748895181217
+      }
+    ],
+    "abundant_gini": 0.26234662532806396,
+    "abundant_disparity": 0.010950748895181217,
+    "threshold_kw_gini": 50.0,
+    "threshold_kw_oracle": 70.0,
+    "threshold_kw": 50.0
+  },
+  "endogeneity": {
+    "max_charge": {
+      "welfare_inclusive": 0.6383785009384155,
+      "welfare_served_only": 0.7718083262443542,
+      "gaming_gap": 0.13342982530593872,
+      "rejection_rate": 0.19543509272467904
+    },
+    "least_laxity": {
+      "welfare_inclusive": 0.6411677598953247,
+      "welfare_served_only": 0.7699398398399353,
+      "gaming_gap": 0.1287720799446106,
+      "rejection_rate": 0.1890156918687589
+    }
+  },
+  "scarcity": {
+    "scarce_30kW": {
+      "grid_kw": 30.0,
+      "served_mean_sat": 0.8055121302604675,
+      "gini": 0.3305058479309082,
+      "worst10_sat": 0.0,
+      "profit_mean": 212.31851196289062
+    },
+    "abundant_600kW": {
+      "grid_kw": 600.0,
+      "served_mean_sat": 0.8928697109222412,
+      "gini": 0.26234662532806396,
+      "worst10_sat": 0.0,
+      "profit_mean": 256.64166259765625
+    }
+  }
+}

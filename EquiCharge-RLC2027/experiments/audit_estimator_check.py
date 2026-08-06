@@ -37,6 +37,7 @@ from chargax.equity import oracle as O
 from chargax.equity import segments as SEG
 from chargax.equity import tariffs as T
 from experiments.audit_robustness import CONFIGS, _env_for
+from experiments.common import acn_env_or_none
 from experiments.run_experiments import _ref_env
 
 RESULTS = os.path.join(os.path.dirname(__file__), "results")
@@ -74,14 +75,25 @@ def _gaps(streams, margins):
     return perday, worst, float(avg.max() - avg.min())
 
 
-def main():
+def main(use_acn: bool = False):
     out = {}
+    acn = None
+    if use_acn:
+        got = acn_env_or_none(30.0, 8, 4)
+        if got is None:
+            raise SystemExit(
+                "--acn requires EQUICHARGE_ACN_JSON to point at a Caltech ACN-Data "
+                "sessions JSON (https://ev.caltech.edu/dataset).")
+        acn = got
+        out["acn_provenance"] = acn[1]
 
     # ---- CHECK 1: rotation at every site (status-quo margins) ----
     print("=== CHECK 1: is off-boundary ~0 real (stable) or averaging (rotating)? ===")
     check1 = {}
-    for name, layout, data in CONFIGS:
-        env = _env_for(layout, data)
+    sites = [(n, _env_for(l, d)) for n, l, d in CONFIGS]
+    if acn is not None:
+        sites.append(("acn_data_caltech_8ch_30kW", acn[0]))
+    for name, env in sites:
         streams = _streams(env, jax.random.PRNGKey(7), 32)
         base = tuple(env.price_by_group)
         perday, worst, davg = _gaps(streams, base)
@@ -109,7 +121,9 @@ def main():
 
     # ---- CHECK 2: flat-tariff floor vs number of days (reference site) ----
     print("\n=== CHECK 2: is the flat-tariff floor a real scarcity residual or sampling noise? ===")
-    ref = _ref_env(30.0, 8, 4)
+    # On --acn, checks 2 and 3 move to the ACN-calibrated site, so the estimator is
+    # validated on the same US session data the re-run reports.
+    ref = acn[0] if acn is not None else _ref_env(30.0, 8, 4)
     base = tuple(ref.price_by_group)
     floor = {}
     for nd in (32, 64, 128, 256):
@@ -150,9 +164,16 @@ def main():
     print(f"  eta0.6 rounded {[round(x,3) for x in m_round]}: gap={g_round:.4f}  "
           f"-> matches committed: {round(g_round,4)==round(g_committed,4)}")
 
-    json.dump(out, open(os.path.join(RESULTS, "audit_estimator_check.json"), "w"), indent=2)
-    print("\nwrote", os.path.join(RESULTS, "audit_estimator_check.json"))
+    fname = "audit_estimator_check_acn.json" if use_acn else "audit_estimator_check.json"
+    json.dump(out, open(os.path.join(RESULTS, fname), "w"), indent=2)
+    print("\nwrote", os.path.join(RESULTS, fname))
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+
+    ap = argparse.ArgumentParser(description="Estimator stress-test.")
+    ap.add_argument("--acn", action="store_true",
+                    help="add the Caltech ACN-Data (US) site to check 1 and run checks 2 "
+                         "and 3 on it; requires EQUICHARGE_ACN_JSON.")
+    main(use_acn=ap.parse_args().acn)

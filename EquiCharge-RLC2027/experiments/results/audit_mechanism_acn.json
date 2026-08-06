@@ -3,127 +3,127 @@
     "requested": 32,
     "used_after_filter": 32,
     "seed": 7,
-    "env": "ref 8ch/30kW, 4 disc",
+    "env": "ACN-Data caltech 8ch/30kW, 4 disc",
     "estimator": "max-min of day-averaged tier means",
     "uncertainty": "day-level nonparametric bootstrap, B=10000, seed=20260806, 95% percentile intervals, shared day indices across all configs"
   },
-  "status_quo_gap": 0.567,
-  "subsidy_to_parity_gap": 0.32,
+  "status_quo_gap": 0.29,
+  "subsidy_to_parity_gap": 0.141,
   "box1": {
     "profit": {
       "tier_means": [
-        0.383,
-        0.807,
-        0.949
+        0.689,
+        0.959,
+        0.979
       ],
       "tier_means_ci95": [
         [
-          0.307,
-          0.459
+          0.59,
+          0.779
         ],
         [
-          0.737,
-          0.87
+          0.935,
+          0.979
         ],
         [
-          0.919,
-          0.974
+          0.965,
+          0.992
         ]
       ],
-      "gap": 0.567,
+      "gap": 0.29,
       "gap_ci95": [
-        0.483,
-        0.648
+        0.2,
+        0.391
       ],
       "worst_tier": "budget",
-      "revenue": 389.6,
+      "revenue": 413.4,
       "revenue_ci95": [
-        362.9,
-        416.3
+        377.7,
+        448.2
       ]
     },
     "utilitarian": {
       "tier_means": [
-        0.864,
-        0.804,
-        0.834
+        0.93,
+        0.958,
+        0.952
       ],
       "tier_means_ci95": [
         [
-          0.828,
-          0.897
+          0.901,
+          0.957
         ],
         [
-          0.75,
-          0.854
+          0.941,
+          0.974
         ],
         [
-          0.788,
-          0.878
+          0.931,
+          0.97
         ]
       ],
-      "gap": 0.059,
+      "gap": 0.028,
       "gap_ci95": [
-        0.022,
-        0.122
+        0.007,
+        0.063
       ],
-      "worst_tier": "mid",
-      "revenue": 347.9,
+      "worst_tier": "budget",
+      "revenue": 391.7,
       "revenue_ci95": [
-        323.4,
-        372.4
+        360.0,
+        423.4
       ]
     },
     "maximin": {
       "tier_means": [
-        0.824,
-        0.821,
-        0.816
+        0.941,
+        0.933,
+        0.936
       ],
       "tier_means_ci95": [
         [
-          0.8,
-          0.849
+          0.926,
+          0.955
         ],
         [
-          0.8,
-          0.841
+          0.918,
+          0.948
         ],
         [
-          0.793,
-          0.838
+          0.922,
+          0.95
         ]
       ],
       "gap": 0.008,
       "gap_ci95": [
-        0.001,
+        0.002,
         0.019
       ],
-      "worst_tier": "premium",
-      "revenue": 351.6,
+      "worst_tier": "mid",
+      "revenue": 389.1,
       "revenue_ci95": [
-        326.1,
-        378.0
+        356.9,
+        421.3
       ]
     },
     "egalitarian_equal": {
       "tier_means": [
-        0.814,
-        0.814,
-        0.814
+        0.927,
+        0.927,
+        0.927
       ],
       "tier_means_ci95": [
         [
-          0.791,
-          0.836
+          0.913,
+          0.941
         ],
         [
-          0.791,
-          0.836
+          0.913,
+          0.941
         ],
         [
-          0.791,
-          0.836
+          0.913,
+          0.941
         ]
       ],
       "gap": 0.0,
@@ -131,18 +131,18 @@
         0.0,
         0.0
       ],
-      "worst_tier": "mid",
-      "revenue": 348.5,
+      "worst_tier": "budget",
+      "revenue": 382.7,
       "revenue_ci95": [
-        321.8,
-        375.7
+        349.6,
+        416.6
       ]
     }
   },
-  "revenue_price_of_fairness_pct_median": 8.8,
+  "revenue_price_of_fairness_pct_median": 4.2,
   "revenue_price_of_fairness_pct_median_ci95": [
-    7.9,
-    12.4
+    2.4,
+    6.4
   ],
   "mechanism": [
     {
@@ -155,28 +155,28 @@
       "spread": 0.9,
       "budget_uniquely_lowest": true,
       "tier_means": [
-        0.383,
-        0.807,
-        0.949
+        0.689,
+        0.959,
+        0.979
       ],
       "tier_means_ci95": [
         [
-          0.307,
-          0.459
+          0.59,
+          0.779
         ],
         [
-          0.737,
-          0.87
+          0.935,
+          0.979
         ],
         [
-          0.919,
-          0.974
+          0.965,
+          0.992
         ]
       ],
-      "gap": 0.567,
+      "gap": 0.29,
       "gap_ci95": [
-        0.483,
-        0.648
+        0.2,
+        0.391
       ],
       "worst_tier": "budget",
       "worst_tier_boot_share": {
@@ -195,28 +195,28 @@
       "spread": 0.4,
       "budget_uniquely_lowest": true,
       "tier_means": [
-        0.382,
-        0.872,
-        0.909
+        0.69,
+        0.972,
+        0.969
       ],
       "tier_means_ci95": [
         [
-          0.306,
-          0.458
+          0.592,
+          0.78
         ],
         [
-          0.829,
-          0.911
+          0.955,
+          0.987
         ],
         [
-          0.875,
-          0.94
+          0.953,
+          0.983
         ]
       ],
-      "gap": 0.527,
+      "gap": 0.282,
       "gap_ci95": [
-        0.455,
-        0.6
+        0.193,
+        0.385
       ],
       "worst_tier": "budget",
       "worst_tier_boot_share": {
@@ -235,33 +235,33 @@
       "spread": 0.5,
       "budget_uniquely_lowest": false,
       "tier_means": [
-        0.675,
-        0.629,
-        0.949
+        0.838,
+        0.862,
+        0.979
       ],
       "tier_means_ci95": [
         [
-          0.596,
-          0.745
+          0.776,
+          0.894
         ],
         [
-          0.561,
-          0.695
+          0.826,
+          0.896
         ],
         [
-          0.918,
-          0.973
+          0.965,
+          0.992
         ]
       ],
-      "gap": 0.32,
+      "gap": 0.141,
       "gap_ci95": [
-        0.251,
-        0.392
+        0.092,
+        0.206
       ],
-      "worst_tier": "mid",
+      "worst_tier": "budget",
       "worst_tier_boot_share": {
-        "budget": 0.116,
-        "mid": 0.884,
+        "budget": 0.844,
+        "mid": 0.156,
         "premium": 0.0
       }
     },
@@ -275,34 +275,34 @@
       "spread": 0.0,
       "budget_uniquely_lowest": false,
       "tier_means": [
-        0.782,
-        0.745,
-        0.796
+        0.896,
+        0.911,
+        0.904
       ],
       "tier_means_ci95": [
         [
-          0.731,
-          0.829
+          0.865,
+          0.926
         ],
         [
-          0.695,
-          0.79
+          0.886,
+          0.935
         ],
         [
-          0.752,
-          0.837
+          0.876,
+          0.932
         ]
       ],
-      "gap": 0.051,
+      "gap": 0.014,
       "gap_ci95": [
-        0.012,
-        0.118
+        0.004,
+        0.051
       ],
-      "worst_tier": "mid",
+      "worst_tier": "budget",
       "worst_tier_boot_share": {
-        "budget": 0.102,
-        "mid": 0.86,
-        "premium": 0.038
+        "budget": 0.61,
+        "mid": 0.11,
+        "premium": 0.28
       }
     }
   ],
@@ -314,9 +314,9 @@
         1.0,
         1.0
       ],
-      "gap": 0.051,
+      "gap": 0.014,
       "budget_uniquely_lowest": false,
-      "worst_tier": "mid"
+      "worst_tier": "budget"
     },
     {
       "eta": 0.1,
@@ -325,7 +325,7 @@
         1.0,
         1.1
       ],
-      "gap": 0.565,
+      "gap": 0.288,
       "budget_uniquely_lowest": true,
       "worst_tier": "budget"
     },
@@ -336,7 +336,7 @@
         1.0,
         1.1
       ],
-      "gap": 0.563,
+      "gap": 0.291,
       "budget_uniquely_lowest": true,
       "worst_tier": "budget"
     },
@@ -347,7 +347,7 @@
         1.0,
         1.2
       ],
-      "gap": 0.563,
+      "gap": 0.291,
       "budget_uniquely_lowest": true,
       "worst_tier": "budget"
     },
@@ -358,7 +358,7 @@
         1.0,
         1.3
       ],
-      "gap": 0.568,
+      "gap": 0.285,
       "budget_uniquely_lowest": true,
       "worst_tier": "budget"
     },
@@ -369,7 +369,7 @@
         1.0,
         1.4
       ],
-      "gap": 0.566,
+      "gap": 0.285,
       "budget_uniquely_lowest": true,
       "worst_tier": "budget"
     },
@@ -380,7 +380,7 @@
         1.0,
         1.5
       ],
-      "gap": 0.567,
+      "gap": 0.29,
       "budget_uniquely_lowest": true,
       "worst_tier": "budget"
     },
@@ -391,7 +391,7 @@
         1.0,
         1.6
       ],
-      "gap": 0.563,
+      "gap": 0.283,
       "budget_uniquely_lowest": true,
       "worst_tier": "budget"
     },
@@ -402,7 +402,7 @@
         1.0,
         1.7
       ],
-      "gap": 0.566,
+      "gap": 0.285,
       "budget_uniquely_lowest": true,
       "worst_tier": "budget"
     },
@@ -413,7 +413,7 @@
         1.0,
         1.8
       ],
-      "gap": 0.567,
+      "gap": 0.286,
       "budget_uniquely_lowest": true,
       "worst_tier": "budget"
     },
@@ -424,31 +424,65 @@
         1.0,
         2.0
       ],
-      "gap": 0.565,
+      "gap": 0.282,
       "budget_uniquely_lowest": true,
       "worst_tier": "budget"
     }
   ],
   "verdict": {
     "premium_cap_spread": 0.4,
-    "premium_cap_gap": 0.527,
+    "premium_cap_gap": 0.282,
     "premium_cap_gap_ci95": [
-      0.455,
-      0.6
+      0.193,
+      0.385
     ],
     "budget_parity_spread": 0.5,
-    "budget_parity_gap": 0.32,
+    "budget_parity_gap": 0.141,
     "budget_parity_gap_ci95": [
-      0.251,
-      0.392
+      0.092,
+      0.206
     ],
-    "gap_difference_cap_minus_parity": 0.207,
+    "gap_difference_cap_minus_parity": 0.141,
     "gap_difference_ci95": [
-      0.145,
-      0.268
+      0.086,
+      0.203
     ],
     "gap_difference_bootstrap_p_positive": 1.0,
     "rank_position_beats_spread_magnitude": true,
     "interpretation": "CONFIRMED: the premium cap has the SMALLER spread yet the LARGER gap, so the harm cannot be a function of spread magnitude. It tracks rank position: the budget tier is starved exactly while it is uniquely lowest, and is relieved only when it stops being uniquely lowest (budget-parity or full flattening)."
+  },
+  "acn_provenance": {
+    "source": "Caltech ACN-Data (Lee et al. 2019), site=caltech",
+    "path": "acn_caltech.json",
+    "real_from_acn": [
+      "arrival_time_of_day (workday/weekend separately)",
+      "arrival_rate_per_day",
+      "connection_time",
+      "energy_demand"
+    ],
+    "modelled": [
+      "vehicle_fleet (Chargax US mix; ACN-Data records sessions, not vehicle models)",
+      "ability_to_pay_segment (chargax.equity.segments)"
+    ],
+    "dwell_energy_paired_from_same_session": true,
+    "median_dwell_minutes": 313.39166259765625,
+    "median_energy_kwh": 9.944000244140625,
+    "sessions_in_dump": 31424,
+    "sessions_used": 27584,
+    "sessions_unparsed": 0,
+    "sessions_out_of_window": 3840,
+    "sessions_nonpositive": 0,
+    "energy_from_kWhRequested": 12907,
+    "energy_from_kWhDelivered_fallback": 14677,
+    "date_range_used": [
+      "2018-04-25",
+      "2020-02-29"
+    ],
+    "distinct_days": 674,
+    "distinct_workdays": 481,
+    "distinct_weekend_days": 193,
+    "energy_field_policy": "requested_then_delivered",
+    "mean_sessions_per_workday": 48.629937629937636,
+    "mean_sessions_per_weekend_day": 21.72538860103627
   }
 }

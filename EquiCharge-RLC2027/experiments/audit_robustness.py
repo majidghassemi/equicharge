@@ -31,7 +31,7 @@ import numpy as np
 from chargax.equity import oracle as O
 from chargax.equity import segments as SEG
 from chargax.equity import tariffs as T
-from experiments.common import make_env, scarcity_station
+from experiments.common import acn_env_or_none, make_env, scarcity_station
 
 RESULTS = os.path.join(os.path.dirname(__file__), "results")
 GROUP_KW = dict(n_groups=3, group_probs=SEG.GROUP_PROBS, price_by_group=SEG.PRICE_BY_GROUP)
@@ -153,21 +153,16 @@ def _env_for(layout, data):
 def _acn_config():
     """Optional US session-level config from a downloaded Caltech ACN-Data dump.
 
-    Returns (name, env) or None if EQUICHARGE_ACN_JSON is unset / the file is missing,
-    so the sweep runs unchanged without it and never fabricates data.
+    Returns (name, env, provenance) or None if EQUICHARGE_ACN_JSON is unset, so the
+    sweep runs unchanged without it and never fabricates data. A dump that is present
+    but unusable raises: quietly falling back to the bundled Dutch data would report
+    an "ACN-Data" row that contains none.
     """
-    path = os.environ.get("EQUICHARGE_ACN_JSON")
-    if not path:
+    got = acn_env_or_none(grid_kw=30.0, n_evses=8, num_disc=4)
+    if got is None:
         return None
-    try:
-        from chargax.equity.data_calibration import acn_data_kwargs
-        acn = acn_data_kwargs(path)
-        data = dict(car_profile="us", grid_price_dataset="2023_NL", **acn)
-        env = _env_for(dict(n_evses=8, grid_kw=30.0), data)
-        return ("acn_data_caltech_8ch_30kW", env)
-    except Exception as e:  # missing file / unparseable dump -> skip with a note.
-        print(f"[acn] skipped: {e}")
-        return None
+    env, prov = got
+    return ("acn_data_caltech_8ch_30kW", env, prov)
 
 
 def main():
@@ -176,10 +171,8 @@ def main():
     envs = [(name, _env_for(layout, data), layout) for name, layout, data in CONFIGS]
     acn = _acn_config()
     if acn:
-        envs.append((acn[0], acn[1], {"source": "ACN-Data (Caltech), real US sessions"}))
-    else:
-        print("[acn] EQUICHARGE_ACN_JSON not set -> ACN-Data config skipped "
-              "(set it to a downloaded sessions JSON to include a US real-session site).")
+        envs.append((acn[0], acn[1], acn[2]))
+        out["acn_provenance"] = acn[2]
 
     for name, env, layout in envs:
         r = audit_config(env, key)
