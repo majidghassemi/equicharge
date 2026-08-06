@@ -17,21 +17,47 @@ samples from, so a reviewer can see exactly where the numbers come from. Run
 
 ## Alternative calibration: Caltech ACN-Data
 
-For an independent, US, session-level calibration, `chargax.equity.data_calibration.acn_data_kwargs`
+For an independent, US, session-level calibration, `chargax.equity.data_calibration.acn_scenario`
 adapts the public **Caltech ACN-Data** (Lee, Li & Low, ACM e-Energy 2019;
-<https://ev.caltech.edu/dataset>) into Chargax sampling callables (time-of-day
-arrival PMF, dwell-time and energy-demand distributions). ACN-Data requires free API
-registration and a download, so it is provided as a hook rather than bundled:
+<https://ev.caltech.edu/dataset>) into Chargax sampling callables. It is a hook
+rather than a bundled dataset because the data has to be downloaded:
 
 ```python
-from chargax.equity import EquiChargax, data_calibration as dc
-kwargs = dc.acn_data_kwargs("acn_sessions.json")   # a downloaded ACN-Data JSON
-env = EquiChargax(station=station, get_num_cars_arriving=kwargs["get_num_cars_arriving"],
-                  n_groups=3, price_by_group=(0.6, 1.0, 1.5))
+from experiments.common import acn_env_or_none
+env, provenance = acn_env_or_none(grid_kw=30.0, n_evses=8)   # reads EQUICHARGE_ACN_JSON
 ```
 
-The adapter never fabricates data: if the file is absent it raises, so a run uses
-either the bundled real Dutch data or a real ACN-Data download.
+What comes from ACN-Data, and what does not:
+
+| quantity | source | status |
+|---|---|---|
+| arrival rate + time of day | binned session counts / observed days, **workdays and weekends separately** | **real** |
+| connection (dwell) time | `disconnectTime − connectionTime` | **real** |
+| energy demand | driver-stated `kWhRequested`, falling back to `kWhDelivered` | **real** |
+| vehicle fleet | Chargax US fleet mix | **modelled** — ACN-Data records sessions, not vehicle models |
+| electricity price | 2023 NL day-ahead | **real, but not US** — see caveat below |
+
+Dwell and energy are drawn **as a pair from the same session**, preserving a real
+within-session correlation the bundled loaders (which sample the two independently
+from separate CSVs) cannot represent. Energy demand prefers the driver's stated
+`kWhRequested` because satisfaction is measured against each driver's own target, and
+`kWhDelivered` is an outcome of a possibly power-limited session — using it as the
+target would bake the incumbent controller's rationing into the demand distribution.
+
+Two caveats a reviewer should see. First, the default window ends before the March
+2020 campus closure (`ACN_PRECOVID_WINDOW`); averaging arrivals across the closure
+would quietly turn a power-scarce site into an unconstrained one. Pass
+`date_range=None` for the full dump. Second, prices remain the NL day-ahead series,
+so this configuration is a US **demand** calibration on an EU price series, not an
+end-to-end US site.
+
+The adapter never fabricates data: if the file is absent it raises. The callables must
+be passed as **top-level env fields** — Chargax reads only `car_profile`,
+`user_profile`, `average_cars_per_day` and `grid_price_dataset` out of
+`default_data_kwargs`, so callables placed in that dict are silently dropped and the
+env rebuilds the bundled Dutch loaders instead. `acn_env_or_none` wires them up and
+asserts they landed, so a misconfiguration fails loudly rather than reporting a "US
+session-level" result computed from Dutch data.
 
 ## Grounding the ability-to-pay segments
 

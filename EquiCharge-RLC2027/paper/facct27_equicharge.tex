@@ -388,8 +388,9 @@ than average. On every one of the thirty-two days the objectives deliver identic
 to within solver tolerance, because the grid is the binding constraint, so the objectives only
 redistribute a fixed quantity and never change how much is served. Moving from the revenue
 optimum to the maximin optimum therefore costs margin-weighted revenue, a median of about nine
-percent, while mean satisfaction rises from about $0.71$ to about $0.82$ and the worst tier
-rises from about $0.38$ to about $0.82$. We are careful not to sell the aggregate rise as free.
+percent with a bootstrap interval of about eight to twelve percent, while mean satisfaction
+rises from about $0.71$ to about $0.82$ and the worst tier rises from about $0.38$ to about
+$0.82$. We are careful not to sell the aggregate rise as free.
 It is the classical consequence of saturating charging utility, a driver does not want more
 than a full battery, so energy moved from the near-full premium tier to the far-from-full
 budget tier buys more satisfaction than it costs, and the premium tier does give up about
@@ -397,25 +398,31 @@ thirteen points of satisfaction to fund the redistribution. The honest statement
 between the operator's revenue and the distribution across drivers, not between total service
 and equity.
 
-\begin{table}[t]
+\begin{table*}[t]
 \centering
 \caption{The offline audit on the scarce site with three ability-to-pay tiers. Entries are mean
 satisfaction per tier, with the operator's value-weighted revenue in the last column. The
 revenue optimum starves the budget tier. The corrected tier maximin equalizes without leveling
 down and delivers the same energy, so equity costs revenue, not service. Strict equalization is
-shown to expose the leveling a naive maximin would report.}
+shown to expose the leveling a naive maximin would report. Brackets are $95\%$ day-level
+bootstrap intervals ($B=10{,}000$ resamples of the thirty-two realized days, with shared draws
+across rows). The gap is a max-minus-min of estimated means, so it is non-negative by
+construction and biased upward when the underlying tiers are truly equal, which is why the
+maximin and strict-equalization intervals sit at or just above zero rather than straddling it.
+Those rows are to be read as equal, not as a small real inequality.}
 \label{tab:oracle}
+\small
 \begin{tabular}{lccccc}
 \toprule
 objective & budget & mid & premium & gap & revenue \\
 \midrule
-revenue optimal        & 0.38 & 0.81 & 0.95 & 0.57 & 390 \\
-utilitarian            & 0.86 & 0.80 & 0.83 & 0.06 & 348 \\
-tier maximin (true)    & 0.82 & 0.82 & 0.82 & 0.01 & 352 \\
-strict equalization    & 0.81 & 0.81 & 0.81 & 0.00 & 349 \\
+revenue optimal        & 0.38 [0.31, 0.46] & 0.81 [0.74, 0.87] & 0.95 [0.92, 0.97] & 0.57 [0.48, 0.65] & 390 [363, 416] \\
+utilitarian            & 0.86 [0.83, 0.90] & 0.80 [0.75, 0.85] & 0.83 [0.79, 0.88] & 0.06 [0.02, 0.12] & 348 [323, 372] \\
+tier maximin (true)    & 0.82 [0.80, 0.85] & 0.82 [0.80, 0.84] & 0.82 [0.79, 0.84] & 0.01 [0.00, 0.02] & 352 [326, 378] \\
+strict equalization    & 0.81 [0.79, 0.84] & 0.81 [0.79, 0.84] & 0.81 [0.79, 0.84] & 0.00 [0.00, 0.00] & 349 [322, 376] \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 \begin{figure}[t]
 \centering
@@ -442,7 +449,11 @@ budget tier still uniquely lowest, so the gap barely moves, from $0.57$ to $0.53
 tier stays worst-served. Subsidizing the budget tier up to parity with the middle compresses the
 spread only to $0.5$, a \emph{larger} spread than the premium cap, yet the gap drops to $0.32$,
 because the budget tier is no longer uniquely lowest. The smaller-spread intervention leaves the
-larger harm. That is decisive, the lever is not the size of the spread but whether the budget
+larger harm. Because both tariffs are evaluated on the same realized days, we can put an interval
+on that contrast directly rather than on the two gaps separately. The paired difference is
+$0.21$ with a $95\%$ bootstrap interval of $[0.15, 0.27]$, and it is positive in every one of
+ten thousand resampled day sets, so the ordering is not an artifact of which thirty-two days we
+drew. That is decisive, the lever is not the size of the spread but whether the budget
 tier is rescued from being the unique bottom rank. The subsidy to parity does not remove the harm
 either, it relocates it, the worst-served tier flips from the budget tier to the middle tier,
 which the premium tier now outranks alone. Only removing the ordering entirely, an income-neutral
@@ -455,26 +466,35 @@ and to remove the harm rather than relocate it, remove the ordering itself by pr
 neutrally. Capping the top tier changes the spread without changing who is at the bottom, and so
 does almost nothing.
 
-\begin{table}[t]
+\begin{table*}[t]
 \centering
 \caption{The harm tracks rank position, not spread magnitude, on one fixed day set. The premium
 cap compresses the spread \emph{more} (to $0.4$) than the budget subsidy (to $0.5$) yet leaves
 the \emph{larger} gap, because the budget tier stays uniquely lowest. The subsidy relieves the
 budget tier but relocates the shortfall to the middle tier. Only income-neutral pricing, which
 removes the ordering, reaches the floor. The column ``budget lowest'' marks whether the budget
-tier is the unique bottom rank, which is what predicts the gap.}
+tier is the unique bottom rank, which is what predicts the gap. Brackets are $95\%$ day-level
+bootstrap intervals ($B=10{,}000$), and the figure after the worst tier is the share of
+bootstrap resamples in which that tier is the worst-served one, so it reports how firm the
+attribution is. Under the two tariffs that leave the budget tier uniquely lowest the
+attribution is unanimous. Under income-neutral pricing no tier holds the position, which is
+the roaming the flat design is supposed to produce. Because all four rows are computed on the
+same resampled days, the decisive premium-cap-minus-budget-subsidy difference is itself
+estimable and is reported in the text rather than inferred from whether these intervals
+overlap.}
 \label{tab:tariff}
+\small
 \begin{tabular}{lcccc}
 \toprule
 tariff design & margins & spread & tier gap & worst tier \\
 \midrule
-tiered (status quo)          & 0.6, 1.0, 1.5 & 0.9 & 0.57 & budget \\
-premium cap to middle        & 0.6, 1.0, 1.0 & 0.4 & 0.53 & budget \\
-budget subsidy to parity     & 1.0, 1.0, 1.5 & 0.5 & 0.32 & mid \\
-income neutral (equal)       & all equal     & 0.0 & 0.05 & none \\
+tiered (status quo)          & 0.6, 1.0, 1.5 & 0.9 & 0.57 [0.48, 0.65] & budget (1.00) \\
+premium cap to middle        & 0.6, 1.0, 1.0 & 0.4 & 0.53 [0.46, 0.60] & budget (1.00) \\
+budget subsidy to parity     & 1.0, 1.0, 1.5 & 0.5 & 0.32 [0.25, 0.39] & mid (0.88) \\
+income neutral (equal)       & all equal     & 0.0 & 0.05 [0.01, 0.12] & none (roams) \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 \begin{figure}[t]
 \centering
@@ -491,12 +511,18 @@ income-neutral pricing, which removes the ordering, reaches the floor (dashed).}
 \paragraph{The harm is specific to power-scarce sites.}
 Our headline is established on one site, so we re-run the audit at genuinely different stations,
 varying charger count, grid size, arrival rate, dwell profile, and vehicle fleet, and we
-re-run the tariff lever at each. The harm does not hold everywhere, and the boundary is
-between a systematic and a rotating disadvantage (Figure~\ref{fig:scarcity}). At the two
+re-run the tariff lever at each. One of those sites is not a variation of our own calibration at
+all. It is driven by the public Caltech ACN-Data release, twenty-seven thousand real charging
+sessions recorded at a US campus network, from which we take the arrival rate and time of day,
+the dwell time, and the driver-stated energy demand. That site is an independent check on
+whether the mechanism is an artifact of the European demand profiles the rest of the study is
+calibrated on. The harm does not hold everywhere, and the boundary is
+between a systematic and a rotating disadvantage (Figure~\ref{fig:scarcity}). At the three
 power-bound sites the harm is
-systematic, the same budget tier is the worst-served on ninety-seven and seventy-eight percent of
-days and the day-averaged tier gap is about $0.57$ at the scarce residential reference and $0.22$
-at a high-traffic highway site, with a revenue price of fairness near nine and six percent. At a
+systematic, the same budget tier is the worst-served on ninety-seven, eighty-four and seventy-eight
+percent of days and the day-averaged tier gap is about $0.57$ at the scarce residential reference,
+$0.29$ at the ACN-Data campus site and $0.22$
+at a high-traffic highway site, with a revenue price of fairness near nine, four and six percent. At a
 workplace site with long spread dwells and a low-traffic shopping site, power does not bind, and
 the disparate impact does not form, the worst-served tier rotates roughly evenly across the three
 tiers day to day rather than settling on one, so the day-averaged tier gap is about $0.005$ and
@@ -509,7 +535,20 @@ impact, and it is the distinct harm the grid-capacity lever addresses. The reven
 fairness tracks the systematic harm across sites, it is positive exactly when rationing by tier is
 profitable, which requires power to bind, and wherever the systematic harm exists the rank
 mechanism holds, an income-neutral tariff removes more than ninety percent of the gap while a
-budget-only subsidy leaves most of it. The scoped claim we support is therefore that
+budget-only subsidy leaves most of it. On the ACN-Data site those figures are ninety-five percent
+against fifty-one percent, so the mechanism survives a change of continent, of demand data, and
+of the sampling scheme that generated it. The rank asymmetry survives there too. Capping the
+premium tier leaves a gap of $0.28$ while the larger-spread budget subsidy leaves $0.14$, a paired
+difference of $0.14$ with a bootstrap interval of $[0.09, 0.20]$. One thing does differ, and we
+report it rather than smooth it. At the reference site the subsidy to parity relocates the
+shortfall onto the middle tier, which is worst-served in eighty-eight percent of resampled day
+sets. On the ACN-Data site the same intervention leaves the budget tier marginally worst-served
+instead, at $0.84$ against the middle tier's $0.86$, and that attribution holds in eighty-four
+percent of resamples. So which tier ends up at the bottom after a budget-only subsidy is
+site-specific and, on the ACN-Data site, close enough to be nearly a tie. Relocation onto the
+middle tier is therefore not a general consequence of the subsidy. What does generalize, and what
+the policy claim rests on, is the weaker statement that a budget-only subsidy leaves most of the
+harm in place and only removing the ordering reaches the floor. The scoped claim we support is therefore that
 revenue-optimal allocation \emph{systematically} disadvantages lower-income drivers exactly where
 power binds and a strict price ordering exists, which is where the policy question actually lives,
 and the scoping lets a regulator target the remedy at the sites a positive revenue price of

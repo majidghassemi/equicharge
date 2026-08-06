@@ -95,10 +95,18 @@ def make_env(
     throughput_scale: float = 1.0,
     sat_ref_kwh: float = 20.0,
     data_kwargs: dict | None = None,
+    get_num_cars_arriving=None,
+    get_new_cars_arriving=None,
 ) -> EquiChargax:
+    """``get_*_cars_arriving`` override the demand stream entirely (used by the
+    ACN-Data calibration). They must be passed as top-level env fields: Chargax only
+    reads ``car_profile``/``user_profile``/``average_cars_per_day`` out of
+    ``default_data_kwargs``, so callables placed in ``data_kwargs`` are ignored."""
     station = station if station is not None else scarcity_station()
     return EquiChargax(
         station=station,
+        get_num_cars_arriving=get_num_cars_arriving,
+        get_new_cars_arriving=get_new_cars_arriving,
         welfare_alpha=alpha,
         lam=lam,
         welfare_outer=outer,
@@ -117,6 +125,54 @@ def make_env(
         sat_ref_kwh=sat_ref_kwh,
         default_data_kwargs=data_kwargs or DEFAULT_DATA,
     )
+
+
+# --------------------------------------------------------- ACN-Data (US) calibration
+ACN_ENV_PATH = "EQUICHARGE_ACN_JSON"
+
+
+def acn_env_or_none(grid_kw=30.0, n_evses=8, num_disc=4, *, path=None, verbose=True,
+                    **extra):
+    """Reference-geometry env driven by real Caltech ACN-Data sessions, or ``None``.
+
+    Returns ``(env, provenance)`` when ``EQUICHARGE_ACN_JSON`` points at a usable
+    dump, else ``None`` so callers run their bundled-data configs unchanged. A
+    *present but unusable* dump raises rather than falling back: silently reverting
+    to the Dutch data would publish a row labelled as a US session-level calibration
+    that contains no ACN data at all.
+    """
+    import os as _os
+
+    p = path or _os.environ.get(ACN_ENV_PATH)
+    if not p:
+        if verbose:
+            print(f"[acn] {ACN_ENV_PATH} not set -> ACN-Data (US) config skipped.")
+        return None
+    from chargax.equity import segments as _SEG
+    from chargax.equity.data_calibration import acn_scenario
+
+    station = scarcity_station(grid_kw=grid_kw, n_evses=n_evses)
+    num_fn, new_fn, prov = acn_scenario(station, p)
+    # Same ability-to-pay segmentation as every other site; without it the env has one
+    # group and every per-tier quantity collapses to a single column.
+    group_kw = dict(n_groups=3, group_probs=_SEG.GROUP_PROBS,
+                    price_by_group=_SEG.PRICE_BY_GROUP)
+    env = make_env(station=station, num_discretization_levels=num_disc,
+                   allow_discharging=False, alpha=0.0, lam=1.0, outer="rawlsian",
+                   get_num_cars_arriving=num_fn, get_new_cars_arriving=new_fn,
+                   data_kwargs={"car_profile": "us", "grid_price_dataset": "2023_NL"},
+                   **{**group_kw, **extra})
+    # The failure this guards against is silent: Chargax builds its own Dutch loaders
+    # in __post_init__ whenever these fields are left None.
+    assert env.get_num_cars_arriving is num_fn and env.get_new_cars_arriving is new_fn, \
+        "ACN callables did not reach the env; it would be running on bundled Dutch data."
+    if verbose:
+        print(f"[acn] {prov['sessions_used']}/{prov['sessions_in_dump']} sessions, "
+              f"{prov['date_range_used'][0]}..{prov['date_range_used'][1]}, "
+              f"{prov['mean_sessions_per_workday']:.1f} sessions/workday, "
+              f"median dwell {prov['median_dwell_minutes']:.0f} min, "
+              f"median demand {prov['median_energy_kwh']:.1f} kWh")
+    return env, prov
 
 
 # ------------------------------------------------------------------- evaluation

@@ -70,17 +70,41 @@ _SEED_KEYS = ["profit_mean", "worst10_sat", "min_sat", "gini", "atkinson",
               "welfare_mean", "group_disparity"]
 
 
-def _save(results: dict, name: str = "results.json"):
+_OUT_NAME = "results.json"  # --acn redirects this to results_acn.json
+
+
+def _save(results: dict, name: str | None = None):
     os.makedirs(RESULTS_DIR, exist_ok=True)
-    with open(os.path.join(RESULTS_DIR, name), "w") as f:
+    with open(os.path.join(RESULTS_DIR, name or _OUT_NAME), "w") as f:
         json.dump(results, f, indent=2)
+
+
+# Set by --acn to a Caltech ACN-Data sessions JSON. Every env this module builds then
+# draws its demand stream (arrival rate, dwell, energy demand) from those real US
+# sessions instead of the bundled Dutch profiles, so the whole RL-free core re-runs on
+# US data from one switch rather than section by section.
+_ACN_JSON = None
+
+
+def _env(station, **kw):
+    """``make_env`` for this module. Every env in this file goes through here so that
+    ``--acn`` swaps the demand stream everywhere at once. Constructing envs with a bare
+    ``make_env`` would leave that section on the bundled Dutch data while the rest of
+    the run used ACN sessions, and ``results_acn.json`` would mix the two silently."""
+    acn = {}
+    if _ACN_JSON is not None:
+        from chargax.equity.data_calibration import acn_scenario
+        num_fn, new_fn, _ = acn_scenario(station, _ACN_JSON)
+        acn = dict(get_num_cars_arriving=num_fn, get_new_cars_arriving=new_fn,
+                   data_kwargs={"car_profile": "us", "grid_price_dataset": "2023_NL"})
+    return make_env(station=station, **{**acn, **kw})
 
 
 def _ref_env(grid_kw, n_evses, num_disc, **extra):
     station = scarcity_station(grid_kw=grid_kw, n_evses=n_evses)
-    return make_env(station=station, num_discretization_levels=num_disc,
-                    allow_discharging=ALLOW_DISCHARGING, alpha=0.0, lam=1.0,
-                    outer="rawlsian", **GROUP_KW, **extra)
+    return _env(station, num_discretization_levels=num_disc,
+                allow_discharging=ALLOW_DISCHARGING, alpha=0.0, lam=1.0,
+                outer="rawlsian", **GROUP_KW, **extra)
 
 
 # ============================================================ 1. offline oracle
@@ -150,7 +174,7 @@ def eval_robustness(n_evses, grid_kw, num_disc, key, n_days) -> dict:
     station = scarcity_station(grid_kw=grid_kw, n_evses=n_evses)
     rows = []
     for premium in (1.2, 1.5, 2.0, 3.0):
-        env = make_env(station=station, num_discretization_levels=num_disc,
+        env = _env(station, num_discretization_levels=num_disc,
                        allow_discharging=ALLOW_DISCHARGING, alpha=0.0, lam=1.0,
                        outer="rawlsian", n_groups=3, group_probs=GROUP_PROBS,
                        price_by_group=(0.6, 1.0, premium))
@@ -262,7 +286,7 @@ def train_and_eval(cfg: dict, label: str, *, timesteps: int, seeds, n_eval: int,
     station = scarcity_station(grid_kw=grid_kw, n_evses=n_evses)
     per_seed = []
     for seed in seeds:
-        env = make_env(station=station, num_discretization_levels=num_disc,
+        env = _env(station, num_discretization_levels=num_disc,
                        allow_discharging=ALLOW_DISCHARGING, **GROUP_KW, **cfg)
         t0 = time.time()
         agent = train_ppo(env, total_timesteps=timesteps, num_envs=num_envs,
@@ -293,10 +317,10 @@ def endogeneity_audit(n_evses, grid_kw, num_disc, n_eval, key) -> dict:
     out = {}
     for name in ("max_charge", "least_laxity"):
         pol = B.POLICIES[name]
-        env_on = make_env(station=station, num_discretization_levels=num_disc,
+        env_on = _env(station, num_discretization_levels=num_disc,
                           allow_discharging=ALLOW_DISCHARGING, alpha=0.0, lam=1.0,
                           outer="rawlsian", count_rejections=True, **GROUP_KW)
-        env_off = make_env(station=station, num_discretization_levels=num_disc,
+        env_off = _env(station, num_discretization_levels=num_disc,
                            allow_discharging=ALLOW_DISCHARGING, alpha=0.0, lam=1.0,
                            outer="rawlsian", count_rejections=False, **GROUP_KW)
         m_on = evaluate_policy(env_on, pol, key, n_episodes=n_eval)
@@ -344,7 +368,27 @@ def main():
     p.add_argument("--grid-kw", type=float, default=30.0)
     p.add_argument("--num-disc", type=int, default=4)
     p.add_argument("--oracle-days", type=int, default=16)
+    p.add_argument("--acn", action="store_true",
+                   help="drive every env from the Caltech ACN-Data US sessions pointed "
+                        "at by EQUICHARGE_ACN_JSON, instead of the bundled Dutch "
+                        "profiles; writes results_acn.json")
     args = p.parse_args()
+
+    if args.acn:
+        global _ACN_JSON, _OUT_NAME
+        _OUT_NAME = "results_acn.json"
+        _ACN_JSON = os.environ.get("EQUICHARGE_ACN_JSON")
+        if not _ACN_JSON:
+            raise SystemExit(
+                "--acn requires EQUICHARGE_ACN_JSON to point at a Caltech ACN-Data "
+                "sessions JSON (https://ev.caltech.edu/dataset).")
+        from chargax.equity.data_calibration import acn_scenario
+        from experiments.common import scarcity_station as _ss
+        _, _, _prov = acn_scenario(_ss(grid_kw=args.grid_kw, n_evses=args.n_evses),
+                                   _ACN_JSON)
+        print(f"[acn] {_prov['sessions_used']}/{_prov['sessions_in_dump']} sessions, "
+              f"{_prov['date_range_used'][0]}..{_prov['date_range_used'][1]}, "
+              f"{_prov['mean_sessions_per_workday']:.1f} sessions/workday")
 
     if args.quick:
         (args.timesteps, args.seeds, args.n_eval, args.num_envs, args.oracle_days) = (
@@ -412,7 +456,7 @@ def main():
             results["trained"][label] = train_and_eval(cfg, label, **common)
             _save(results)
 
-    print(f"Saved results to {RESULTS_DIR}/results.json")
+    print(f"Saved results to {os.path.join(RESULTS_DIR, _OUT_NAME)}")
 
 
 if __name__ == "__main__":

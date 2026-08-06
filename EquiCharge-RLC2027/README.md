@@ -180,10 +180,13 @@ deliberate income discrimination.
    worst tier; the premium tier gives up ~0.11 (a consequence of concave saturating
    utility, robust across price gradients). The released oracle uses a Pareto-efficient
    two-stage maximin (the naive single-epigraph one "levels down" — a solver artifact).
-   **Scarcity-specific:** a 4-site audit (`audit_robustness.json`) shows this holds at
-   power-scarce sites (reference 97% budget-worst, highway 78%) and *fades* where power
-   isn't binding (workplace/shopping, revenue PoF ≈0) — so the claim is scoped to
-   power-scarce sites, and a regulator can target the fix there.
+   **Scarcity-specific:** a 5-site audit (`audit_robustness.json`) shows this holds at
+   power-scarce sites (reference 97% budget-worst, **Caltech ACN-Data 84%**, highway 78%)
+   and *fades* where power isn't binding (workplace/shopping, revenue PoF ≈0) — so the
+   claim is scoped to power-scarce sites, and a regulator can target the fix there.
+   **Independently replicated on real US sessions:** the ACN-Data site is driven by
+   27,584 real Caltech charging sessions (arrival rate, dwell, driver-stated demand),
+   not by our own calibration — see [Reproducing the ACN-Data run](#reproducing-the-acn-data-us-run).
 2. **Only income-neutral pricing removes the disparate impact** (tier gap 0.54→0.04,
    −93%). A subsidy to the poorest tier alone does *not* close it — it **shifts the
    burden to the middle tier**. See [`tariffs.py`](chargax/equity/tariffs.py).
@@ -249,6 +252,30 @@ env = EquiChargax(station=station, welfare_alpha=0.0, welfare_outer="rawlsian",
   python -m experiments.plot_mechanism       # all FAccT figures -> results/figures/
   python -m pytest tests/test_equity.py -q   # tests
   ```
+
+### Reproducing the ACN-Data (US) run
+
+The US session-level configuration is driven by the public **Caltech ACN-Data**
+(<https://ev.caltech.edu/dataset>), which is not redistributed here. Fetch a sessions
+dump, point `EQUICHARGE_ACN_JSON` at it, and every script below re-runs on real US
+demand instead of the bundled Dutch profiles:
+
+```bash
+export EQUICHARGE_ACN_JSON=/path/to/acn_caltech.json
+python -m experiments.audit_robustness              # adds the ACN site (5th config)
+python -m experiments.audit_mechanism      --acn    # -> audit_mechanism_acn.json
+python -m experiments.audit_estimator_check --acn   # -> audit_estimator_check_acn.json
+python -m experiments.run_experiments --oracle-only --acn   # -> results_acn.json
+```
+
+The ACN runs write to `*_acn.json` and never overwrite the bundled-data results.
+The adapter takes arrival rate/time-of-day, dwell, and driver-stated energy demand
+from the real sessions; the vehicle fleet stays the Chargax US mix (ACN-Data records
+sessions, not vehicle models) and prices stay the NL day-ahead series, so this is a US
+**demand** calibration, not an end-to-end US site. The default window ends before the
+March 2020 campus closure. See [`docs/DATA.md`](docs/DATA.md) for the full provenance
+table. If `EQUICHARGE_ACN_JSON` is unset the ACN config is skipped with a note; if it
+is set but unusable the run **fails** rather than silently falling back to Dutch data.
 
 
 ## 📑 Citing

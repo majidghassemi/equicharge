@@ -1,0 +1,181 @@
+{
+  "acn_provenance": {
+    "source": "Caltech ACN-Data (Lee et al. 2019), site=caltech",
+    "path": "acn_caltech.json",
+    "real_from_acn": [
+      "arrival_time_of_day (workday/weekend separately)",
+      "arrival_rate_per_day",
+      "connection_time",
+      "energy_demand"
+    ],
+    "modelled": [
+      "vehicle_fleet (Chargax US mix; ACN-Data records sessions, not vehicle models)",
+      "ability_to_pay_segment (chargax.equity.segments)"
+    ],
+    "dwell_energy_paired_from_same_session": true,
+    "median_dwell_minutes": 313.39166259765625,
+    "median_energy_kwh": 9.944000244140625,
+    "sessions_in_dump": 31424,
+    "sessions_used": 27584,
+    "sessions_unparsed": 0,
+    "sessions_out_of_window": 3840,
+    "sessions_nonpositive": 0,
+    "energy_from_kWhRequested": 12907,
+    "energy_from_kWhDelivered_fallback": 14677,
+    "date_range_used": [
+      "2018-04-25",
+      "2020-02-29"
+    ],
+    "distinct_days": 674,
+    "distinct_workdays": 481,
+    "distinct_weekend_days": 193,
+    "energy_field_policy": "requested_then_delivered",
+    "mean_sessions_per_workday": 48.629937629937636,
+    "mean_sessions_per_weekend_day": 21.72538860103627
+  },
+  "check1_rotation": {
+    "reference_16ch_30kW_residential_eu": {
+      "days": 32,
+      "per_day_gap_median": 0.558,
+      "per_day_gap_max": 1.0,
+      "day_averaged_gap": 0.567,
+      "worst_tier_counts": {
+        "budget": 31,
+        "mid": 1,
+        "premium": 0
+      },
+      "dominant_worst_tier": "budget",
+      "dominant_fraction": 0.97,
+      "worst_tier_entropy": 0.13,
+      "reading": "systematic between-tier (stable worst tier)"
+    },
+    "workplace_24ch_55kW_us": {
+      "days": 26,
+      "per_day_gap_median": 0.073,
+      "per_day_gap_max": 0.149,
+      "day_averaged_gap": 0.005,
+      "worst_tier_counts": {
+        "budget": 10,
+        "mid": 7,
+        "premium": 9
+      },
+      "dominant_worst_tier": "budget",
+      "dominant_fraction": 0.38,
+      "worst_tier_entropy": 0.99,
+      "reading": "NON-SYSTEMATIC / rotating (day-averaging hides per-day harm)"
+    },
+    "shopping_8ch_16kW_world": {
+      "days": 32,
+      "per_day_gap_median": 0.187,
+      "per_day_gap_max": 0.45,
+      "day_averaged_gap": 0.032,
+      "worst_tier_counts": {
+        "budget": 15,
+        "mid": 11,
+        "premium": 6
+      },
+      "dominant_worst_tier": "budget",
+      "dominant_fraction": 0.47,
+      "worst_tier_entropy": 0.94,
+      "reading": "NON-SYSTEMATIC / rotating (day-averaging hides per-day harm)"
+    },
+    "highway_20ch_45kW_eu_highrate": {
+      "days": 32,
+      "per_day_gap_median": 0.273,
+      "per_day_gap_max": 0.466,
+      "day_averaged_gap": 0.219,
+      "worst_tier_counts": {
+        "budget": 25,
+        "mid": 7,
+        "premium": 0
+      },
+      "dominant_worst_tier": "budget",
+      "dominant_fraction": 0.78,
+      "worst_tier_entropy": 0.48,
+      "reading": "systematic between-tier (stable worst tier)"
+    },
+    "acn_data_caltech_8ch_30kW": {
+      "days": 32,
+      "per_day_gap_median": 0.237,
+      "per_day_gap_max": 0.857,
+      "day_averaged_gap": 0.29,
+      "worst_tier_counts": {
+        "budget": 27,
+        "mid": 3,
+        "premium": 2
+      },
+      "dominant_worst_tier": "budget",
+      "dominant_fraction": 0.84,
+      "worst_tier_entropy": 0.49,
+      "reading": "systematic between-tier (stable worst tier)"
+    }
+  },
+  "check2_flat_floor": {
+    "32": {
+      "days_used": 32,
+      "status_quo_day_averaged": 0.29,
+      "flat_day_averaged": 0.0144,
+      "flat_per_day_median": 0.091,
+      "flat_worst_tier_counts": {
+        "budget": 13,
+        "mid": 11,
+        "premium": 8
+      }
+    },
+    "64": {
+      "days_used": 64,
+      "status_quo_day_averaged": 0.246,
+      "flat_day_averaged": 0.0069,
+      "flat_per_day_median": 0.089,
+      "flat_worst_tier_counts": {
+        "budget": 24,
+        "mid": 22,
+        "premium": 18
+      }
+    },
+    "128": {
+      "days_used": 128,
+      "status_quo_day_averaged": 0.255,
+      "flat_day_averaged": 0.0013,
+      "flat_per_day_median": 0.085,
+      "flat_worst_tier_counts": {
+        "budget": 44,
+        "mid": 46,
+        "premium": 38
+      }
+    },
+    "256": {
+      "days_used": 255,
+      "status_quo_day_averaged": 0.254,
+      "flat_day_averaged": 0.0051,
+      "flat_per_day_median": 0.09,
+      "flat_worst_tier_counts": {
+        "budget": 86,
+        "mid": 88,
+        "premium": 81
+      }
+    }
+  },
+  "check3_crack": {
+    "committed_(0.6,1.0,1.5)": 0.2905,
+    "eta0.6_raw": {
+      "margins": [
+        0.6,
+        1.0,
+        1.499
+      ],
+      "gap": 0.2884
+    },
+    "eta0.6_rounded": {
+      "margins": [
+        0.6,
+        1.0,
+        1.5
+      ],
+      "gap": 0.2905
+    },
+    "cause": "LP tie-breaking on the infinitesimal premium difference (1.5 vs 1.499)",
+    "fix": "use round_to=1 in the invariance sweep so eta=0.6 == committed reference",
+    "fixed": true
+  }
+}
