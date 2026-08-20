@@ -107,17 +107,17 @@ def main():
 
 
 # ---------------------------------------------------------------- figure
-# House style (experiments/plot_style.py + the teal/clay system of plot_mechanism.py):
-# clay = the harm (the tier gap), teal = the four sites read off the same curve.
-HARM = "#BF5A38"
-RELIEF = "#12A08A"
-# Direct labels instead of a second legend; offsets in points, hand-placed so the
-# four annotations clear both each other and the sweep curve.
+# House style, colours included, comes from experiments/plot_style.py: clay = the harm
+# (the tier gap), teal = the four sites read off the same curve. Like every other paper
+# figure this one is drawn at its printed column width, so the offsets below are in
+# printed points and mean the same thing on the page as they do here.
+# Direct labels instead of a second legend; hand-placed so the four annotations clear
+# both each other and the sweep curve.
 LABEL_POS = {  # site -> (dx, dy, ha, va)
-    "reference": (12, 0, "left", "center"),
-    "highway": (0, 13, "center", "bottom"),
-    "shopping": (12, -1, "left", "center"),
-    "workplace": (-12, 0, "right", "center"),
+    "reference": (7, 0, "left", "center"),
+    "highway": (0, 7, "center", "bottom"),
+    "shopping": (7, -1, "left", "center"),
+    "workplace": (-6, 5, "right", "bottom"),
 }
 
 
@@ -127,6 +127,7 @@ def plot(out):
     import matplotlib.pyplot as plt
 
     from experiments import plot_style as S
+    from experiments.plot_style import COL, HARM, RELIEF
     S.apply_style()
 
     sw = sorted(out["capacity_sweep"], key=lambda r: r["rho"])
@@ -135,17 +136,17 @@ def plot(out):
     site_rho = [s["demand_capacity_ratio"] for s in out["sites"].values()]
     site_gam = [s["gamma"] for s in out["sites"].values()]
 
-    fig, ax = plt.subplots(figsize=(5.2, 3.0))
-    ax.axvline(1.0, ls=(0, (4, 2)), color=S.MUTED, lw=1.5, zorder=0)
-    ax.plot(rhos, gaps, "-o", color=HARM, ms=7, lw=2.6, zorder=3,
+    fig, ax = plt.subplots(figsize=(COL, 2.15))
+    ax.axvline(1.0, ls=(0, (3, 2)), color=S.MUTED, lw=0.9, zorder=0)
+    ax.plot(rhos, gaps, "-o", color=HARM, ms=3.6, zorder=3,
             label="reference site, capacity sweep")
-    ax.plot(site_rho, site_gam, "o", color=RELIEF, ms=10, mec="white", mew=1.4,
+    ax.plot(site_rho, site_gam, "o", color=RELIEF, ms=5.5, mec="white", mew=0.8,
             zorder=4, label="four sites (independent)")
     for name, s in out["sites"].items():
         dx, dy, ha, va = LABEL_POS[name]
         ax.annotate(name, (s["demand_capacity_ratio"], s["gamma"]),
                     textcoords="offset points", xytext=(dx, dy),
-                    ha=ha, va=va, fontsize=9.5, color=S.INK)
+                    ha=ha, va=va, fontsize=S.FS_ANNOT, color=S.INK)
 
     S.clean(ax)
     ax.set_xscale("log")
@@ -154,11 +155,10 @@ def plot(out):
     ax.set_xlabel(r"demand-to-capacity ratio  $\rho$")
     ax.set_ylabel(r"systematic tier gap  $\Gamma$")
     ax.set_ylim(-0.02, max(gaps + site_gam) * 1.20)
-    ax.annotate("demand = capacity", (1.0, ax.get_ylim()[1]), xytext=(-5, -2),
-                textcoords="offset points", ha="right", va="top",
-                fontsize=9.5, color=S.MUTED)
-    ax.legend(loc="upper left", fontsize=9.5, frameon=False, handlelength=1.4,
-              labelspacing=0.3)
+    ax.annotate("demand = capacity", (1.0, ax.get_ylim()[1]), xytext=(-3, -3),
+                textcoords="offset points", ha="right", va="top", rotation=90,
+                rotation_mode="anchor", fontsize=S.FS_ANNOT, color=S.MUTED)
+    ax.legend(loc="upper left", borderaxespad=0.2)
 
     figdir = os.path.join(RESULTS, "figures")
     os.makedirs(figdir, exist_ok=True)

@@ -318,7 +318,7 @@ income gap at $\rho=1/3$ (independent) & \multicolumn{3}{c}{$0.19$} \\
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.86\linewidth]{figures/grounding_invariance.png}
+\includegraphics[width=\columnwidth]{figures/grounding_invariance.png}
 \caption{The disparate impact is structural, not a calibration artifact. The day-averaged tier gap
 is flat across the willingness-to-pay elasticity, holding near $0.57$ for every $\eta>0$, and
 collapses only at $\eta=0$, where all tiers are priced equally and no ordering exists. A flat line
@@ -424,16 +424,16 @@ strict equalization    & 0.81 [0.79, 0.84] & 0.81 [0.79, 0.84] & 0.81 [0.79, 0.8
 \end{tabular}
 \end{table*}
 
-\begin{figure}[t]
+\begin{figure*}[t]
 \centering
-\includegraphics[width=\linewidth]{figures/oracle_tradeoff.png}
+\includegraphics[width=\textwidth]{figures/oracle_tradeoff.png}
 \caption{Left, per-tier satisfaction under each audited objective, with the tiers colored light
 to dark as budget, mid, and premium. The revenue optimum holds the budget tier near $0.38$ while
 giving premium about $0.95$, a tier gap of about $0.57$, and the equity objectives equalize the
 tiers near $0.82$. Right, the operator's revenue, where the price of fairness is paid, a median of
 about nine percent, and not in aggregate satisfaction.}
 \label{fig:oracle}
-\end{figure}
+\end{figure*}
 
 \paragraph{The mechanism is rank position, not spread magnitude.}
 \label{sec:mechanism}
@@ -498,7 +498,7 @@ income neutral (equal)       & all equal     & 0.0 & 0.05 [0.01, 0.12] & none (r
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\linewidth]{figures/rate_design.png}
+\includegraphics[width=\columnwidth]{figures/rate_design.png}
 \caption{The harm tracks rank position, not spread magnitude. Bars are colored by whether the
 budget tier remains the strictly lowest-priced rank (clay) or is lifted out of it (teal). The
 margin spreads are $0.9$, $0.4$, $0.5$, and $0.0$ from top to bottom, so capping the top tier
@@ -556,7 +556,7 @@ fairness identifies rather than mandate it everywhere.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\linewidth]{figures/scarcity_boundary.png}
+\includegraphics[width=\columnwidth]{figures/scarcity_boundary.png}
 \caption{The scarcity boundary separates a systematic from a rotating disadvantage. Per site, the
 day-averaged \emph{systematic} tier gap (clay) against the typical \emph{per-day} gap (gray). Where
 they agree the disadvantage is a systematic between-tier disparate impact (reference and highway,
@@ -590,7 +590,7 @@ recommendation.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.9\linewidth]{figures/capacity_threshold.png}
+\includegraphics[width=\columnwidth]{figures/capacity_threshold.png}
 \caption{Grid capacity and the two inequalities at the reference site. The between-tier disparate
 impact under the oracle (clay) falls to essentially zero by about sixty kilowatts (dashed), so
 added power removes the harm this paper audits. The within-population inequality the deployed
@@ -603,7 +603,7 @@ is avoidable, not a capacity limit.}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.9\linewidth]{figures/lever_cross_effects.png}
+\includegraphics[width=\columnwidth]{figures/lever_cross_effects.png}
 \caption{The two levers are not orthogonal. Reduction in each harm on the oracle allocation at
 the reference site. Pricing (status quo to income-neutral, at fixed capacity) removes the
 between-tier disparate impact but barely touches the within-tier inequality, while capacity
