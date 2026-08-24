@@ -250,8 +250,26 @@ env = EquiChargax(station=station, welfare_alpha=0.0, welfare_outer="rawlsian",
   python -m experiments.audit_grounding      # A1 grounding sweep
   python -m experiments.audit_levers         # lever cross-effects
   python -m experiments.plot_mechanism       # all FAccT figures -> results/figures/
+  # Structure, bounds, and the online status-quo policy:
+  python -m experiments.verify_theory        # the chain identity + its two corollaries
+  python -m experiments.audit_optimal_face   # tier-gap RANGE over the revenue-optimal face
+  python -m experiments.audit_margin_greedy  # the harm realized online, not just offline
+  python -m experiments.check_paper_numbers  # pre-submission gate on every printed number
   python -m pytest tests/test_equity.py -q   # tests
   ```
+  Or, equivalently, `make audit` for the offline suite, `make theory` for the three
+  structural scripts, `make gate` for the number check, and `make test`.
+
+  What the three structural scripts are for. `verify_theory` checks the claim the whole
+  audit rests on, that the revenue optimum saturates the nested chain of top sets, day by
+  day rather than in principle, and then re-solves under a capped and a subsidized tariff
+  to confirm that a cap leaves the harm where it is and a subsidy past parity relocates it.
+  `audit_optimal_face` answers the question a linear program always invites, whether the
+  reported tier gap is a property of revenue maximization or of the solver's choice of
+  vertex, by appending the chain equalities to the LP to carve out the optimal face and
+  then maximizing and minimizing the gap over it. `audit_margin_greedy` runs the online
+  counterpart of the revenue-optimal allocation, a policy an operator could actually
+  deploy, on the same realized days.
 
 ### Reproducing the ACN-Data (US) run
 

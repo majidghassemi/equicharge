@@ -1,0 +1,331 @@
+{
+  "n_days": 256,
+  "days_used": 256,
+  "day_key": 7,
+  "base_margins": [
+    0.6,
+    1.0,
+    1.5
+  ],
+  "tariffs": {
+    "value_weighted": {
+      "margins": [
+        0.6,
+        1.0,
+        1.5
+      ],
+      "days": 256,
+      "day_averaged": {
+        "reported_tier_means": [
+          0.4113175361371349,
+          0.8102678052401159,
+          0.9567312260845553
+        ],
+        "tier_mean_min_over_face": [
+          0.3461556108590953,
+          0.72182283514518,
+          0.9488077119705233
+        ],
+        "tier_mean_max_over_face": [
+          0.44915095262329,
+          0.8371292301618608,
+          0.9578203324777501
+        ],
+        "gamma_reported": 0.5454136899474205,
+        "gamma_max_over_face": 0.6116647216053264,
+        "gamma_certified_floor": 0.4996576115674681,
+        "pairwise_gap_max_over_face": {
+          "budget-mid": -0.27267426235866654,
+          "budget-premium": -0.4996576115674681,
+          "mid-budget": 0.49097361930392613,
+          "mid-premium": -0.11167880553595938,
+          "premium-budget": 0.6116647216053264,
+          "premium-mid": 0.23599749733257133
+        },
+        "pairwise_gap_min_over_face": {
+          "budget-mid": -0.49097361930392613,
+          "budget-premium": -0.6116647216053264,
+          "mid-budget": 0.27267426235866654,
+          "mid-premium": -0.23599749733257133,
+          "premium-budget": 0.4996576115674681,
+          "premium-mid": 0.11167880553595938
+        }
+      },
+      "per_day": {
+        "gamma_reported": {
+          "median": 0.592765481776558,
+          "mean": 0.5725964529804844
+        },
+        "gamma_min": {
+          "median": 0.5558719214687289,
+          "mean": 0.5251811350668778,
+          "max": 0.999981986613643
+        },
+        "gamma_max": {
+          "median": 0.6802235727294161,
+          "mean": 0.6401563555434815,
+          "min": 2.363372053792827e-05
+        },
+        "reported_is_inside_range": true,
+        "days_where_face_is_a_point": 0
+      }
+    },
+    "premium_cap_1.0": {
+      "margins": [
+        0.6,
+        1.0,
+        1.0
+      ],
+      "days": 256,
+      "day_averaged": {
+        "reported_tier_means": [
+          0.4102243119166932,
+          0.888983084042013,
+          0.9005588841461333
+        ],
+        "tier_mean_min_over_face": [
+          0.34615561086790747,
+          0.7218228351451801,
+          0.728431717670263
+        ],
+        "tier_mean_max_over_face": [
+          0.4491510253835959,
+          0.9525095637021352,
+          0.9578203324777503
+        ],
+        "gamma_reported": 0.4903345722294401,
+        "gamma_max_over_face": 0.6116647216115741,
+        "gamma_certified_floor": 0.279283264972803,
+        "pairwise_gap_max_over_face": {
+          "budget-mid": -0.2726742278252658,
+          "budget-premium": -0.279283264972803,
+          "mid-budget": 0.6063539528472922,
+          "mid-premium": 0.22407784602483374,
+          "premium-budget": 0.6116647216115741,
+          "premium-mid": 0.23599749733457415
+        },
+        "pairwise_gap_min_over_face": {
+          "budget-mid": -0.6063539528472922,
+          "budget-premium": -0.6116647216115741,
+          "mid-budget": 0.2726742278252658,
+          "mid-premium": -0.23599749733457415,
+          "premium-budget": 0.279283264972803,
+          "premium-mid": -0.22407784602483374
+        }
+      },
+      "per_day": {
+        "gamma_reported": {
+          "median": 0.5373838110020086,
+          "mean": 0.5299543746876515
+        },
+        "gamma_min": {
+          "median": 0.3615370277984601,
+          "mean": 0.37568244938901957,
+          "max": 0.8837751473426952
+        },
+        "gamma_max": {
+          "median": 0.6983775711864109,
+          "mean": 0.6531993817258808,
+          "min": 2.3633720537936942e-05
+        },
+        "reported_is_inside_range": true,
+        "days_where_face_is_a_point": 0
+      }
+    },
+    "budget_subsidy_0.4_parity": {
+      "margins": [
+        1.0,
+        1.0,
+        1.5
+      ],
+      "days": 256,
+      "day_averaged": {
+        "reported_tier_means": [
+          0.6495421408556676,
+          0.6485240664916221,
+          0.9567258233056563
+        ],
+        "tier_mean_min_over_face": [
+          0.34615561086722896,
+          0.360645076143208,
+          0.9488077119704994
+        ],
+        "tier_mean_max_over_face": [
+          0.8391207630257869,
+          0.8371292301391182,
+          0.9578203324777502
+        ],
+        "gamma_reported": 0.30820175681403417,
+        "gamma_max_over_face": 0.6116647216153552,
+        "gamma_certified_floor": 0.11167880556431328,
+        "pairwise_gap_max_over_face": {
+          "budget-mid": 0.47847568688257924,
+          "budget-premium": -0.10968731611973029,
+          "mid-budget": 0.49097361927662353,
+          "mid-premium": -0.11167880556431328,
+          "premium-budget": 0.6116647216153552,
+          "premium-mid": 0.597175256334539
+        },
+        "pairwise_gap_min_over_face": {
+          "budget-mid": -0.49097361927662353,
+          "budget-premium": -0.6116647216153552,
+          "mid-budget": -0.47847568688257924,
+          "mid-premium": -0.597175256334539,
+          "premium-budget": 0.10968731611973029,
+          "premium-mid": 0.11167880556431328
+        }
+      },
+      "per_day": {
+        "gamma_reported": {
+          "median": 0.37816758171337633,
+          "mean": 0.39130575617870167
+        },
+        "gamma_min": {
+          "median": 0.2469930890878225,
+          "mean": 0.25377521949877013,
+          "max": 0.8434783812148551
+        },
+        "gamma_max": {
+          "median": 0.7479280473984964,
+          "mean": 0.6980469244333696,
+          "min": 2.4090561966588764e-05
+        },
+        "reported_is_inside_range": true,
+        "days_where_face_is_a_point": 0
+      }
+    },
+    "budget_subsidy_0.9_overshoot": {
+      "margins": [
+        1.5,
+        1.0,
+        1.5
+      ],
+      "days": 256,
+      "day_averaged": {
+        "reported_tier_means": [
+          0.8907520183306747,
+          0.4289124731832436,
+          0.8946723030137677
+        ],
+        "tier_mean_min_over_face": [
+          0.716456559661727,
+          0.360645076143208,
+          0.7263582083842639
+        ],
+        "tier_mean_max_over_face": [
+          0.9522043034125482,
+          0.46354721261676785,
+          0.9578203324777503
+        ],
+        "gamma_reported": 0.46575982983052405,
+        "gamma_max_over_face": 0.5971752563345601,
+        "gamma_certified_floor": 0.2628130227222636,
+        "pairwise_gap_max_over_face": {
+          "budget-mid": 0.5915592272693405,
+          "budget-premium": 0.22584609502682534,
+          "mid-budget": -0.25291185749073014,
+          "mid-premium": -0.2628130227222636,
+          "premium-budget": 0.24136377281833576,
+          "premium-mid": 0.5971752563345601
+        },
+        "pairwise_gap_min_over_face": {
+          "budget-mid": 0.25291185749073014,
+          "budget-premium": -0.24136377281833576,
+          "mid-budget": -0.5915592272693405,
+          "mid-premium": -0.5971752563345601,
+          "premium-budget": -0.22584609502682534,
+          "premium-mid": 0.2628130227222636
+        }
+      },
+      "per_day": {
+        "gamma_reported": {
+          "median": 0.5442062767603005,
+          "mean": 0.5155221594607048
+        },
+        "gamma_min": {
+          "median": 0.34923441543872835,
+          "mean": 0.3605148566963383,
+          "max": 0.9606480574806595
+        },
+        "gamma_max": {
+          "median": 0.6816374117964563,
+          "mean": 0.6454299583705848,
+          "min": 2.767907764835223e-05
+        },
+        "reported_is_inside_range": true,
+        "days_where_face_is_a_point": 0
+      }
+    },
+    "flat_income_neutral": {
+      "margins": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "days": 256,
+      "day_averaged": {
+        "reported_tier_means": [
+          0.7678759236056564,
+          0.7708991678836266,
+          0.7794647502406021
+        ],
+        "tier_mean_min_over_face": [
+          0.3461556108518346,
+          0.3606450761499613,
+          0.36836177356782907
+        ],
+        "tier_mean_max_over_face": [
+          0.9522043034125484,
+          0.9525095637021352,
+          0.9578203324777502
+        ],
+        "gamma_reported": 0.01158882663494576,
+        "gamma_max_over_face": 0.6116647216226567,
+        "gamma_certified_floor": 0.0,
+        "pairwise_gap_max_over_face": {
+          "budget-mid": 0.5915592272662406,
+          "budget-premium": 0.5838425298729748,
+          "mid-budget": 0.606353952847041,
+          "mid-premium": 0.5841477901259957,
+          "premium-budget": 0.6116647216226567,
+          "premium-mid": 0.5971752563287913
+        },
+        "pairwise_gap_min_over_face": {
+          "budget-mid": -0.606353952847041,
+          "budget-premium": -0.6116647216226567,
+          "mid-budget": -0.5915592272662406,
+          "mid-premium": -0.5971752563287913,
+          "premium-budget": -0.5838425298729748,
+          "premium-mid": -0.5841477901259957
+        }
+      },
+      "per_day": {
+        "gamma_reported": {
+          "median": 0.18057360529437683,
+          "mean": 0.19110357281976542
+        },
+        "gamma_min": {
+          "median": 0.0,
+          "mean": 0.006773971246338017,
+          "max": 0.21583393183709307
+        },
+        "gamma_max": {
+          "median": 0.800564392611984,
+          "mean": 0.7474774044612116,
+          "min": 4.8419752498814195e-05
+        },
+        "reported_is_inside_range": true,
+        "days_where_face_is_a_point": 0
+      }
+    }
+  },
+  "headline": {
+    "value_weighted_gamma_floor": 0.4996576115674681,
+    "value_weighted_gamma_ceiling": 0.6116647216053264,
+    "flat_gamma_floor": 0.0,
+    "flat_gamma_ceiling": 0.6116647216226567,
+    "forced_gap_removed_by_income_neutrality": true,
+    "forced_gap_reduction": 0.4996576115674681,
+    "separation_survives_worst_against_best": false
+  }
+}

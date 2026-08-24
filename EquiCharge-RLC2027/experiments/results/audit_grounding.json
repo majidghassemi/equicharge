@@ -1,6 +1,6 @@
 {
-  "n_days": 32,
-  "lp_success_days": 32,
+  "n_days": 256,
+  "lp_success_days": 256,
   "elasticity_sweep": {
     "0.0": {
       "multipliers": [
@@ -9,22 +9,22 @@
         1.0
       ],
       "disparity": {
-        "median": 0.17238109304170884,
-        "iqr": 0.1314483622798072,
-        "min": 0.014126283439705012,
-        "max": 0.46421934929934283
+        "median": 0.18057360529437683,
+        "iqr": 0.13751764923051632,
+        "min": 0.0,
+        "max": 0.5247427316048567
       },
       "worst_tier_days": {
-        "budget": 9,
-        "mid": 15,
-        "premium": 8
+        "budget": 97,
+        "mid": 84,
+        "premium": 75
       },
-      "budget_worst_fraction": 0.28125,
+      "budget_worst_fraction": 0.37890625,
       "revenue_pof_pct": {
         "median": 0.0,
         "iqr": 0.0,
-        "min": -1.6612786838654596e-14,
-        "max": 1.6251812428003523e-14
+        "min": -1.7427721733634563e-14,
+        "max": 1.8675967025260048e-14
       }
     },
     "0.2": {
@@ -34,22 +34,22 @@
         1.144
       ],
       "disparity": {
-        "median": 0.5567621063099352,
-        "iqr": 0.2827204842548918,
-        "min": 0.1495233034361858,
+        "median": 0.592765481776558,
+        "iqr": 0.3476224626194795,
+        "min": 0.0,
         "max": 1.0
       },
       "worst_tier_days": {
-        "budget": 31,
-        "mid": 1,
-        "premium": 0
+        "budget": 234,
+        "mid": 17,
+        "premium": 5
       },
-      "budget_worst_fraction": 0.96875,
+      "budget_worst_fraction": 0.9140625,
       "revenue_pof_pct": {
-        "median": 3.431119860023557,
-        "iqr": 2.383909103414071,
-        "min": 0.8358927851597842,
-        "max": 7.233862147159121
+        "median": 4.098084544250882,
+        "iqr": 2.9019563464558114,
+        "min": -1.506175186886284e-14,
+        "max": 10.79450316849852
       }
     },
     "0.3": {
@@ -59,22 +59,22 @@
         1.224
       ],
       "disparity": {
-        "median": 0.5567621063099352,
-        "iqr": 0.28499620408890236,
-        "min": 0.14791623103007812,
+        "median": 0.592765481776558,
+        "iqr": 0.34549388622111465,
+        "min": 0.0,
         "max": 1.0
       },
       "worst_tier_days": {
-        "budget": 31,
-        "mid": 1,
-        "premium": 0
+        "budget": 234,
+        "mid": 17,
+        "premium": 5
       },
-      "budget_worst_fraction": 0.96875,
+      "budget_worst_fraction": 0.9140625,
       "revenue_pof_pct": {
-        "median": 4.956352053398108,
-        "iqr": 3.451991497659473,
-        "min": 1.2158622177586766,
-        "max": 10.387662135427899
+        "median": 5.903883268000399,
+        "iqr": 4.117490113349917,
+        "min": 0.0,
+        "max": 15.33969915446724
       }
     },
     "0.4": {
@@ -84,22 +84,22 @@
         1.31
       ],
       "disparity": {
-        "median": 0.5565559922884841,
-        "iqr": 0.28572385865032957,
-        "min": 0.14897237866658464,
+        "median": 0.592765481776558,
+        "iqr": 0.337634524565486,
+        "min": 0.0,
         "max": 1.0
       },
       "worst_tier_days": {
-        "budget": 31,
-        "mid": 1,
-        "premium": 0
+        "budget": 234,
+        "mid": 17,
+        "premium": 5
       },
-      "budget_worst_fraction": 0.96875,
+      "budget_worst_fraction": 0.9140625,
       "revenue_pof_pct": {
-        "median": 6.362698834772753,
-        "iqr": 4.379413788582624,
-        "min": 1.570633221786748,
-        "max": 13.252069380394522
+        "median": 7.608702098567023,
+        "iqr": 5.253070910282754,
+        "min": 0.0,
+        "max": 19.385834456706252
       }
     },
     "0.5": {
@@ -109,22 +109,22 @@
         1.401
       ],
       "disparity": {
-        "median": 0.5567621063099352,
-        "iqr": 0.2848508680372616,
-        "min": 0.1479390819814259,
+        "median": 0.592765481776558,
+        "iqr": 0.34113524289732167,
+        "min": 0.0,
         "max": 1.0
       },
       "worst_tier_days": {
-        "budget": 31,
-        "mid": 1,
-        "premium": 0
+        "budget": 234,
+        "mid": 17,
+        "premium": 5
       },
-      "budget_worst_fraction": 0.96875,
+      "budget_worst_fraction": 0.9140625,
       "revenue_pof_pct": {
-        "median": 7.6561534013324835,
-        "iqr": 5.194028201235155,
-        "min": 1.900746111499213,
-        "max": 15.843864359760559
+        "median": 9.093936867260076,
+        "iqr": 6.303660492041514,
+        "min": 0.0,
+        "max": 22.981847993733474
       }
     },
     "0.6": {
@@ -134,22 +134,22 @@
         1.499
       ],
       "disparity": {
-        "median": 0.5564014065881153,
-        "iqr": 0.2857641490097257,
-        "min": 0.15188686166352272,
+        "median": 0.592765481776558,
+        "iqr": 0.3463802009146472,
+        "min": 0.0,
         "max": 1.0
       },
       "worst_tier_days": {
-        "budget": 31,
-        "mid": 1,
-        "premium": 0
+        "budget": 233,
+        "mid": 18,
+        "premium": 5
       },
-      "budget_worst_fraction": 0.96875,
+      "budget_worst_fraction": 0.91015625,
       "revenue_pof_pct": {
-        "median": 8.842682744361278,
-        "iqr": 5.844394399440211,
-        "min": 2.2070134490005833,
-        "max": 18.180897495075243
+        "median": 10.50180450885054,
+        "iqr": 7.421398685831299,
+        "min": -1.553054288196987e-14,
+        "max": 26.173718820089515
       }
     },
     "0.7": {
@@ -159,22 +159,22 @@
         1.604
       ],
       "disparity": {
-        "median": 0.557122806031755,
-        "iqr": 0.28486428902979255,
-        "min": 0.15910340997097627,
+        "median": 0.592765481776558,
+        "iqr": 0.3457541996917909,
+        "min": 0.0,
         "max": 1.0
       },
       "worst_tier_days": {
-        "budget": 31,
-        "mid": 1,
-        "premium": 0
+        "budget": 234,
+        "mid": 17,
+        "premium": 5
       },
-      "budget_worst_fraction": 0.96875,
+      "budget_worst_fraction": 0.9140625,
       "revenue_pof_pct": {
-        "median": 9.98611032333887,
-        "iqr": 6.381687302032894,
-        "min": 2.490451751110633,
-        "max": 20.281560806390342
+        "median": 11.767455374332034,
+        "iqr": 8.282197328505262,
+        "min": 0.0,
+        "max": 29.004133520995673
       }
     },
     "0.8": {
@@ -184,22 +184,22 @@
         1.716
       ],
       "disparity": {
-        "median": 0.5575350340746573,
-        "iqr": 0.2772619942340996,
-        "min": 0.14799544469011527,
+        "median": 0.592765481776558,
+        "iqr": 0.3476155649813257,
+        "min": 0.0,
         "max": 1.0
       },
       "worst_tier_days": {
-        "budget": 31,
-        "mid": 1,
-        "premium": 0
+        "budget": 233,
+        "mid": 18,
+        "premium": 5
       },
-      "budget_worst_fraction": 0.96875,
+      "budget_worst_fraction": 0.91015625,
       "revenue_pof_pct": {
-        "median": 11.110230051563473,
-        "iqr": 6.980841994884376,
-        "min": 2.752220425639159,
-        "max": 22.309125034063186
+        "median": 12.966559149182405,
+        "iqr": 9.186465880710266,
+        "min": 0.0,
+        "max": 31.70288966052989
       }
     },
     "0.9": {
@@ -209,22 +209,22 @@
         1.835
       ],
       "disparity": {
-        "median": 0.558133027289581,
-        "iqr": 0.2863782409146256,
-        "min": 0.1504396126478159,
+        "median": 0.592765481776558,
+        "iqr": 0.35097121501261863,
+        "min": 0.0,
         "max": 1.0
       },
       "worst_tier_days": {
-        "budget": 31,
-        "mid": 1,
-        "premium": 0
+        "budget": 233,
+        "mid": 18,
+        "premium": 5
       },
-      "budget_worst_fraction": 0.96875,
+      "budget_worst_fraction": 0.91015625,
       "revenue_pof_pct": {
-        "median": 12.169497601415216,
-        "iqr": 7.615345148631693,
-        "min": 2.993569099740208,
-        "max": 24.16873052416953
+        "median": 14.066269879549328,
+        "iqr": 9.886054586010367,
+        "min": 0.0,
+        "max": 34.16508736842556
       }
     },
     "1.0": {
@@ -234,58 +234,58 @@
         1.963
       ],
       "disparity": {
-        "median": 0.5578957337964772,
-        "iqr": 0.28259082891638343,
-        "min": 0.1504396126478159,
+        "median": 0.592765481776558,
+        "iqr": 0.35753488066271877,
+        "min": 0.0,
         "max": 1.0
       },
       "worst_tier_days": {
-        "budget": 31,
-        "mid": 1,
-        "premium": 0
+        "budget": 233,
+        "mid": 18,
+        "premium": 5
       },
-      "budget_worst_fraction": 0.96875,
+      "budget_worst_fraction": 0.91015625,
       "revenue_pof_pct": {
-        "median": 13.167250543158879,
-        "iqr": 8.20320825254306,
-        "min": 3.2157936703864216,
-        "max": 25.87172611323032
+        "median": 14.966278107206536,
+        "iqr": 10.517400881620198,
+        "min": 0.0,
+        "max": 36.391005048821484
       }
     }
   },
   "tier_income_coupling": {
     "1.00": {
-      "income_level_disparity_median": 0.5564014065881153,
+      "income_level_disparity_median": 0.592765481776558,
       "fraction_of_tier_disparity": 1.0,
       "budget_income_worst": true
     },
     "0.80": {
-      "income_level_disparity_median": 0.4451211252704923,
+      "income_level_disparity_median": 0.4742123854212464,
       "fraction_of_tier_disparity": 0.8,
       "budget_income_worst": true
     },
     "0.70": {
-      "income_level_disparity_median": 0.3894809846116807,
+      "income_level_disparity_median": 0.41493583724359057,
       "fraction_of_tier_disparity": 0.7,
       "budget_income_worst": true
     },
     "0.60": {
-      "income_level_disparity_median": 0.33384084395286917,
+      "income_level_disparity_median": 0.35565928906593475,
       "fraction_of_tier_disparity": 0.6,
       "budget_income_worst": true
     },
     "0.50": {
-      "income_level_disparity_median": 0.27820070329405766,
+      "income_level_disparity_median": 0.296382740888279,
       "fraction_of_tier_disparity": 0.5,
       "budget_income_worst": true
     },
     "0.40": {
-      "income_level_disparity_median": 0.22256056263524615,
+      "income_level_disparity_median": 0.2371061927106232,
       "fraction_of_tier_disparity": 0.4,
       "budget_income_worst": true
     },
     "0.33": {
-      "income_level_disparity_median": 0.18546713552937177,
+      "income_level_disparity_median": 0.1975884939255193,
       "fraction_of_tier_disparity": 0.3333333333333333,
       "budget_income_worst": true
     }
@@ -297,7 +297,7 @@
     ],
     "budget_worst_across_nonzero_eta": true,
     "reference_eta": 0.6,
-    "reference_tier_disparity_median": 0.5564014065881153,
+    "reference_tier_disparity_median": 0.592765481776558,
     "tier_income_coupling_note": "Income-level disparate impact = rho * tier-level disparity (equal tier priors, symmetric mixing). Positive and budget-worst for every rho>0; the empirically plausible EV-charging-access correlation (rho~0.5-0.8) leaves a material harm.",
     "interpretation": "Budget is the worst-served tier on >=75% of days across the ENTIRE plausible elasticity range (eta in (0,1]) -- the finding is NOT an artifact of eta=0.6 -- and it propagates to a material income-level disparate impact for any real tier-income correlation. The disparity vanishes only at eta=0 (all tiers priced equally) and rho=1/3 (tier independent of income), i.e. exactly when the premise of the harm is switched off, which is the correct sanity behavior."
   }

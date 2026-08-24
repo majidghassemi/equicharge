@@ -70,10 +70,38 @@ submission system opens (plan estimate: **system opens October 2026, deadline la
   paper text corrected to frame them as one combined "Black and Hispanic majority" category (CIs
   remain paywalled — check against the full-text table if a CI is ever quoted).
 
+- [x] **Structural results verified numerically, not asserted** — `experiments/verify_theory.py`
+  → `results/verify_theory.json`. Checks, day by day, the chain characterization
+  ($E(\mathcal{V}_l)=\hat g(\mathcal{V}_l)$), the class-aggregate identity
+  ($E(\mathcal{C}_l)=\hat g(\mathcal{V}_l)-\hat g(\mathcal{V}_{l+1})$), the telescoping
+  revenue identity that makes the chain a *characterization* rather than a property, the
+  invariance of the optimal set to margin magnitudes, and each of the five Levers clauses.
+  Exits non-zero on any failure, so it is a gate rather than a report.
+- [x] **The headline tier gap reported as a bound, not a solver vertex** —
+  `experiments/audit_optimal_face.py` → `results/audit_optimal_face.json`. Appends the chain
+  equalities to the LP to carve out the optimal face itself, then maximizes and minimizes each
+  tier mean and $\Gamma$ over it. Answers the reviewer question a linear program always
+  invites, and it changes what can be claimed: under the status quo *every* revenue-optimal
+  allocation is at least this unequal, while income-neutral pricing removes the *forced* gap
+  without forbidding an unequal allocation. State the flat-tariff result that way.
+- [x] **The harm reproduced online by a deployable controller** —
+  `chargax/equity/baselines.py::margin_greedy_policy`, audited by
+  `experiments/audit_margin_greedy.py` → `results/audit_margin_greedy.json`. This closes the
+  pre-submission flag that the margin-greedy paragraph in Appendix "Online" quoted numbers no
+  released file produced.
+- [ ] **Run the number gate before submitting** — `make gate`
+  (`experiments/check_paper_numbers.py` → `results/check_paper_numbers.json`). Pulls every
+  numeral out of `paper/*.tex` and asks whether a released run produces it. Numerals inside a
+  labelled table or figure are checked against *that float's* source file; prose is checked
+  against the whole corpus, which is a weaker check. Passing means nothing printed is
+  unaccounted for, not that every printed number is right.
+
 ## Open items to confirm on the live CFP
 - [ ] Exact submission-open and deadline dates.
 - [ ] Page limit (14 + 1) and reference policy.
 - [ ] Whether an anonymized code/data supplement is accepted and any separate deadline.
+- [ ] Upload the anonymized mirror and paste its URL into the paper's
+      "Code and data availability" statement, replacing the placeholder.
 - [ ] Focus-area taxonomy wording (match the CFP's exact labels).
 
 ---

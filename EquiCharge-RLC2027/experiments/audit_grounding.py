@@ -51,7 +51,9 @@ from experiments.run_experiments import _ref_env
 
 RESULTS = os.path.join(os.path.dirname(__file__), "results")
 NAMES = ("budget", "mid", "premium")
-N_DAYS = 32
+#: Days in the realized day set. ``EQUICHARGE_N_DAYS`` overrides it so the whole
+#: suite can be re-run at a larger day count without editing every script.
+N_DAYS = int(os.environ.get("EQUICHARGE_N_DAYS") or 32)
 
 # Plausible empirical range of the WTP income elasticity for a quasi-necessity
 # (residential/transport energy): sub-proportional, roughly 0.3-0.9 in the literature

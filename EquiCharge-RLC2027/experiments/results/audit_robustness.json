@@ -1,22 +1,22 @@
 {
-  "n_days": 32,
+  "n_days": 256,
   "configs": {
     "reference_16ch_30kW_residential_eu": {
-      "lp_success": 32,
-      "n_days": 32,
+      "lp_success": 256,
+      "n_days": 256,
       "mean_customers_per_day": 0.0,
-      "profit_optimal_disparity_dayavg": 0.5666,
+      "profit_optimal_disparity_dayavg": 0.5454,
       "worst_tier_days": {
-        "budget": 31,
-        "mid": 1,
-        "premium": 0
+        "budget": 234,
+        "mid": 17,
+        "premium": 5
       },
-      "budget_worst_fraction": 0.96875,
+      "budget_worst_fraction": 0.9140625,
       "revenue_pof_pct": {
-        "median": 8.846895700988899,
-        "iqr": 5.8477550345740745,
-        "min": 2.2089473665640584,
-        "max": 18.18959016286667
+        "median": 10.509124471217545,
+        "iqr": 7.428517884050535,
+        "min": 0.0,
+        "max": 26.189440737204645
       },
       "delivered_energy_max_dev_kwh": {
         "median": 0.0,
@@ -25,10 +25,10 @@
         "max": 5.684341886080802e-14
       },
       "tariff_lever": {
-        "status_quo_disparity": 0.5666,
-        "income_neutral_disparity": 0.0514,
-        "income_neutral_worst_tier": "mid",
-        "budget_subsidy_parity_disparity": 0.3196,
+        "status_quo_disparity": 0.5454,
+        "income_neutral_disparity": 0.0116,
+        "income_neutral_worst_tier": "budget",
+        "budget_subsidy_parity_disparity": 0.3082,
         "budget_subsidy_parity_worst_tier": "mid",
         "subsidy_to_parity": 0.4
       },
@@ -38,21 +38,21 @@
       }
     },
     "workplace_24ch_55kW_us": {
-      "lp_success": 26,
-      "n_days": 32,
+      "lp_success": 189,
+      "n_days": 256,
       "mean_customers_per_day": 0.0,
-      "profit_optimal_disparity_dayavg": 0.0048,
+      "profit_optimal_disparity_dayavg": 0.0052,
       "worst_tier_days": {
-        "budget": 10,
-        "mid": 7,
-        "premium": 9
+        "budget": 73,
+        "mid": 58,
+        "premium": 58
       },
-      "budget_worst_fraction": 0.38461538461538464,
+      "budget_worst_fraction": 0.3862433862433862,
       "revenue_pof_pct": {
         "median": 0.0,
         "iqr": 0.0,
         "min": -1.898581804048198e-14,
-        "max": 2.2392773180508465
+        "max": 5.623811852542952
       },
       "delivered_energy_max_dev_kwh": {
         "median": 0.0,
@@ -61,11 +61,11 @@
         "max": 0.0
       },
       "tariff_lever": {
-        "status_quo_disparity": 0.0048,
-        "income_neutral_disparity": 0.0059,
+        "status_quo_disparity": 0.0052,
+        "income_neutral_disparity": 0.0068,
         "income_neutral_worst_tier": "premium",
-        "budget_subsidy_parity_disparity": 0.0066,
-        "budget_subsidy_parity_worst_tier": "mid",
+        "budget_subsidy_parity_disparity": 0.0045,
+        "budget_subsidy_parity_worst_tier": "premium",
         "subsidy_to_parity": 0.4
       },
       "layout": {
@@ -74,34 +74,34 @@
       }
     },
     "shopping_8ch_16kW_world": {
-      "lp_success": 32,
-      "n_days": 32,
+      "lp_success": 255,
+      "n_days": 256,
       "mean_customers_per_day": 0.0,
-      "profit_optimal_disparity_dayavg": 0.0324,
+      "profit_optimal_disparity_dayavg": 0.0403,
       "worst_tier_days": {
-        "budget": 15,
-        "mid": 11,
-        "premium": 6
+        "budget": 124,
+        "mid": 70,
+        "premium": 61
       },
-      "budget_worst_fraction": 0.46875,
+      "budget_worst_fraction": 0.48627450980392156,
       "revenue_pof_pct": {
         "median": 0.0,
-        "iqr": 1.0259897757555942,
-        "min": -1.8029504415681508e-14,
-        "max": 10.551996037702787
+        "iqr": 0.43152259569126006,
+        "min": -2.0192565103578247e-14,
+        "max": 20.106725115400547
       },
       "delivered_energy_max_dev_kwh": {
         "median": 0.0,
-        "iqr": 1.7763568394002505e-14,
+        "iqr": 1.4210854715202004e-14,
         "min": 0.0,
-        "max": 5.684341886080802e-14
+        "max": 8.526512829121202e-14
       },
       "tariff_lever": {
-        "status_quo_disparity": 0.0324,
-        "income_neutral_disparity": 0.0259,
-        "income_neutral_worst_tier": "premium",
-        "budget_subsidy_parity_disparity": 0.0197,
-        "budget_subsidy_parity_worst_tier": "budget",
+        "status_quo_disparity": 0.0403,
+        "income_neutral_disparity": 0.0051,
+        "income_neutral_worst_tier": "mid",
+        "budget_subsidy_parity_disparity": 0.031,
+        "budget_subsidy_parity_worst_tier": "mid",
         "subsidy_to_parity": 0.4
       },
       "layout": {
@@ -110,21 +110,21 @@
       }
     },
     "highway_20ch_45kW_eu_highrate": {
-      "lp_success": 32,
-      "n_days": 32,
+      "lp_success": 256,
+      "n_days": 256,
       "mean_customers_per_day": 0.0,
-      "profit_optimal_disparity_dayavg": 0.2195,
+      "profit_optimal_disparity_dayavg": 0.2074,
       "worst_tier_days": {
-        "budget": 25,
-        "mid": 7,
-        "premium": 0
+        "budget": 200,
+        "mid": 52,
+        "premium": 4
       },
       "budget_worst_fraction": 0.78125,
       "revenue_pof_pct": {
-        "median": 6.130337406690003,
-        "iqr": 5.01115125934384,
-        "min": 0.4607113257906327,
-        "max": 13.280698241833486
+        "median": 6.059661203775665,
+        "iqr": 5.076142507821264,
+        "min": 0.08881945449203396,
+        "max": 15.09735483582485
       },
       "delivered_energy_max_dev_kwh": {
         "median": 0.0,
@@ -133,10 +133,10 @@
         "max": 1.1368683772161603e-13
       },
       "tariff_lever": {
-        "status_quo_disparity": 0.2195,
-        "income_neutral_disparity": 0.0123,
-        "income_neutral_worst_tier": "mid",
-        "budget_subsidy_parity_disparity": 0.1699,
+        "status_quo_disparity": 0.2074,
+        "income_neutral_disparity": 0.0039,
+        "income_neutral_worst_tier": "budget",
+        "budget_subsidy_parity_disparity": 0.1528,
         "budget_subsidy_parity_worst_tier": "mid",
         "subsidy_to_parity": 0.4
       },
@@ -144,151 +144,43 @@
         "n_evses": 10,
         "grid_kw": 45.0
       }
-    },
-    "acn_data_caltech_8ch_30kW": {
-      "lp_success": 32,
-      "n_days": 32,
-      "mean_customers_per_day": 0.0,
-      "profit_optimal_disparity_dayavg": 0.2905,
-      "worst_tier_days": {
-        "budget": 27,
-        "mid": 3,
-        "premium": 2
-      },
-      "budget_worst_fraction": 0.84375,
-      "revenue_pof_pct": {
-        "median": 4.190927717805656,
-        "iqr": 7.1100421105520635,
-        "min": 0.0,
-        "max": 20.01210648400747
-      },
-      "delivered_energy_max_dev_kwh": {
-        "median": 0.0,
-        "iqr": 0.0,
-        "min": 0.0,
-        "max": 0.0
-      },
-      "tariff_lever": {
-        "status_quo_disparity": 0.2905,
-        "income_neutral_disparity": 0.0144,
-        "income_neutral_worst_tier": "budget",
-        "budget_subsidy_parity_disparity": 0.1412,
-        "budget_subsidy_parity_worst_tier": "budget",
-        "subsidy_to_parity": 0.4
-      },
-      "layout": {
-        "source": "Caltech ACN-Data (Lee et al. 2019), site=caltech",
-        "path": "acn_caltech.json",
-        "real_from_acn": [
-          "arrival_time_of_day (workday/weekend separately)",
-          "arrival_rate_per_day",
-          "connection_time",
-          "energy_demand"
-        ],
-        "modelled": [
-          "vehicle_fleet (Chargax US mix; ACN-Data records sessions, not vehicle models)",
-          "ability_to_pay_segment (chargax.equity.segments)"
-        ],
-        "dwell_energy_paired_from_same_session": true,
-        "median_dwell_minutes": 313.39166259765625,
-        "median_energy_kwh": 9.944000244140625,
-        "sessions_in_dump": 31424,
-        "sessions_used": 27584,
-        "sessions_unparsed": 0,
-        "sessions_out_of_window": 3840,
-        "sessions_nonpositive": 0,
-        "energy_from_kWhRequested": 12907,
-        "energy_from_kWhDelivered_fallback": 14677,
-        "date_range_used": [
-          "2018-04-25",
-          "2020-02-29"
-        ],
-        "distinct_days": 674,
-        "distinct_workdays": 481,
-        "distinct_weekend_days": 193,
-        "energy_field_policy": "requested_then_delivered",
-        "mean_sessions_per_workday": 48.629937629937636,
-        "mean_sessions_per_weekend_day": 21.72538860103627
-      }
     }
-  },
-  "acn_provenance": {
-    "source": "Caltech ACN-Data (Lee et al. 2019), site=caltech",
-    "path": "acn_caltech.json",
-    "real_from_acn": [
-      "arrival_time_of_day (workday/weekend separately)",
-      "arrival_rate_per_day",
-      "connection_time",
-      "energy_demand"
-    ],
-    "modelled": [
-      "vehicle_fleet (Chargax US mix; ACN-Data records sessions, not vehicle models)",
-      "ability_to_pay_segment (chargax.equity.segments)"
-    ],
-    "dwell_energy_paired_from_same_session": true,
-    "median_dwell_minutes": 313.39166259765625,
-    "median_energy_kwh": 9.944000244140625,
-    "sessions_in_dump": 31424,
-    "sessions_used": 27584,
-    "sessions_unparsed": 0,
-    "sessions_out_of_window": 3840,
-    "sessions_nonpositive": 0,
-    "energy_from_kWhRequested": 12907,
-    "energy_from_kWhDelivered_fallback": 14677,
-    "date_range_used": [
-      "2018-04-25",
-      "2020-02-29"
-    ],
-    "distinct_days": 674,
-    "distinct_workdays": 481,
-    "distinct_weekend_days": 193,
-    "energy_field_policy": "requested_then_delivered",
-    "mean_sessions_per_workday": 48.629937629937636,
-    "mean_sessions_per_weekend_day": 21.72538860103627
   },
   "verdict": {
     "budget_worst_fraction_by_config": {
-      "reference_16ch_30kW_residential_eu": 0.96875,
-      "workplace_24ch_55kW_us": 0.38461538461538464,
-      "shopping_8ch_16kW_world": 0.46875,
-      "highway_20ch_45kW_eu_highrate": 0.78125,
-      "acn_data_caltech_8ch_30kW": 0.84375
+      "reference_16ch_30kW_residential_eu": 0.9140625,
+      "workplace_24ch_55kW_us": 0.3862433862433862,
+      "shopping_8ch_16kW_world": 0.48627450980392156,
+      "highway_20ch_45kW_eu_highrate": 0.78125
     },
     "disparate_impact_structural": false,
     "tariff_lever_by_config": {
       "reference_16ch_30kW_residential_eu": {
         "power_bound": true,
-        "status_quo_gap": 0.5666,
-        "income_neutral_reduction_pct": 90.9,
-        "budget_subsidy_reduction_pct": 43.6,
+        "status_quo_gap": 0.5454,
+        "income_neutral_reduction_pct": 97.9,
+        "budget_subsidy_reduction_pct": 43.5,
         "neutral_beats_subsidy": true
       },
       "workplace_24ch_55kW_us": {
         "power_bound": false,
-        "status_quo_gap": 0.0048,
-        "income_neutral_reduction_pct": -22.9,
-        "budget_subsidy_reduction_pct": -37.5,
-        "neutral_beats_subsidy": true
+        "status_quo_gap": 0.0052,
+        "income_neutral_reduction_pct": -30.8,
+        "budget_subsidy_reduction_pct": 13.5,
+        "neutral_beats_subsidy": false
       },
       "shopping_8ch_16kW_world": {
         "power_bound": false,
-        "status_quo_gap": 0.0324,
-        "income_neutral_reduction_pct": 20.1,
-        "budget_subsidy_reduction_pct": 39.2,
-        "neutral_beats_subsidy": false
+        "status_quo_gap": 0.0403,
+        "income_neutral_reduction_pct": 87.3,
+        "budget_subsidy_reduction_pct": 23.1,
+        "neutral_beats_subsidy": true
       },
       "highway_20ch_45kW_eu_highrate": {
         "power_bound": true,
-        "status_quo_gap": 0.2195,
-        "income_neutral_reduction_pct": 94.4,
-        "budget_subsidy_reduction_pct": 22.6,
-        "neutral_beats_subsidy": true
-      },
-      "acn_data_caltech_8ch_30kW": {
-        "power_bound": true,
-        "status_quo_gap": 0.2905,
-        "income_neutral_reduction_pct": 95.0,
-        "budget_subsidy_reduction_pct": 51.4,
+        "status_quo_gap": 0.2074,
+        "income_neutral_reduction_pct": 98.1,
+        "budget_subsidy_reduction_pct": 26.3,
         "neutral_beats_subsidy": true
       }
     },

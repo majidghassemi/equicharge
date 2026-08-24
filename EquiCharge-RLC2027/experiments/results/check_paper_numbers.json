@@ -1,0 +1,30 @@
+{
+  "total": 406,
+  "matched": 345,
+  "exempt": 61,
+  "missing": [],
+  "result_files": [
+    "DATA_MANIFEST.md",
+    "RESULTS.md",
+    "ablation.json",
+    "audit_capacity.json",
+    "audit_estimator_check.json",
+    "audit_estimator_check_acn.json",
+    "audit_grounding.json",
+    "audit_levers.json",
+    "audit_margin_greedy.json",
+    "audit_mechanism.json",
+    "audit_mechanism_acn.json",
+    "audit_offline.json",
+    "audit_optimal_face.json",
+    "audit_robustness.json",
+    "check.json",
+    "gate.json",
+    "learning_curve.json",
+    "results.json",
+    "results_acn.json",
+    "scarcity_severity.json",
+    "shape.json",
+    "verify_theory.json"
+  ]
+}

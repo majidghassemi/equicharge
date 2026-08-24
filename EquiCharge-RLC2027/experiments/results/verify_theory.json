@@ -1,0 +1,383 @@
+{
+  "n_days": 256,
+  "days_used": 256,
+  "day_key": 7,
+  "base_margins": [
+    0.6,
+    1.0,
+    1.5
+  ],
+  "chain": {
+    "max_chain_dev_kwh": 0.0,
+    "max_class_aggregate_dev_kwh": 0.0,
+    "max_revenue_dev": 4.547473508864641e-13,
+    "example_day": {
+      "chain": [
+        {
+          "margin": 1.5,
+          "class": [
+            "premium"
+          ],
+          "top_set": [
+            "premium"
+          ],
+          "E_V": 211.17884993553162,
+          "g_hat_V": 211.17884993553162,
+          "E_C": 211.17884993553162,
+          "abs_dev_kwh": 0.0
+        },
+        {
+          "margin": 1.0,
+          "class": [
+            "mid"
+          ],
+          "top_set": [
+            "mid",
+            "premium"
+          ],
+          "E_V": 257.63333463668823,
+          "g_hat_V": 257.63333463668823,
+          "E_C": 46.454484701156616,
+          "abs_dev_kwh": 0.0
+        },
+        {
+          "margin": 0.6,
+          "class": [
+            "budget"
+          ],
+          "top_set": [
+            "budget",
+            "mid",
+            "premium"
+          ],
+          "E_V": 291.46666717529297,
+          "g_hat_V": 291.46666717529297,
+          "E_C": 33.833332538604736,
+          "abs_dev_kwh": 0.0
+        }
+      ],
+      "revenue": 383.5227591276169,
+      "revenue_from_chain": 383.5227591276169
+    }
+  },
+  "magnitude_invariance": [
+    {
+      "margins": [
+        0.9,
+        1.0,
+        1.1
+      ],
+      "max_abs_dev_kwh": 0.0
+    },
+    {
+      "margins": [
+        0.8,
+        1.0,
+        1.2
+      ],
+      "max_abs_dev_kwh": 0.0
+    },
+    {
+      "margins": [
+        0.7,
+        1.0,
+        1.4
+      ],
+      "max_abs_dev_kwh": 0.0
+    },
+    {
+      "margins": [
+        0.6,
+        1.0,
+        1.5
+      ],
+      "max_abs_dev_kwh": 0.0
+    },
+    {
+      "margins": [
+        0.5,
+        1.0,
+        1.8
+      ],
+      "max_abs_dev_kwh": 0.0
+    },
+    {
+      "margins": [
+        0.4,
+        1.0,
+        2.0
+      ],
+      "max_abs_dev_kwh": 0.0
+    }
+  ],
+  "status_quo_worst_tier": {
+    "budget": 234,
+    "mid": 17,
+    "premium": 5
+  },
+  "residual_claimant": {
+    "max_abs_dev_kwh": 0.0,
+    "budget_energy_kwh_mean": 60.70795077690855
+  },
+  "corollary_i_premium_cap": [
+    {
+      "cap": 1.5,
+      "margins": [
+        0.6,
+        1.0,
+        1.5
+      ],
+      "lowest_margin_tiers": [
+        "budget"
+      ],
+      "claim_applies": true,
+      "budget_energy_max_abs_dev_kwh": 0.0,
+      "observed_worst": "budget",
+      "observed_worst_share": 0.9140625,
+      "worst_tier_counts": {
+        "budget": 234,
+        "mid": 17,
+        "premium": 5
+      }
+    },
+    {
+      "cap": 1.25,
+      "margins": [
+        0.6,
+        1.0,
+        1.25
+      ],
+      "lowest_margin_tiers": [
+        "budget"
+      ],
+      "claim_applies": true,
+      "budget_energy_max_abs_dev_kwh": 0.0,
+      "observed_worst": "budget",
+      "observed_worst_share": 0.91015625,
+      "worst_tier_counts": {
+        "budget": 233,
+        "mid": 18,
+        "premium": 5
+      }
+    },
+    {
+      "cap": 1.0,
+      "margins": [
+        0.6,
+        1.0,
+        1.0
+      ],
+      "lowest_margin_tiers": [
+        "budget"
+      ],
+      "claim_applies": true,
+      "budget_energy_max_abs_dev_kwh": 0.0,
+      "observed_worst": "budget",
+      "observed_worst_share": 0.9609375,
+      "worst_tier_counts": {
+        "budget": 246,
+        "mid": 5,
+        "premium": 5
+      }
+    },
+    {
+      "cap": 0.8,
+      "margins": [
+        0.6,
+        0.8,
+        0.8
+      ],
+      "lowest_margin_tiers": [
+        "budget"
+      ],
+      "claim_applies": true,
+      "budget_energy_max_abs_dev_kwh": 0.0,
+      "observed_worst": "budget",
+      "observed_worst_share": 0.95703125,
+      "worst_tier_counts": {
+        "budget": 245,
+        "mid": 6,
+        "premium": 5
+      }
+    }
+  ],
+  "corollary_ii_budget_subsidy": [
+    {
+      "subsidy": 0.0,
+      "margins": [
+        0.6,
+        1.0,
+        1.5
+      ],
+      "pooled_bottom_class": [
+        "budget"
+      ],
+      "pool_energy_max_abs_dev_kwh": 0.0,
+      "within_pool_energy_range_kwh_day0": 0.0,
+      "observed_worst": "budget",
+      "observed_worst_share": 0.9140625,
+      "worst_tier_counts": {
+        "budget": 234,
+        "mid": 17,
+        "premium": 5
+      }
+    },
+    {
+      "subsidy": 0.2,
+      "margins": [
+        0.8,
+        1.0,
+        1.5
+      ],
+      "pooled_bottom_class": [
+        "budget"
+      ],
+      "pool_energy_max_abs_dev_kwh": 0.0,
+      "within_pool_energy_range_kwh_day0": 0.0,
+      "observed_worst": "budget",
+      "observed_worst_share": 0.91015625,
+      "worst_tier_counts": {
+        "budget": 233,
+        "mid": 18,
+        "premium": 5
+      }
+    },
+    {
+      "subsidy": 0.4,
+      "margins": [
+        1.0,
+        1.0,
+        1.5
+      ],
+      "pooled_bottom_class": [
+        "budget",
+        "mid"
+      ],
+      "pool_energy_max_abs_dev_kwh": 0.0,
+      "within_pool_energy_range_kwh_day0": 46.45498734667373,
+      "observed_worst": "mid",
+      "observed_worst_share": 0.5,
+      "worst_tier_counts": {
+        "budget": 119,
+        "mid": 128,
+        "premium": 9
+      }
+    },
+    {
+      "subsidy": 0.6,
+      "margins": [
+        1.2,
+        1.0,
+        1.5
+      ],
+      "pooled_bottom_class": [
+        "mid"
+      ],
+      "pool_energy_max_abs_dev_kwh": 0.0,
+      "within_pool_energy_range_kwh_day0": 0.0,
+      "observed_worst": "mid",
+      "observed_worst_share": 0.9140625,
+      "worst_tier_counts": {
+        "budget": 17,
+        "mid": 234,
+        "premium": 5
+      }
+    },
+    {
+      "subsidy": 0.9,
+      "margins": [
+        1.5,
+        1.0,
+        1.5
+      ],
+      "pooled_bottom_class": [
+        "mid"
+      ],
+      "pool_energy_max_abs_dev_kwh": 0.0,
+      "within_pool_energy_range_kwh_day0": 0.0,
+      "observed_worst": "mid",
+      "observed_worst_share": 0.9296875,
+      "worst_tier_counts": {
+        "budget": 11,
+        "mid": 238,
+        "premium": 7
+      }
+    }
+  ],
+  "harm_relocated_within_pool": true,
+  "corollary_iii_flat": {
+    "chain_links": 1,
+    "total_energy_max_abs_dev_kwh": 0.0,
+    "every_tier_free_on_face_day0": true
+  },
+  "corollary_iv_price_of_fairness": {
+    "rows": [
+      {
+        "margins": [
+          0.6,
+          1.0,
+          1.5
+        ],
+        "price_of_fairness_pct": 10.509124471217547
+      },
+      {
+        "margins": [
+          0.9,
+          1.0,
+          1.1
+        ],
+        "price_of_fairness_pct": 2.7555577679871703
+      },
+      {
+        "margins": [
+          0.8,
+          1.0,
+          1.2
+        ],
+        "price_of_fairness_pct": 5.276149745924914
+      },
+      {
+        "margins": [
+          0.7,
+          1.0,
+          1.4
+        ],
+        "price_of_fairness_pct": 8.40312953980301
+      },
+      {
+        "margins": [
+          0.6,
+          1.0,
+          1.5
+        ],
+        "price_of_fairness_pct": 10.509124471217547
+      },
+      {
+        "margins": [
+          0.5,
+          1.0,
+          1.8
+        ],
+        "price_of_fairness_pct": 13.314009767033369
+      },
+      {
+        "margins": [
+          0.4,
+          1.0,
+          2.0
+        ],
+        "price_of_fairness_pct": 15.499899997233218
+      }
+    ],
+    "spread_pct": 12.744342229246048
+  },
+  "corollary_v_abundant": {
+    "grid_kw": 600.0,
+    "days": 32,
+    "max_shortfall_vs_own_ceiling_kwh": 0.0,
+    "max_revenue_minus_utilitarian_kwh": 0.0,
+    "max_abs_price_of_fairness": 0.0
+  },
+  "failures": [],
+  "all_checks_passed": true
+}
