@@ -276,6 +276,292 @@ def test_flat_tariff_does_not_increase_gap_and_vw_starves_low_payer():
     assert flat["group_disparity"] <= vw["group_disparity"] + 1e-6
 
 
+# ------------------------------------------------- margin-greedy online baseline
+def _scarce_env(grid_kw=20.0, n_evses=4, n_groups=3, price=(0.6, 1.0, 1.5)):
+    """A power-scarce three-tier site, small enough to roll out inside a test.
+
+    Four EVSEs of two connectors each can request far more than the grid connection,
+    so the policy is forced to ration and the tier ordering actually bites.
+    """
+    from chargax import EVSE, StationBattery, StationSplitter
+
+    station = ChargingStation(
+        max_kw_throughput=grid_kw,
+        efficiency=1.0,
+        connections=[
+            StationSplitter(
+                max_kw_throughput=grid_kw * 10,
+                efficiency=0.99,
+                connections=[EVSE(num_chargers=2, voltage=400, max_current=55, efficiency=0.99)
+                             for _ in range(n_evses)]
+                + [StationBattery(capacity_kw=150.0, max_kw_throughput=40.0, efficiency=0.97)],
+            )
+        ],
+    )
+    return EquiChargax(
+        station=station, welfare_alpha=0.0, lam=1.0, welfare_outer="rawlsian",
+        n_groups=n_groups, group_probs=(1 / n_groups,) * n_groups, price_by_group=price,
+        num_discretization_levels=4, allow_discharging=False,
+    )
+
+
+def _greedy_rollout(env, key, steps=None):
+    """Roll ``margin_greedy_policy`` out and return the per-tier inclusive means."""
+    from chargax.equity import baselines as B
+
+    steps = steps or env.max_episode_steps
+    obs, state = env.reset_env(key)
+
+    def step(carry, _):
+        k, st, ob = carry
+        k, ka, ks = jax.random.split(k, 3)
+        a = B.margin_greedy_policy(ka, env, st, ob)
+        ts, ns = env.step_env(ks, st, a)
+        return (k, ns, ts.observation), (ts.info["realized_util"], ts.info["realized_mask"],
+                                         ts.info["realized_group"], ts.info["rejected_per_group"])
+    _, (util, mask, grp, rej) = jax.lax.scan(step, (key, state, obs), None, length=steps)
+    util, mask, grp = np.array(util), np.array(mask), np.array(grp)
+    rejected = np.array(rej).reshape(-1, env.n_groups).sum(axis=0)
+    served, served_g = util[mask > 0], grp[mask > 0]
+    means = []
+    for g in range(env.n_groups):
+        s = served[served_g == g]
+        denom = len(s) + rejected[g]
+        means.append(float(s.sum() / denom) if denom > 0 else np.nan)
+    return np.array(means)
+
+
+def test_margin_levels_ranks_descending_and_groups_ties():
+    """Distinct margins rank strictly, equal margins share a level."""
+    from chargax.equity.baselines import _margin_levels
+
+    env = _scarce_env(price=(0.6, 1.0, 1.5))
+    assert _margin_levels(env) == [(1.5, [2]), (1.0, [1]), (0.6, [0])]
+    # A premium cap that compresses the top two tiers must make them peers, not rank
+    # one above the other on a floating-point tie.
+    capped = _scarce_env(price=(0.6, 1.0, 1.0))
+    assert _margin_levels(capped) == [(1.0, [1, 2]), (0.6, [0])]
+    flat = _scarce_env(price=(1.0, 1.0, 1.0))
+    assert _margin_levels(flat) == [(1.0, [0, 1, 2])]
+
+
+def test_margin_greedy_action_is_valid_and_jittable():
+    from chargax.equity import baselines as B
+
+    env = _scarce_env()
+    key = jax.random.PRNGKey(0)
+    obs, state = env.reset_env(key)
+    action = jax.jit(lambda k, s, o: B.margin_greedy_policy(k, env, s, o))(key, state, obs)
+    flat = jnp.concatenate([jnp.atleast_1d(a) for a in action["evses"]])
+    assert flat.shape[0] == env.station.num_chargers
+    assert int(flat.min()) >= 0 and int(flat.max()) <= env.num_discretization_levels
+
+
+def test_margin_greedy_never_requests_more_than_the_grid_allows():
+    """The whole point of the policy is that it rations, so it must stay in budget.
+
+    If the request overshot, the station would renormalize every charger proportionally
+    and the strict tier priority would be washed out. We check the delivered power the
+    action asks for against the grid limit at every step of a realized day.
+    """
+    from chargax.equity import baselines as B
+
+    env = _scarce_env()
+    key = jax.random.PRNGKey(3)
+    obs, state = env.reset_env(key)
+    limit = float(env.station.max_kw_throughput)
+    for _ in range(env.max_episode_steps):
+        key, ka, ks = jax.random.split(key, 3)
+        action = B.margin_greedy_policy(ka, env, state, obs)
+        evses = state.grid.evses_flat
+        levels = jnp.concatenate([jnp.atleast_1d(a) for a in action["evses"]]).astype(jnp.float32)
+        current = jnp.clip(levels / env.num_discretization_levels * evses.max_current,
+                           0.0, evses.car_max_current_intake)
+        asked_kw = float(jnp.sum(current * evses.voltage) / 1000.0)
+        battery_kw = float(jnp.sum(jnp.minimum(state.grid.batteries_flat.max_kw_throughput,
+                                               state.grid.batteries_flat.battery_now
+                                               / (env.minutes_per_timestep / 60.0))))
+        assert asked_kw <= limit + battery_kw + 1e-3, (asked_kw, limit, battery_kw)
+        ts, state = env.step_env(ks, state, action)
+        obs = ts.observation
+
+
+def test_margin_greedy_orders_satisfaction_by_tier_margin():
+    """The behavioural claim: revenue-greedy rationing starves the low-margin tier.
+
+    Under scarcity the day's per-tier satisfaction must come out ordered the same way
+    the tier margins are, budget worst and premium best. This is the online counterpart
+    of what the offline revenue optimum does, and it is why the policy is the right
+    status-quo baseline to audit.
+    """
+    env = _scarce_env()
+    means = _greedy_rollout(env, jax.random.PRNGKey(11))
+    assert np.all(np.isfinite(means)), means
+    assert means[0] <= means[1] + 1e-6, means   # budget no better than mid
+    assert means[1] <= means[2] + 1e-6, means   # mid no better than premium
+    assert means[2] - means[0] > 0.05, means    # and the gap is not a rounding artifact
+
+
+def test_margin_greedy_gap_shrinks_when_the_grid_stops_binding():
+    """The harm is a scarcity phenomenon, so it must fade as capacity grows."""
+    scarce = _greedy_rollout(_scarce_env(grid_kw=20.0), jax.random.PRNGKey(11))
+    ample = _greedy_rollout(_scarce_env(grid_kw=400.0), jax.random.PRNGKey(11))
+    assert (scarce.max() - scarce.min()) > (ample.max() - ample.min())
+
+
+# ------------------------------------------------ the chain identity (the theorem)
+# These exercise the helpers the released scripts actually use, so a regression in
+# experiments/verify_theory.py fails here rather than only in a long audit run.
+def _chain_helpers():
+    from experiments.verify_theory import (_base, build_face, class_energy_range, g_hat,
+                                           revenue_optimum, top_sets)
+    return _base, build_face, class_energy_range, g_hat, revenue_optimum, top_sets
+
+
+def _day(margins, grid_kw=30.0, mpt=5, horizon=8):
+    """One toy scarce day, plus the LP skeleton the chain results are read off."""
+    _base, _bf, _cer, _gh, _ro, _ts = _chain_helpers()
+    cust = _toy_customers()
+    return cust, _base(cust, grid_kw, mpt, horizon)
+
+
+def test_top_sets_are_nested_and_strictly_descending():
+    _b, _bf, _cer, _gh, _ro, top_sets = _chain_helpers()
+    chain = top_sets((0.6, 1.0, 1.5))
+    assert [lvl for lvl, _c, _V in chain] == [1.5, 1.0, 0.6]
+    assert [V for _l, _c, V in chain] == [(2,), (1, 2), (0, 1, 2)]
+    # Tiers priced the same share a margin class rather than being ranked on a tie.
+    capped = top_sets((0.6, 1.0, 1.0))
+    assert [c for _l, c, _V in capped] == [(1, 2), (0,)]
+
+
+def test_chain_identity_holds_at_the_revenue_optimum():
+    """E(V_l) = g_hat(V_l) for every top set: the structure the audit rests on.
+
+    The revenue optimum saturates the highest-margin class, then the two highest
+    together, and so on, so each class receives only what the classes above it left.
+    """
+    _b, _bf, _cer, g_hat, revenue_optimum, top_sets = _chain_helpers()
+    margins = (1.0, 3.0)
+    cust, base = _day(margins)
+    _x, _rev, per_tier = revenue_optimum(cust, base, margins)
+    for _lvl, _cls, V in top_sets(margins):
+        assert per_tier[list(V)].sum() == pytest.approx(g_hat(cust, base, V), abs=1e-6)
+
+
+def test_class_aggregate_identity():
+    """E(C_l) = g_hat(V_l) - g_hat(V_{l+1}): every optimum gives each class the same total."""
+    _b, _bf, _cer, g_hat, revenue_optimum, top_sets = _chain_helpers()
+    margins = (1.0, 3.0)
+    cust, base = _day(margins)
+    _x, _rev, per_tier = revenue_optimum(cust, base, margins)
+    chain = top_sets(margins)
+    bounds = [g_hat(cust, base, V) for _l, _c, V in chain]
+    for l, (_lvl, cls, _V) in enumerate(chain):
+        inner = bounds[l - 1] if l > 0 else 0.0
+        assert per_tier[list(cls)].sum() == pytest.approx(bounds[l] - inner, abs=1e-6)
+
+
+def test_chain_identity_telescopes_to_the_optimal_revenue():
+    """revenue = sum_l (v_l - v_{l+1}) g_hat(V_l), with v_{L+1} = 0.
+
+    This is what makes the chain equalities *characterize* the optimal face rather than
+    merely hold on it, and it catches a chain assembled in the wrong order.
+    """
+    _b, _bf, _cer, g_hat, revenue_optimum, top_sets = _chain_helpers()
+    margins = (1.0, 3.0)
+    cust, base = _day(margins)
+    _x, revenue, _per_tier = revenue_optimum(cust, base, margins)
+    chain = top_sets(margins)
+    levels = [lvl for lvl, _c, _V in chain] + [0.0]
+    predicted = sum((levels[l] - levels[l + 1]) * g_hat(cust, base, chain[l][2])
+                    for l in range(len(chain)))
+    assert revenue == pytest.approx(predicted, rel=1e-9, abs=1e-6)
+
+
+def test_chain_identity_survives_a_price_cap_and_a_subsidy():
+    """The identity is a property of the program, not of one tariff, so it must hold
+    under the altered tariffs the Levers corollary re-solves under."""
+    _b, _bf, _cer, g_hat, revenue_optimum, top_sets = _chain_helpers()
+    for margins in ((1.0, 1.0), (2.0, 1.0), (1.0, 3.0)):
+        cust, base = _day(margins)
+        per_tier = revenue_optimum(cust, base, margins)[2]
+        for _lvl, _cls, V in top_sets(margins):
+            assert per_tier[list(V)].sum() == pytest.approx(g_hat(cust, base, V), abs=1e-6), margins
+
+
+def test_margin_magnitudes_do_not_move_the_optimum():
+    """The optimal set depends on the tariff only through the ordering of the classes.
+
+    Two tariffs with the same order must deliver identical per-tier aggregates, which is
+    the half of the theorem that makes the elasticity sweep a verification rather than a
+    sensitivity analysis.
+    """
+    _b, _bf, _cer, _gh, revenue_optimum, _ts = _chain_helpers()
+    cust, base = _day((1.0, 3.0))
+    a = revenue_optimum(cust, base, (1.0, 3.0))[2]
+    b = revenue_optimum(cust, base, (1.0, 1.2))[2]
+    assert np.allclose(a, b, atol=1e-6), (a, b)
+
+
+def test_lowest_margin_class_is_the_residual_claimant():
+    """Corollary (Levers), base clause: the lowest-paying class gets what is left."""
+    _b, _bf, _cer, g_hat, revenue_optimum, _ts = _chain_helpers()
+    margins = (1.0, 3.0)
+    cust, base = _day(margins)
+    per_tier = revenue_optimum(cust, base, margins)[2]
+    expected = g_hat(cust, base, (0, 1)) - g_hat(cust, base, (1,))
+    assert per_tier[0] == pytest.approx(expected, abs=1e-6)
+
+
+def test_equal_margins_collapse_the_chain_and_free_every_tier():
+    """Corollary (Levers)(iii): with no ordering there is no residual claimant, and the
+    optimal face leaves every tier's aggregate free to move."""
+    _b, build_face, class_energy_range, g_hat, revenue_optimum, top_sets = _chain_helpers()
+    margins = (1.0, 1.0)
+    cust, base = _day(margins)
+    assert len(top_sets(margins)) == 1
+    per_tier = revenue_optimum(cust, base, margins)[2]
+    assert per_tier.sum() == pytest.approx(g_hat(cust, base, (0, 1)), abs=1e-6)
+    face = build_face(cust, base, margins)
+    for g in (0, 1):
+        lo, hi = class_energy_range(cust, base, face, (g,))
+        assert hi - lo > 1e-6, (g, lo, hi)
+
+
+def test_ordered_margins_pin_the_lowest_class_on_the_face():
+    """The mirror image: with a strict ordering the lowest class is pinned, so its
+    shortfall is a property of optimality and not of the solver's tie-break.
+
+    "Pinned" is checked against the face's own numerical slack. ``build_face`` writes
+    each chain equality as a pair of inequalities with a relative tolerance, so the
+    class aggregate can still wander by that much and no less. What carries the claim is
+    the contrast with the unordered tariff, where the same class is free to take
+    anything from nothing to the whole total.
+    """
+    _b, build_face, class_energy_range, g_hat, _ro, _ts = _chain_helpers()
+    cust, base = _day((1.0, 3.0))
+    total = g_hat(cust, base, (0, 1))
+
+    ordered = build_face(cust, base, (1.0, 3.0))
+    lo, hi = class_energy_range(cust, base, ordered, (0,))
+    assert hi - lo <= 1e-4 * total, (lo, hi)
+
+    flat = build_face(cust, base, (1.0, 1.0))
+    flo, fhi = class_energy_range(cust, base, flat, (0,))
+    assert (fhi - flo) > 0.5 * total          # unordered: essentially unconstrained
+    assert (hi - lo) < 1e-3 * (fhi - flo)     # ordered: pinned by comparison
+
+
+def test_lowest_margin_tier_is_the_one_served_out_of_the_residual():
+    """The same statement read in satisfaction terms: subsidize past parity and the harm
+    moves to whichever tier is now strictly lowest."""
+    starved = _solve("profit", price=(1.0, 3.0))["group_means"]
+    assert np.argmin(starved) == 0            # budget pays least, budget is starved
+    flipped = _solve("profit", price=(3.0, 1.0))["group_means"]
+    assert np.argmin(flipped) == 1            # subsidize past parity, the harm moves
+
+
 if __name__ == "__main__":
     import sys
     sys.exit(pytest.main([__file__, "-q"]))

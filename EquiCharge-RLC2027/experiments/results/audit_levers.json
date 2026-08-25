@@ -1,38 +1,38 @@
 {
   "day_set": {
-    "used": 32,
-    "requested": 32,
+    "used": 256,
+    "requested": 256,
     "seed": 7
   },
   "cells": {
     "statusquo_30kW": {
-      "between_tier_gap": 0.567,
-      "within_tier_gini": 0.27,
-      "overall_gini": 0.281
+      "between_tier_gap": 0.545,
+      "within_tier_gini": 0.261,
+      "overall_gini": 0.263
     },
     "flat_30kW": {
-      "between_tier_gap": 0.051,
-      "within_tier_gini": 0.205,
-      "overall_gini": 0.205
+      "between_tier_gap": 0.012,
+      "within_tier_gini": 0.204,
+      "overall_gini": 0.204
     },
     "statusquo_90kW": {
-      "between_tier_gap": 0.02,
-      "within_tier_gini": 0.042,
-      "overall_gini": 0.042
+      "between_tier_gap": 0.005,
+      "within_tier_gini": 0.04,
+      "overall_gini": 0.04
     },
     "flat_90kW": {
-      "between_tier_gap": 0.023,
-      "within_tier_gini": 0.041,
-      "overall_gini": 0.041
+      "between_tier_gap": 0.004,
+      "within_tier_gini": 0.04,
+      "overall_gini": 0.04
     }
   },
   "pricing_lever_30kW_sq_to_flat": {
-    "d_between_tier_gap": 0.516,
-    "d_within_tier_gini": 0.065
+    "d_between_tier_gap": 0.533,
+    "d_within_tier_gini": 0.057
   },
   "capacity_lever_sq_30_to_90kW": {
-    "d_between_tier_gap": 0.547,
-    "d_within_tier_gini": 0.228
+    "d_between_tier_gap": 0.54,
+    "d_within_tier_gini": 0.221
   },
   "pricing_orthogonal_to_within": true,
   "capacity_orthogonal_to_between": false,

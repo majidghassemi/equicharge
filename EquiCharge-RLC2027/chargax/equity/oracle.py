@@ -58,6 +58,12 @@ import numpy as np
 from chargax.equity import welfare as W
 
 
+#: Compiled arrival-stream rollouts, keyed by ``(id(env), id(policy), max_steps)``.
+#: The value keeps strong references to the env and the policy so those ids stay
+#: valid for the life of the process. See :func:`extract_arrival_stream`.
+_ROLLOUT_CACHE: dict = {}
+
+
 @dataclass
 class Customer:
     arrival_step: int
@@ -81,6 +87,11 @@ def extract_arrival_stream(env, key, policy=None, max_steps: int | None = None) 
     policy = policy or max_charge_policy
     max_steps = max_steps or env.max_episode_steps
 
+    compiled = _ROLLOUT_CACHE.get((id(env), id(policy), max_steps))
+    if compiled is not None:
+        masks, desired, window, pmax, group = compiled[2](key)
+        return _customers_from_log(masks, desired, window, pmax, group)
+
     def rollout(key):
         obs, state = env.reset_env(key)
 
@@ -101,7 +112,17 @@ def extract_arrival_stream(env, key, policy=None, max_steps: int | None = None) 
         _, logs = jax.lax.scan(step, (key, state, obs), None, length=max_steps)
         return logs
 
-    masks, desired, window, pmax, group = jax.jit(rollout)(key)
+    jitted = jax.jit(rollout)
+    # Keep the compiled rollout, and strong references to the objects its identity key
+    # is built from. Without this every call would compile a fresh executable, and a
+    # 256-day sweep accumulates 256 of them until the process runs out of memory.
+    _ROLLOUT_CACHE[(id(env), id(policy), max_steps)] = (env, policy, jitted)
+    masks, desired, window, pmax, group = jitted(key)
+    return _customers_from_log(masks, desired, window, pmax, group)
+
+
+def _customers_from_log(masks, desired, window, pmax, group) -> list:
+    """Turn the per-step arrival log into the list of admitted customers."""
     masks = np.array(masks)
     desired = np.array(desired)
     window = np.array(window)

@@ -53,7 +53,9 @@ from experiments.run_experiments import _ref_env
 
 RESULTS = os.path.join(os.path.dirname(__file__), "results")
 NAMES = ("budget", "mid", "premium")
-N_DAYS = 32
+#: Days in the realized day set. ``EQUICHARGE_N_DAYS`` overrides it so the whole
+#: suite can be re-run at a larger day count without editing every script.
+N_DAYS = int(os.environ.get("EQUICHARGE_N_DAYS") or 32)
 STATUS_QUO = tuple(SEG.PRICE_BY_GROUP)  # (0.6, 1.0, 1.5)
 N_BOOT = 10000
 BOOT_SEED = 20260806

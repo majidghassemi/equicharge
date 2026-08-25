@@ -36,7 +36,9 @@ from experiments.common import acn_env_or_none, make_env, scarcity_station
 RESULTS = os.path.join(os.path.dirname(__file__), "results")
 GROUP_KW = dict(n_groups=3, group_probs=SEG.GROUP_PROBS, price_by_group=SEG.PRICE_BY_GROUP)
 NAMES = ("budget", "mid", "premium")
-N_DAYS = 32
+#: Days in the realized day set. ``EQUICHARGE_N_DAYS`` overrides it so the whole
+#: suite can be re-run at a larger day count without editing every script.
+N_DAYS = int(os.environ.get("EQUICHARGE_N_DAYS") or 32)
 
 # Genuinely different sites: charger count, grid kW, and the data-generating process
 # (user profile, arrivals per day, vehicle fleet). Grids chosen to stay power-scarce.

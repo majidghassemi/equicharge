@@ -1,63 +1,63 @@
 {
   "check1_rotation": {
     "reference_16ch_30kW_residential_eu": {
-      "days": 32,
-      "per_day_gap_median": 0.558,
+      "days": 256,
+      "per_day_gap_median": 0.593,
       "per_day_gap_max": 1.0,
-      "day_averaged_gap": 0.567,
+      "day_averaged_gap": 0.545,
       "worst_tier_counts": {
-        "budget": 31,
-        "mid": 1,
-        "premium": 0
+        "budget": 234,
+        "mid": 17,
+        "premium": 5
       },
       "dominant_worst_tier": "budget",
-      "dominant_fraction": 0.97,
-      "worst_tier_entropy": 0.13,
+      "dominant_fraction": 0.91,
+      "worst_tier_entropy": 0.31,
       "reading": "systematic between-tier (stable worst tier)"
     },
     "workplace_24ch_55kW_us": {
-      "days": 26,
-      "per_day_gap_median": 0.073,
-      "per_day_gap_max": 0.149,
+      "days": 189,
+      "per_day_gap_median": 0.068,
+      "per_day_gap_max": 0.249,
       "day_averaged_gap": 0.005,
       "worst_tier_counts": {
-        "budget": 10,
-        "mid": 7,
-        "premium": 9
+        "budget": 73,
+        "mid": 58,
+        "premium": 58
       },
       "dominant_worst_tier": "budget",
-      "dominant_fraction": 0.38,
+      "dominant_fraction": 0.39,
       "worst_tier_entropy": 0.99,
       "reading": "NON-SYSTEMATIC / rotating (day-averaging hides per-day harm)"
     },
     "shopping_8ch_16kW_world": {
-      "days": 32,
-      "per_day_gap_median": 0.187,
-      "per_day_gap_max": 0.45,
-      "day_averaged_gap": 0.032,
+      "days": 255,
+      "per_day_gap_median": 0.141,
+      "per_day_gap_max": 1.0,
+      "day_averaged_gap": 0.04,
       "worst_tier_counts": {
-        "budget": 15,
-        "mid": 11,
-        "premium": 6
+        "budget": 124,
+        "mid": 70,
+        "premium": 61
       },
       "dominant_worst_tier": "budget",
-      "dominant_fraction": 0.47,
-      "worst_tier_entropy": 0.94,
+      "dominant_fraction": 0.49,
+      "worst_tier_entropy": 0.95,
       "reading": "NON-SYSTEMATIC / rotating (day-averaging hides per-day harm)"
     },
     "highway_20ch_45kW_eu_highrate": {
-      "days": 32,
-      "per_day_gap_median": 0.273,
-      "per_day_gap_max": 0.466,
-      "day_averaged_gap": 0.219,
+      "days": 256,
+      "per_day_gap_median": 0.239,
+      "per_day_gap_max": 0.548,
+      "day_averaged_gap": 0.207,
       "worst_tier_counts": {
-        "budget": 25,
-        "mid": 7,
-        "premium": 0
+        "budget": 200,
+        "mid": 52,
+        "premium": 4
       },
       "dominant_worst_tier": "budget",
       "dominant_fraction": 0.78,
-      "worst_tier_entropy": 0.48,
+      "worst_tier_entropy": 0.53,
       "reading": "systematic between-tier (stable worst tier)"
     }
   },
@@ -108,14 +108,14 @@
     }
   },
   "check3_crack": {
-    "committed_(0.6,1.0,1.5)": 0.5666,
+    "committed_(0.6,1.0,1.5)": 0.5454,
     "eta0.6_raw": {
       "margins": [
         0.6,
         1.0,
         1.499
       ],
-      "gap": 0.5644
+      "gap": 0.5459
     },
     "eta0.6_rounded": {
       "margins": [
@@ -123,7 +123,7 @@
         1.0,
         1.5
       ],
-      "gap": 0.5666
+      "gap": 0.5454
     },
     "cause": "LP tie-breaking on the infinitesimal premium difference (1.5 vs 1.499)",
     "fix": "use round_to=1 in the invariance sweep so eta=0.6 == committed reference",

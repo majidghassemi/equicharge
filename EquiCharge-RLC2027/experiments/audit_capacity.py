@@ -35,7 +35,9 @@ from experiments.common import evaluate_policy
 from experiments.run_experiments import _ref_env
 
 RESULTS = os.path.join(os.path.dirname(__file__), "results")
-N_DAYS = 32
+#: Days in the realized day set. ``EQUICHARGE_N_DAYS`` overrides it so the whole
+#: suite can be re-run at a larger day count without editing every script.
+N_DAYS = int(os.environ.get("EQUICHARGE_N_DAYS") or 32)
 STATUS_QUO = (0.6, 1.0, 1.5)
 GRIDS = [16, 20, 24, 30, 40, 50, 60, 70, 80, 100, 120, 200, 600]  # kW; 600 = abundant floor
 

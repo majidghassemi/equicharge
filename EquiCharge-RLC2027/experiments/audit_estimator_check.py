@@ -41,6 +41,10 @@ from experiments.common import acn_env_or_none
 from experiments.run_experiments import _ref_env
 
 RESULTS = os.path.join(os.path.dirname(__file__), "results")
+#: Days in the realized day set for CHECK 1 and CHECK 3. ``EQUICHARGE_N_DAYS``
+#: overrides it so the whole suite can be re-run at a larger day count. CHECK 2
+#: sweeps its own ladder of day counts and is deliberately left alone.
+N_DAYS = int(os.environ.get("EQUICHARGE_N_DAYS") or 32)
 NAMES = ("budget", "mid", "premium")
 
 
@@ -94,7 +98,7 @@ def main(use_acn: bool = False):
     if acn is not None:
         sites.append(("acn_data_caltech_8ch_30kW", acn[0]))
     for name, env in sites:
-        streams = _streams(env, jax.random.PRNGKey(7), 32)
+        streams = _streams(env, jax.random.PRNGKey(7), N_DAYS)
         base = tuple(env.price_by_group)
         perday, worst, davg = _gaps(streams, base)
         wc = Counter(worst)
@@ -145,7 +149,7 @@ def main(use_acn: bool = False):
 
     # ---- CHECK 3: the 0.564 vs 0.567 crack ----
     print("\n=== CHECK 3: the 0.564 vs 0.567 crack (same config, two values) ===")
-    streams = _streams(ref, jax.random.PRNGKey(7), 32)
+    streams = _streams(ref, jax.random.PRNGKey(7), N_DAYS)
     _, _, g_committed = _gaps(streams, (0.6, 1.0, 1.5))
     m_raw = SEG.derive_price_multipliers(elasticity=0.6, round_to=None)
     _, _, g_raw = _gaps(streams, m_raw)
