@@ -188,23 +188,43 @@ def plot_grounding(M):
     S.savefig(fig, os.path.join(FIGDIR, "grounding_invariance.png"))
 
 
-def plot_scarcity_boundary(rob, chk):
+def plot_scarcity_boundary(rob, chk, acn_chk=None, acn_mech=None):
     """Two measures of the gap per site: systematic (day-averaged, clay) vs typical per-day
     (gray). Equal -> systematic disparate impact; per-day >> systematic -> rotating (within-pop).
 
     Horizontal bars, so five site names set at full size with no rotation and no collision in
-    a 3.3in column. Sites are listed power-bound first. The ACN-Data site is included whenever
-    both inputs carry it, so the figure cannot show four sites while the text describes five."""
+    a 3.3in column. Sites are listed power-bound first.
+
+    Both bars for a given site must come from the SAME run. The ACN-Data configuration needs
+    the Caltech dataset and is skipped when it is absent, so its files can be a full run
+    behind the rest; its row is therefore taken from the ACN files explicitly and its day
+    count is reported, rather than letting a stale superset file supply every site's bars.
+    That substitution is what once put this figure's numbers a run behind the sites table."""
     order = [("reference", "reference_16ch_30kW_residential_eu"),
              ("ACN-Data", "acn_data_caltech_8ch_30kW"),
              ("highway", "highway_20ch_45kW_eu_highrate"),
              ("workplace", "workplace_24ch_55kW_us"),
              ("shopping", "shopping_8ch_16kW_world")]
-    order = [(l, c) for l, c in order
-             if c in rob["configs"] and c in chk["check1_rotation"]]
-    labels = [l for l, _ in order]
-    systm = [rob["configs"][c]["profit_optimal_disparity_dayavg"] for _, c in order]
-    perday = [chk["check1_rotation"][c]["per_day_gap_median"] for _, c in order]
+    ACN = "acn_data_caltech_8ch_30kW"
+    rows, day_counts = [], {}
+    for label, cfg in order:
+        if cfg == ACN:
+            # Only from the ACN files, and only when both halves are there.
+            if acn_chk and ACN in acn_chk.get("check1_rotation", {}) and acn_mech:
+                rows.append((label, acn_mech["box1"]["profit"]["gap"],
+                             acn_chk["check1_rotation"][ACN]["per_day_gap_median"]))
+                day_counts[label] = acn_chk["check1_rotation"][ACN].get("days")
+            continue
+        if cfg in rob["configs"] and cfg in chk["check1_rotation"]:
+            rows.append((label, rob["configs"][cfg]["profit_optimal_disparity_dayavg"],
+                         chk["check1_rotation"][cfg]["per_day_gap_median"]))
+            day_counts[label] = rob["configs"][cfg].get("n_days")
+    if len(set(day_counts.values())) > 1:
+        print("  [scarcity_boundary] NOTE: sites come from runs of different length, %s. "
+              "The caption must say so." % day_counts)
+    labels = [r[0] for r in rows]
+    systm = [r[1] for r in rows]
+    perday = [r[2] for r in rows]
     y = np.arange(len(order))[::-1]; h = 0.36
     fig, ax = plt.subplots(figsize=(W, _h(0.70)))
     ax.barh(y + h / 2, systm, h, color=HARM, edgecolor="white", linewidth=0.5, zorder=3,
@@ -326,8 +346,13 @@ def main(argv=None):
     plot_grounding(M)
     # The --acn estimator run repeats check 1 on the SAME bundled envs and adds the ACN
     # site, so it is a strict superset; prefer it so the figure matches the 5-site sweep.
-    chk = _load_optional("audit_estimator_check_acn.json") or _load("audit_estimator_check.json")
-    plot_scarcity_boundary(_load("audit_robustness.json"), chk)
+    # The bundled-data estimator run is authoritative for the bundled sites. The ACN files
+    # are consulted only for the ACN row, because that configuration is skipped whenever
+    # EQUICHARGE_ACN_JSON is unset and its files then lag the rest of the suite.
+    chk = _load("audit_estimator_check.json")
+    acn_chk = _load_optional("audit_estimator_check_acn.json")
+    acn_mech = _load_optional("audit_mechanism_acn.json")
+    plot_scarcity_boundary(_load("audit_robustness.json"), chk, acn_chk, acn_mech)
     plot_levers(_load("audit_levers.json"))
     plot_capacity(_load("audit_capacity.json"))
     if not a.outdir:

@@ -371,6 +371,67 @@ def find_source(target: str, results: dict, percentish: bool,
     return None
 
 
+#: Keys under which a released run records how many realized days it used. Different
+#: scripts spell it differently; all of them are checked.
+_DAY_KEYS = ("n_days", "days_used", "used_after_filter", "requested", "oracle_days",
+             "days", "n_days_used")
+
+
+def _day_counts(node, sink):
+    """Collect every day count a released run reports, wherever it is nested."""
+    if isinstance(node, dict):
+        for k, v in node.items():
+            if k in _DAY_KEYS and isinstance(v, (int, float)) and not isinstance(v, bool):
+                if 1 <= v <= 100000:
+                    sink.add(int(v))
+            _day_counts(v, sink)
+    elif isinstance(node, list):
+        for v in node:
+            _day_counts(v, sink)
+
+
+def check_run_lengths(results_dir: str) -> list:
+    """Every released run should cover the same realized days. Report the ones that do not.
+
+    This is the check that a numeral-level gate structurally cannot make. Figures are
+    images, so no amount of scanning the .tex will notice that a figure was drawn from a
+    run of a different length than the table beside it. What it can notice is that two
+    files in the released set disagree about how many days they cover, which is the
+    upstream cause. The ACN-Data configuration is exempt by name, because it is skipped
+    whenever EQUICHARGE_ACN_JSON is unset and is documented as lagging.
+    """
+    from collections import Counter
+
+    per_file = {}
+    for name in sorted(os.listdir(results_dir)):
+        if not name.endswith(".json") or name == REPORT_NAME:
+            continue
+        try:
+            data = json.load(open(os.path.join(results_dir, name), encoding="utf-8"))
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            continue
+        found: set = set()
+        _day_counts(data, found)
+        if found:
+            per_file[name] = sorted(found)
+
+    modal = Counter(d for n, ds in per_file.items()
+                    if "_acn" not in n for d in ds).most_common(1)
+    if not modal:
+        return []
+    expected = modal[0][0]
+    offenders = []
+    for name, days in per_file.items():
+        if "_acn" in name:
+            continue
+        odd = [d for d in days if d != expected]
+        # A file may legitimately mention other counts (a day-count ladder, a sub-sweep).
+        # Only flag one that never mentions the expected horizon at all.
+        if expected not in days and odd:
+            offenders.append({"file": name, "days_reported": days, "expected": expected})
+    return offenders
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--verbose", action="store_true", help="print where each number matched")
@@ -428,14 +489,28 @@ def main() -> int:
                 print("  MISSING %-10s line %-4d  %s\n            %s"
                       % (lit, item["line"], where, item["context"]))
 
+    # A figure cannot be scanned for numerals, so the gate checks the upstream cause
+    # instead: whether the released runs agree about how many days they cover.
+    stale = check_run_lengths(RESULTS)
+    if stale:
+        print("\nRUN-LENGTH MISMATCH. These released files do not cover the same realized")
+        print("days as the rest of the set, so any figure drawn from them disagrees with the")
+        print("tables:")
+        for row in stale:
+            print("  %-34s reports %s days, the set is at %d"
+                  % (row["file"], row["days_reported"], row["expected"]))
+    else:
+        print("\nrun lengths agree across the released set (ACN-Data files exempt by name)")
+
     print("\n%d numerals: %d matched, %d exempt, %d unaccounted for"
           % (total, matched, exempt, len(missing)))
     report = os.path.join(_DEFAULT_RESULTS, REPORT_NAME)
     json.dump({"total": total, "matched": matched, "exempt": exempt,
-               "missing": missing, "result_files": sorted(results)},
+               "missing": missing, "run_length_mismatches": stale,
+               "result_files": sorted(results)},
               open(report, "w"), indent=2)
     print("wrote", report)
-    if missing:
+    if missing or stale:
         print("\nGATE FAILED. Each number above is printed in the paper but is not produced by "
               "any released run.\nEither regenerate the result it should come from, correct the "
               "paper, or add it to ALLOWLIST\nwith a reason.")

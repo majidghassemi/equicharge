@@ -36,8 +36,35 @@ SITES = {
     "highway": (dict(n_evses=10, grid_kw=45.0),
                 dict(car_profile="eu", user_profile="highway", average_cars_per_day=60, grid_price_dataset="2023_NL")),
 }
-SITE_GAMMA = {"reference": 0.5666, "highway": 0.2199, "workplace": 0.0048, "shopping": 0.0297}
-# Gamma per site from experiments/results/audit_robustness.json (released run).
+#: The released run's config key for each site here. Gamma is READ from that run rather
+#: than copied into this file. A hardcoded copy is exactly how this figure came to plot
+#: one run's gaps against another run's table: the numbers were right when they were
+#: pasted and silently wrong the next time the audit was re-run at a different horizon.
+ROBUSTNESS_KEY = {
+    "reference": "reference_16ch_30kW_residential_eu",
+    "workplace": "workplace_24ch_55kW_us",
+    "shopping": "shopping_8ch_16kW_world",
+    "highway": "highway_20ch_45kW_eu_highrate",
+}
+
+
+def site_gamma():
+    """Per-site systematic tier gap, from the released robustness run.
+
+    Returns ``(gamma_by_site, n_days)``. Raises if the run is missing a site this script
+    plots, because a figure that quietly drops a site is worse than one that fails.
+    """
+    path = os.path.join(RESULTS, "audit_robustness.json")
+    configs = json.load(open(path))["configs"]
+    missing = [s for s, k in ROBUSTNESS_KEY.items() if k not in configs]
+    if missing:
+        raise SystemExit(
+            f"audit_robustness.json has no entry for {missing}. Re-run "
+            f"`python -m experiments.audit_robustness` before this script.")
+    gamma = {s: configs[k]["profit_optimal_disparity_dayavg"]
+             for s, k in ROBUSTNESS_KEY.items()}
+    days = {configs[k].get("n_days") for k in ROBUSTNESS_KEY.values()}
+    return gamma, (days.pop() if len(days) == 1 else sorted(days))
 
 
 def mean_daily_demand(env, key, n_days):
@@ -50,7 +77,11 @@ def mean_daily_demand(env, key, n_days):
 
 def main():
     key = jax.random.PRNGKey(7)
-    out = {"sites": {}, "capacity_sweep": []}
+    SITE_GAMMA, gamma_days = site_gamma()
+    out = {"sites": {}, "capacity_sweep": [],
+           "gamma_source": {"file": "audit_robustness.json", "n_days": gamma_days},
+           "demand_estimate_days": N_DAYS}
+    print(f"[gamma] read from audit_robustness.json ({gamma_days} realized days)")
 
     for name, (layout, data) in SITES.items():
         station = scarcity_station(grid_kw=layout["grid_kw"], n_evses=layout["n_evses"])

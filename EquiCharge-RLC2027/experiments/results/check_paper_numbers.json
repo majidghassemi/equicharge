@@ -3,6 +3,7 @@
   "matched": 345,
   "exempt": 61,
   "missing": [],
+  "run_length_mismatches": [],
   "result_files": [
     "DATA_MANIFEST.md",
     "RESULTS.md",
