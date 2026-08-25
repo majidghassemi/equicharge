@@ -72,6 +72,16 @@ intentionally deferred — these files hold the numbers; plotting is a separate 
 - `configs.{reference, workplace, shopping, highway}` — per config: layout, mean_customers_per_day, profit_optimal_disparity (median/iqr/min/max), worst_tier_days (day counts), budget_worst_fraction, revenue_pof_pct, delivered_energy_max_dev_kwh.
 - `verdict` — budget_worst_fraction_by_config, disparate_impact_structural (False), interpretation.
 
+## `scarcity_severity.json` — the unified demand-to-capacity axis
+- `sites.{reference, workplace, shopping, highway}` — `grid_kw`, `n_connectors`,
+  `mean_daily_demand_kwh`, `daily_capacity_kwh`, `demand_capacity_ratio`, `gamma`.
+- `gamma_source` — which released run the per-site gaps were READ from, and its day
+  count. They are no longer copied into the script by hand; a hardcoded copy is how the
+  figure once came to plot one run's gaps against another run's table.
+- `demand_estimate_days` — days used for the demand estimate only (the gaps come from
+  the robustness run, not from this script's own rollouts).
+- `capacity_sweep[]` — `grid_kw`, `rho`, `gamma` at the reference site.
+
 ## `verify_theory.json` — the structure theorem, checked day by day (32 days)
 - `chain_identity` — `days_checked`, `days_failed`, `max_abs_dev_kwh` and
   `median_abs_dev_kwh` for `|E(V_l) - g_hat(V_l)|` at the revenue optimum,

@@ -6,9 +6,9 @@
       "mean_daily_demand_kwh": 494.4,
       "daily_capacity_kwh": 720.0,
       "demand_capacity_ratio": 0.687,
-      "gamma": 0.5666,
+      "gamma": 0.5454,
       "sweep_gamma_at_same_rho": 0.5454,
-      "residual": 0.0212
+      "residual": 0.0
     },
     "workplace": {
       "grid_kw": 55.0,
@@ -16,9 +16,9 @@
       "mean_daily_demand_kwh": 344.6,
       "daily_capacity_kwh": 1320.0,
       "demand_capacity_ratio": 0.261,
-      "gamma": 0.0048,
+      "gamma": 0.0052,
       "sweep_gamma_at_same_rho": 0.0064,
-      "residual": -0.0016
+      "residual": -0.0012
     },
     "shopping": {
       "grid_kw": 16.0,
@@ -26,9 +26,9 @@
       "mean_daily_demand_kwh": 181.0,
       "daily_capacity_kwh": 384.0,
       "demand_capacity_ratio": 0.471,
-      "gamma": 0.0297,
+      "gamma": 0.0403,
       "sweep_gamma_at_same_rho": 0.2186,
-      "residual": -0.1889
+      "residual": -0.1783
     },
     "highway": {
       "grid_kw": 45.0,
@@ -36,9 +36,9 @@
       "mean_daily_demand_kwh": 1399.1,
       "daily_capacity_kwh": 1080.0,
       "demand_capacity_ratio": 1.296,
-      "gamma": 0.2199,
+      "gamma": 0.2074,
       "sweep_gamma_at_same_rho": 0.6809,
-      "residual": -0.461
+      "residual": -0.4735
     }
   },
   "capacity_sweep": [
@@ -108,9 +108,14 @@
       "gamma": 0.004
     }
   ],
+  "gamma_source": {
+    "file": "audit_robustness.json",
+    "n_days": 256
+  },
+  "demand_estimate_days": 8,
   "collapse_residual_max": {
     "site": "highway",
-    "residual": -0.461
+    "residual": -0.4735
   },
-  "interpretation": "rho does not collapse the two experiments onto one curve. Every site falls on or below the reference sweep read at the same rho (largest deviation: highway, -0.461), so a high demand-to-capacity ratio is necessary but not sufficient for a large systematic tier gap: the sweep is an upper envelope over rho, not a single boundary the sites lie on."
+  "interpretation": "rho does not collapse the two experiments onto one curve. Every site falls on or below the reference sweep read at the same rho (largest deviation: highway, -0.473), so a high demand-to-capacity ratio is necessary but not sufficient for a large systematic tier gap: the sweep is an upper envelope over rho, not a single boundary the sites lie on."
 }
