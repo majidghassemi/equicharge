@@ -3,7 +3,7 @@ comparison.
 
 The paper's capacity sweep (Figure "capacity_threshold") varies grid kW at the
 reference site, and the site comparison (Table "sites") varies everything at
-once. A reviewer can ask whether the four sites and the sweep tell one story or
+once. A reviewer can ask whether the site comparison and the sweep tell one story or
 two. This script puts both on the same x-axis, the demand-to-capacity ratio
 rho = (mean realized daily desired energy) / (P * 24h), and plots the
 systematic tier gap Gamma against it. If the scarcity story is right, the
@@ -159,7 +159,7 @@ def main():
 
 # ---------------------------------------------------------------- figure
 # House style, colours included, comes from experiments/plot_style.py: clay = the harm
-# (the tier gap), teal = the four sites read off the same curve. Like every other paper
+# (the tier gap), teal = the individual sites read off the same curve. Like every other paper
 # figure this one is drawn at its printed column width, so the offsets below are in
 # printed points and mean the same thing on the page as they do here.
 # Direct labels instead of a second legend; hand-placed so the four annotations clear
