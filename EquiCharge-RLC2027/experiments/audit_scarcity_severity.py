@@ -3,7 +3,7 @@ comparison.
 
 The paper's capacity sweep (Figure "capacity_threshold") varies grid kW at the
 reference site, and the site comparison (Table "sites") varies everything at
-once. A reviewer can ask whether the four sites and the sweep tell one story or
+once. A reviewer can ask whether the site comparison and the sweep tell one story or
 two. This script puts both on the same x-axis, the demand-to-capacity ratio
 rho = (mean realized daily desired energy) / (P * 24h), and plots the
 systematic tier gap Gamma against it. If the scarcity story is right, the
@@ -63,6 +63,11 @@ def site_gamma():
             f"`python -m experiments.audit_robustness` before this script.")
     gamma = {s: configs[k]["profit_optimal_disparity_dayavg"]
              for s, k in ROBUSTNESS_KEY.items()}
+    # The ACN-Data site lives in its own files, because that configuration is skipped
+    # whenever EQUICHARGE_ACN_JSON is unset.
+    acn_path = os.path.join(RESULTS, "audit_mechanism_acn.json")
+    if os.path.exists(acn_path):
+        gamma["acn"] = json.load(open(acn_path))["box1"]["profit"]["gap"]
     days = {configs[k].get("n_days") for k in ROBUSTNESS_KEY.values()}
     return gamma, (days.pop() if len(days) == 1 else sorted(days))
 
@@ -83,10 +88,25 @@ def main():
            "demand_estimate_days": N_DAYS}
     print(f"[gamma] read from audit_robustness.json ({gamma_days} realized days)")
 
-    for name, (layout, data) in SITES.items():
-        station = scarcity_station(grid_kw=layout["grid_kw"], n_evses=layout["n_evses"])
-        env = make_env(station, n_groups=3, price_by_group=(0.6, 1.0, 1.5),
-                       data_kwargs={**DEFAULT_DATA, **data})
+    # The ACN-Data site joins the panel only when the Caltech dump is available, because
+    # its rho has to be measured the same way as every other site's. Estimating it from
+    # the released provenance instead would put a derived point on an axis of measured
+    # ones, which is the very confusion this figure exists to resolve.
+    from experiments.common import acn_env_or_none
+    sites = [(n, layout, make_env(
+                  scarcity_station(grid_kw=layout["grid_kw"], n_evses=layout["n_evses"]),
+                  n_groups=3, price_by_group=(0.6, 1.0, 1.5),
+                  data_kwargs={**DEFAULT_DATA, **data}))
+             for n, (layout, data) in SITES.items()]
+    got = acn_env_or_none(30.0, 8, 4, verbose=False) if "acn" in SITE_GAMMA else None
+    if got is not None:
+        sites.append(("acn", dict(grid_kw=30.0, n_evses=8), got[0]))
+    out["acn_included"] = got is not None
+    if got is None:
+        print("[sites] ACN-Data omitted: its rho needs the Caltech dump "
+              "(set EQUICHARGE_ACN_JSON). Panel (c) shows the simulator sites only.")
+
+    for name, layout, env in sites:
         demand = mean_daily_demand(env, key, N_DAYS)
         cap = layout["grid_kw"] * 24.0
         out["sites"][name] = {
@@ -139,7 +159,7 @@ def main():
 
 # ---------------------------------------------------------------- figure
 # House style, colours included, comes from experiments/plot_style.py: clay = the harm
-# (the tier gap), teal = the four sites read off the same curve. Like every other paper
+# (the tier gap), teal = the individual sites read off the same curve. Like every other paper
 # figure this one is drawn at its printed column width, so the offsets below are in
 # printed points and mean the same thing on the page as they do here.
 # Direct labels instead of a second legend; hand-placed so the four annotations clear
@@ -149,7 +169,15 @@ LABEL_POS = {  # site -> (dx, dy, ha, va)
     "highway": (0, 7, "center", "bottom"),
     "shopping": (7, -1, "left", "center"),
     "workplace": (-6, 5, "right", "bottom"),
+    "acn": (7, 4, "left", "bottom"),
 }
+#: Used for any site without an explicit entry, so adding a site never crashes the plot.
+LABEL_POS_DEFAULT = (7, 0, "left", "center")
+
+#: Display names, where the JSON key is not what the paper calls the site. The boundary
+#: panel says "ACN-Data", so this one must too, or the two panels appear to plot
+#: different things.
+DISPLAY_NAME = {"acn": "ACN-Data"}
 
 
 def plot(out):
@@ -171,11 +199,13 @@ def plot(out):
     ax.axvline(1.0, ls=(0, (3, 2)), color=S.MUTED, lw=0.9, zorder=0)
     ax.plot(rhos, gaps, "-o", color=HARM, ms=3.6, zorder=3,
             label="reference site, capacity sweep")
+    # Never hardcode the count. The panel said "four sites" while its sibling panel drew
+    # five, which is the kind of contradiction a reviewer sees before anything else.
     ax.plot(site_rho, site_gam, "o", color=RELIEF, ms=5.5, mec="white", mew=0.8,
-            zorder=4, label="four sites (independent)")
+            zorder=4, label="%d sites (independent)" % len(site_rho))
     for name, s in out["sites"].items():
-        dx, dy, ha, va = LABEL_POS[name]
-        ax.annotate(name, (s["demand_capacity_ratio"], s["gamma"]),
+        dx, dy, ha, va = LABEL_POS.get(name, LABEL_POS_DEFAULT)
+        ax.annotate(DISPLAY_NAME.get(name, name), (s["demand_capacity_ratio"], s["gamma"]),
                     textcoords="offset points", xytext=(dx, dy),
                     ha=ha, va=va, fontsize=S.FS_ANNOT, color=S.INK)
 

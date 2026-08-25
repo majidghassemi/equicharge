@@ -39,6 +39,16 @@
       "gamma": 0.2074,
       "sweep_gamma_at_same_rho": 0.6809,
       "residual": -0.4735
+    },
+    "acn": {
+      "grid_kw": 30.0,
+      "n_connectors": 16,
+      "mean_daily_demand_kwh": 477.8,
+      "daily_capacity_kwh": 720.0,
+      "demand_capacity_ratio": 0.664,
+      "gamma": 0.254,
+      "sweep_gamma_at_same_rho": 0.5152,
+      "residual": -0.2612
     }
   },
   "capacity_sweep": [
@@ -113,6 +123,7 @@
     "n_days": 256
   },
   "demand_estimate_days": 8,
+  "acn_included": true,
   "collapse_residual_max": {
     "site": "highway",
     "residual": -0.4735

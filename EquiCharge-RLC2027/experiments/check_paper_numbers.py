@@ -146,9 +146,9 @@ def paper_numbers(path: str, strict: bool = False) -> list:
             # Percent detection has to read the whole line, since a table row or a long
             # paragraph can put the "\%" hundreds of characters after the numeral.
             inner = scope_for(i, scopes)
-            # Inside a labelled float, that float's source is authoritative. In strict
+            # Inside a labelled float, that float's sources are authoritative. In strict
             # mode, prose falls back to whatever its paragraph cites.
-            scope = (inner,) if inner else para.get(i)
+            scope = inner if inner else para.get(i)
             out.append({"literal": m.group(1), "line": i, "scope": scope,
                         "context": line.strip()[:120], "line_text": line})
     return out
@@ -232,15 +232,22 @@ def paragraph_scopes(raw: str) -> dict:
     return out
 
 
-def scope_for(line: int, scopes: list) -> str | None:
-    """The innermost labelled environment containing ``line`` that we have a source for."""
-    best, best_span = None, None
+def scope_for(line: int, scopes: list) -> tuple | None:
+    """The labels of the innermost labelled float containing ``line`` that we can source.
+
+    Returns a tuple, because a multi-panel float carries several labels and its shared
+    caption legitimately quotes all of them. Scoping such a caption to whichever panel
+    happened to be listed first would flag numbers that come from a sibling panel.
+    """
+    best, best_span = [], None
     for start, end, label in scopes:
         if start <= line <= end and label in SOURCES:
             span = end - start
             if best_span is None or span < best_span:
-                best, best_span = label, span
-    return best
+                best, best_span = [label], span
+            elif span == best_span and label not in best:
+                best.append(label)
+    return tuple(best) if best else None
 
 
 #: Quantile conventions a paper might legitimately have used. NumPy's default is

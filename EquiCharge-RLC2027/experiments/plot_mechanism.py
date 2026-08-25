@@ -26,6 +26,7 @@ import os
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 import numpy as np
 
 from experiments import plot_style as S
@@ -88,7 +89,7 @@ def plot_oracle(M):
     box1 = M["box1"]
     # Single-line names, and the right panel is given enough width to seat the longest of
     # them: breaking "utilitarian" mid-word to fit was worse to read than widening the panel.
-    objs = [("profit", "profit-optimal"), ("utilitarian", "utilitarian"),
+    objs = [("profit", "revenue-optimal"), ("utilitarian", "utilitarian"),
             ("maximin", "tier maximin"), ("egalitarian_equal", "strict equality")]
     xl = [l for _, l in objs]
     x = np.arange(len(objs)); w = 0.26
@@ -118,7 +119,7 @@ def plot_oracle(M):
     S.clean(ax2)
     ax2.set_xticks(x); ax2.set_xticklabels(xl)
     ax2.set_ylabel("revenue (€/day)"); ax2.set_ylim(0, max(revs) * 1.22)
-    S.label_line(ax2, x[0], revs[0], "revenue optimum", HARM, dy=9, ha="center", va="bottom")
+    S.label_line(ax2, x[0], revs[0], "revenue-optimal", HARM, dy=9, ha="center", va="bottom")
     S.savefig(fig, os.path.join(FIGDIR, "oracle_tradeoff.png"))
 
 
@@ -154,10 +155,9 @@ def plot_rate_design(M):
     ax.axvline(floor, ls=(0, (3, 2)), color=S.MUTED, lw=0.9, zorder=2)
     S.clean(ax, ygrid=False)
     ax.set_yticks(y); ax.set_yticklabels(labels)
-    ax.set_xlabel("profit-optimal tier gap")
+    ax.set_xlabel("revenue-optimal tier gap")
     ax.set_xlim(0, max(tips) * 1.22)
     ax.set_xticks(pick([0, 0.1, 0.2, 0.3, 0.4, 0.5], [0, 0.25, 0.5]))
-    from matplotlib.patches import Patch
     ax.legend(handles=[Patch(color=HARM, label=pick("budget still lowest", "still lowest")),
                        Patch(color=RELIEF, label=pick("budget rescued", "rescued"))],
               loc="lower right", borderaxespad=0.3)
@@ -219,25 +219,56 @@ def plot_scarcity_boundary(rob, chk, acn_chk=None, acn_mech=None):
             rows.append((label, rob["configs"][cfg]["profit_optimal_disparity_dayavg"],
                          chk["check1_rotation"][cfg]["per_day_gap_median"]))
             day_counts[label] = rob["configs"][cfg].get("n_days")
-    if len(set(day_counts.values())) > 1:
-        print("  [scarcity_boundary] NOTE: sites come from runs of different length, %s. "
-              "The caption must say so." % day_counts)
+    # A site can lose a day or two to the "every tier present" filter without coming from
+    # a different run, so compare horizons rather than exact counts: 255 against 256 is
+    # the same audit, 32 against 256 is not.
+    SAME_HORIZON = 0.9
+    longest = max([c for c in day_counts.values() if c] or [0])
+    is_short = {l: (c is not None and c < SAME_HORIZON * longest)
+                for l, c in day_counts.items()}
+    if any(is_short.values()):
+        print("  [scarcity_boundary] NOTE: sites come from runs of materially different "
+              "length, %s. The shorter ones are hatched in the figure; re-run with "
+              "EQUICHARGE_ACN_JSON set to put every site on the same horizon." % day_counts)
     labels = [r[0] for r in rows]
     systm = [r[1] for r in rows]
     perday = [r[2] for r in rows]
     y = np.arange(len(order))[::-1]; h = 0.36
+    # A site drawn from a materially shorter run is hatched, so the mixed horizon is
+    # visible in the chart itself. The caption discloses it too, but the chart is what
+    # gets scanned.
+    short = [is_short.get(l, False) for l in labels]
     fig, ax = plt.subplots(figsize=(W, _h(0.70)))
-    ax.barh(y + h / 2, systm, h, color=HARM, edgecolor="white", linewidth=0.5, zorder=3,
-            label=pick("systematic (day-averaged)", "systematic"))
-    ax.barh(y - h / 2, perday, h, color=S.MUTED, edgecolor="white", linewidth=0.5, zorder=3,
-            label=pick("typical per-day", "per-day"))
+    hatch = ["//" if sh else None for sh in short]
+    b_sys = ax.barh(y + h / 2, systm, h, color=HARM, edgecolor="white", linewidth=0.5, zorder=3,
+                    label=pick("systematic (day-averaged)", "systematic"))
+    b_day = ax.barh(y - h / 2, perday, h, color=S.MUTED, edgecolor="white", linewidth=0.5,
+                    zorder=3, label=pick("typical per-day", "per-day"))
+    for bars in (b_sys, b_day):
+        for bar, hh in zip(bars, hatch):
+            if hh:
+                bar.set_hatch(hh)
+                bar.set_edgecolor("white")
+    legend_extra = []
+    if any(short):
+        n_short = max(c for l, c in day_counts.items() if is_short.get(l))
+        n_full = longest
+        # A proxy patch, not an empty bar: an empty bar container takes the next colour
+        # from the cycle and drops the hatch, so the swatch comes out a solid off-palette
+        # block that reads as a third data series.
+        legend_extra.append(Patch(facecolor="white", edgecolor=S.INK, hatch="///",
+                                  linewidth=0.5,
+                                  label=pick("hatched: %d days, not %d" % (n_short, n_full),
+                                             "%d days" % n_short)))
     S.clean(ax, ygrid=False)
     ax.set_yticks(y); ax.set_yticklabels(labels)
     ax.set_xlabel("tier gap")
     ax.set_xlim(0, max(perday + systm) * 1.30)
     ax.set_xticks(pick([0, 0.1, 0.2, 0.3, 0.4, 0.5], [0, 0.25, 0.5]))
     # The two short bottom rows leave the lower right empty, so the legend costs no data space.
-    ax.legend(loc="lower right", borderaxespad=0.3)
+    handles, lbls = ax.get_legend_handles_labels()
+    ax.legend(handles + legend_extra, lbls + [p.get_label() for p in legend_extra],
+              loc="lower right", borderaxespad=0.3)
     S.savefig(fig, os.path.join(FIGDIR, "scarcity_boundary.png"))
 
 
@@ -255,7 +286,7 @@ def plot_levers(lev):
     b1 = ax.bar(x - w / 2, between, w, color=HARM, edgecolor="white", linewidth=0.5, zorder=3,
                 label=pick("between-tier gap", "between-tier"))
     b2 = ax.bar(x + w / 2, within, w, color=RELIEF, edgecolor="white", linewidth=0.5, zorder=3,
-                label=pick("within-tier Gini (oracle)", "within-tier"))
+                label=pick("within-population Gini (oracle)", "within-population"))
     S.label_bars(ax, list(b1) + list(b2), dy=0.008)
     S.clean(ax)
     ax.set_xticks(x); ax.set_xticklabels(groups)

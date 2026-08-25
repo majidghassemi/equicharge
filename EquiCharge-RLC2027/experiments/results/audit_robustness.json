@@ -144,14 +144,115 @@
         "n_evses": 10,
         "grid_kw": 45.0
       }
+    },
+    "acn_data_caltech_8ch_30kW": {
+      "lp_success": 255,
+      "n_days": 256,
+      "mean_customers_per_day": 0.0,
+      "profit_optimal_disparity_dayavg": 0.2537,
+      "worst_tier_days": {
+        "budget": 217,
+        "mid": 23,
+        "premium": 15
+      },
+      "budget_worst_fraction": 0.8509803921568627,
+      "revenue_pof_pct": {
+        "median": 3.503202051268562,
+        "iqr": 7.312353423810084,
+        "min": 0.0,
+        "max": 20.01210648400747
+      },
+      "delivered_energy_max_dev_kwh": {
+        "median": 0.0,
+        "iqr": 0.0,
+        "min": 0.0,
+        "max": 5.684341886080802e-14
+      },
+      "tariff_lever": {
+        "status_quo_disparity": 0.2537,
+        "income_neutral_disparity": 0.0051,
+        "income_neutral_worst_tier": "premium",
+        "budget_subsidy_parity_disparity": 0.1226,
+        "budget_subsidy_parity_worst_tier": "mid",
+        "subsidy_to_parity": 0.4
+      },
+      "layout": {
+        "source": "Caltech ACN-Data (Lee et al. 2019), site=caltech",
+        "path": "acn_caltech.json",
+        "real_from_acn": [
+          "arrival_time_of_day (workday/weekend separately)",
+          "arrival_rate_per_day",
+          "connection_time",
+          "energy_demand"
+        ],
+        "modelled": [
+          "vehicle_fleet (Chargax US mix; ACN-Data records sessions, not vehicle models)",
+          "ability_to_pay_segment (chargax.equity.segments)"
+        ],
+        "dwell_energy_paired_from_same_session": true,
+        "median_dwell_minutes": 313.39166259765625,
+        "median_energy_kwh": 9.944000244140625,
+        "sessions_in_dump": 31424,
+        "sessions_used": 27584,
+        "sessions_unparsed": 0,
+        "sessions_out_of_window": 3840,
+        "sessions_nonpositive": 0,
+        "energy_from_kWhRequested": 12907,
+        "energy_from_kWhDelivered_fallback": 14677,
+        "date_range_used": [
+          "2018-04-25",
+          "2020-02-29"
+        ],
+        "distinct_days": 674,
+        "distinct_workdays": 481,
+        "distinct_weekend_days": 193,
+        "energy_field_policy": "requested_then_delivered",
+        "mean_sessions_per_workday": 48.629937629937636,
+        "mean_sessions_per_weekend_day": 21.72538860103627
+      }
     }
+  },
+  "acn_provenance": {
+    "source": "Caltech ACN-Data (Lee et al. 2019), site=caltech",
+    "path": "acn_caltech.json",
+    "real_from_acn": [
+      "arrival_time_of_day (workday/weekend separately)",
+      "arrival_rate_per_day",
+      "connection_time",
+      "energy_demand"
+    ],
+    "modelled": [
+      "vehicle_fleet (Chargax US mix; ACN-Data records sessions, not vehicle models)",
+      "ability_to_pay_segment (chargax.equity.segments)"
+    ],
+    "dwell_energy_paired_from_same_session": true,
+    "median_dwell_minutes": 313.39166259765625,
+    "median_energy_kwh": 9.944000244140625,
+    "sessions_in_dump": 31424,
+    "sessions_used": 27584,
+    "sessions_unparsed": 0,
+    "sessions_out_of_window": 3840,
+    "sessions_nonpositive": 0,
+    "energy_from_kWhRequested": 12907,
+    "energy_from_kWhDelivered_fallback": 14677,
+    "date_range_used": [
+      "2018-04-25",
+      "2020-02-29"
+    ],
+    "distinct_days": 674,
+    "distinct_workdays": 481,
+    "distinct_weekend_days": 193,
+    "energy_field_policy": "requested_then_delivered",
+    "mean_sessions_per_workday": 48.629937629937636,
+    "mean_sessions_per_weekend_day": 21.72538860103627
   },
   "verdict": {
     "budget_worst_fraction_by_config": {
       "reference_16ch_30kW_residential_eu": 0.9140625,
       "workplace_24ch_55kW_us": 0.3862433862433862,
       "shopping_8ch_16kW_world": 0.48627450980392156,
-      "highway_20ch_45kW_eu_highrate": 0.78125
+      "highway_20ch_45kW_eu_highrate": 0.78125,
+      "acn_data_caltech_8ch_30kW": 0.8509803921568627
     },
     "disparate_impact_structural": false,
     "tariff_lever_by_config": {
@@ -181,6 +282,13 @@
         "status_quo_gap": 0.2074,
         "income_neutral_reduction_pct": 98.1,
         "budget_subsidy_reduction_pct": 26.3,
+        "neutral_beats_subsidy": true
+      },
+      "acn_data_caltech_8ch_30kW": {
+        "power_bound": true,
+        "status_quo_gap": 0.2537,
+        "income_neutral_reduction_pct": 98.0,
+        "budget_subsidy_reduction_pct": 51.7,
         "neutral_beats_subsidy": true
       }
     },
