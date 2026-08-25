@@ -113,6 +113,7 @@
     "n_days": 256
   },
   "demand_estimate_days": 8,
+  "acn_included": false,
   "collapse_residual_max": {
     "site": "highway",
     "residual": -0.4735

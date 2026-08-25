@@ -326,7 +326,7 @@ tariff design & margins & spread & $\Gamma$ & worst tier (share) \\
 tiered (status quo)      & 0.6, 1.0, 1.5 & 0.9 & 0.55 [0.51, 0.58] & budget (1.00) \\
 premium cap to middle    & 0.6, 1.0, 1.0 & 0.4 & 0.49 [0.46, 0.52] & budget (1.00) \\
 budget subsidy to parity & 1.0, 1.0, 1.5 & 0.5 & 0.31 [0.29, 0.34] & mid (0.53) \\
-income neutral (equal)   & all equal     & 0.0 & 0.01 [0.00, 0.03] & none (roams) \\
+income neutral (equal)   & all equal     & 0.0 & 0.01 [0.00, 0.03] & budget (0.58) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -371,7 +371,7 @@ shopping (8 ch, 16 kW)   & 49\% & 0.040 & 0.14 & 0.95 & 0\% \\
 \caption{One severity axis, and its limit.}
 \label{fig:severity}
 \end{subfigure}
-\caption{The mechanism and its scope. (\subref{fig:tariff}) Bars colored by whether the budget tier stays the strictly lowest-priced rank (clay) or is lifted out of it (teal); spreads 0.9, 0.4, 0.5, 0.0, so the premium cap compresses the spread \emph{more} yet leaves the larger gap, and only income-neutral pricing reaches the floor (dashed). (\subref{fig:scarcity}) Systematic $\Gamma$ (clay) against typical per-day gap (gray), power-bound sites first: agreement marks a disparate impact, a large per-day gap with $\Gamma\approx 0$ marks rotating harm. ACN-Data is real US session data. (\subref{fig:severity}) $\Gamma$ against the demand-to-capacity ratio $\rho$: the reference sweep (clay) collapses between $\rho\approx 0.5$ and 0.35, and shopping and highway fall below it because a daily ratio is blind to temporal concentration.}
+\caption{The mechanism and its scope. (\subref{fig:tariff}) Bars colored by whether the budget tier stays the strictly lowest-priced rank (clay) or is lifted out of it (teal); spreads 0.9, 0.4, 0.5, 0.0, so the premium cap compresses the spread \emph{more} yet leaves the larger gap, and only income-neutral pricing reaches the floor (dashed). (\subref{fig:scarcity}) Systematic $\Gamma$ (clay) against typical per-day gap (gray), power-bound sites first: agreement marks a disparate impact, a large per-day gap with $\Gamma\approx 0$ marks rotating harm. ACN-Data is real US session data; its bars are hatched because that configuration needs the Caltech dump and its run covers 32 days against 256 for the rest. (\subref{fig:severity}) $\Gamma$ against the demand-to-capacity ratio $\rho$, for the four simulator sites only, since ACN-Data's $\rho$ has to be measured from the Caltech sessions the same way as the others rather than estimated. The reference sweep (clay) collapses between $\rho\approx 0.5$ and 0.35, and shopping and highway fall below it because a daily ratio is blind to temporal concentration. The reference site lands on its own sweep at $\rho\approx 0.69$ rather than beside it, which is worth noting: the sweep and the site audit are separate computations, so their agreeing at the one $\rho$ they share is a check that both read the same quantity.}
 \label{fig:mechanism}
 \end{figure*}
 
