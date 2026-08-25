@@ -21,9 +21,9 @@ __pycache__/
 *.swp
 
 # LaTeX build artifacts (the PDF is a build product; `make paper` regenerates it)
-paper/*.aux
-paper/*.bbl
-paper/*.blg
-paper/*.out
-paper/*.toc
-paper/*.pdf
+**/paper/*.aux
+**/paper/*.bbl
+**/paper/*.blg
+**/paper/*.out
+**/paper/*.toc
+**/paper/*.pdf
