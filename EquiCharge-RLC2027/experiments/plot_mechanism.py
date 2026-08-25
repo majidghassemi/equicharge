@@ -219,18 +219,25 @@ def plot_scarcity_boundary(rob, chk, acn_chk=None, acn_mech=None):
             rows.append((label, rob["configs"][cfg]["profit_optimal_disparity_dayavg"],
                          chk["check1_rotation"][cfg]["per_day_gap_median"]))
             day_counts[label] = rob["configs"][cfg].get("n_days")
-    if len(set(day_counts.values())) > 1:
-        print("  [scarcity_boundary] NOTE: sites come from runs of different length, %s. "
-              "The shorter ones are hatched in the figure; re-run with EQUICHARGE_ACN_JSON "
-              "set to put every site on the same horizon." % day_counts)
+    # A site can lose a day or two to the "every tier present" filter without coming from
+    # a different run, so compare horizons rather than exact counts: 255 against 256 is
+    # the same audit, 32 against 256 is not.
+    SAME_HORIZON = 0.9
+    longest = max([c for c in day_counts.values() if c] or [0])
+    is_short = {l: (c is not None and c < SAME_HORIZON * longest)
+                for l, c in day_counts.items()}
+    if any(is_short.values()):
+        print("  [scarcity_boundary] NOTE: sites come from runs of materially different "
+              "length, %s. The shorter ones are hatched in the figure; re-run with "
+              "EQUICHARGE_ACN_JSON set to put every site on the same horizon." % day_counts)
     labels = [r[0] for r in rows]
     systm = [r[1] for r in rows]
     perday = [r[2] for r in rows]
     y = np.arange(len(order))[::-1]; h = 0.36
-    # A site drawn from a shorter run is hatched, so the mixed horizon is visible in the
-    # chart itself. The caption discloses it too, but the chart is what gets scanned.
-    short = [d is not None and d < max(c for c in day_counts.values() if c) for d in
-             (day_counts.get(l) for l in labels)]
+    # A site drawn from a materially shorter run is hatched, so the mixed horizon is
+    # visible in the chart itself. The caption discloses it too, but the chart is what
+    # gets scanned.
+    short = [is_short.get(l, False) for l in labels]
     fig, ax = plt.subplots(figsize=(W, _h(0.70)))
     hatch = ["//" if sh else None for sh in short]
     b_sys = ax.barh(y + h / 2, systm, h, color=HARM, edgecolor="white", linewidth=0.5, zorder=3,
@@ -244,8 +251,8 @@ def plot_scarcity_boundary(rob, chk, acn_chk=None, acn_mech=None):
                 bar.set_edgecolor("white")
     legend_extra = []
     if any(short):
-        n_short = max(c for l, c in day_counts.items() if short[labels.index(l)])
-        n_full = max(c for c in day_counts.values() if c)
+        n_short = max(c for l, c in day_counts.items() if is_short.get(l))
+        n_full = longest
         # A proxy patch, not an empty bar: an empty bar container takes the next colour
         # from the cycle and drops the hatch, so the swatch comes out a solid off-palette
         # block that reads as a third data series.

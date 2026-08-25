@@ -174,6 +174,11 @@ LABEL_POS = {  # site -> (dx, dy, ha, va)
 #: Used for any site without an explicit entry, so adding a site never crashes the plot.
 LABEL_POS_DEFAULT = (7, 0, "left", "center")
 
+#: Display names, where the JSON key is not what the paper calls the site. The boundary
+#: panel says "ACN-Data", so this one must too, or the two panels appear to plot
+#: different things.
+DISPLAY_NAME = {"acn": "ACN-Data"}
+
 
 def plot(out):
     import matplotlib
@@ -200,7 +205,7 @@ def plot(out):
             zorder=4, label="%d sites (independent)" % len(site_rho))
     for name, s in out["sites"].items():
         dx, dy, ha, va = LABEL_POS.get(name, LABEL_POS_DEFAULT)
-        ax.annotate(name, (s["demand_capacity_ratio"], s["gamma"]),
+        ax.annotate(DISPLAY_NAME.get(name, name), (s["demand_capacity_ratio"], s["gamma"]),
                     textcoords="offset points", xytext=(dx, dy),
                     ha=ha, va=va, fontsize=S.FS_ANNOT, color=S.INK)
 

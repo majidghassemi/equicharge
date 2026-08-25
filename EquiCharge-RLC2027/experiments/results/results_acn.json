@@ -9,7 +9,7 @@
     "n_evses": 8,
     "grid_kw": 30.0,
     "num_disc": 4,
-    "oracle_days": 16,
+    "oracle_days": 256,
     "acn": true,
     "price_by_group": [
       0.6,
@@ -112,6 +112,29 @@
       "label": "least_laxity",
       "kind": "baseline"
     },
+    "margin_greedy": {
+      "welfare_mean": 0.5501260757446289,
+      "welfare_sem": 0.03350973172404896,
+      "profit_mean": 187.75674438476562,
+      "profit_sem": 9.56970090463574,
+      "served_mean_sat": 0.794717013835907,
+      "n_served": 1124,
+      "n_rejected": 278,
+      "rejection_rate": 0.19828815977175462,
+      "inclusive_mean_sat": 0.6371340023688493,
+      "min_sat": 0.0,
+      "worst10_sat": 0.0,
+      "gini": 0.3504263460636139,
+      "atkinson": 0.9520566463470459,
+      "group_means": [
+        0.5056577324867249,
+        0.6822118759155273,
+        0.7179610133171082
+      ],
+      "group_disparity": 0.2123032808303833,
+      "label": "margin_greedy",
+      "kind": "baseline"
+    },
     "saffe": {
       "welfare_mean": 0.5075610280036926,
       "welfare_sem": 0.022482430279658648,
@@ -139,214 +162,214 @@
   "oracle": {
     "label": "oracle (offline)",
     "profit": {
-      "mean_satisfaction": 0.8716850167001204,
-      "min_satisfaction": 0.15845088243523958,
-      "worst_segment_mean": 0.6506248672383338,
-      "group_disparity": 0.33394631754673376,
-      "revenue_value": 405.5776078365743,
-      "delivered_kwh": 369.19716074317694,
+      "mean_satisfaction": 0.8842534591770882,
+      "min_satisfaction": 0.23884658453729635,
+      "worst_segment_mean": 0.7230878810574548,
+      "group_disparity": 0.2535988999449994,
+      "revenue_value": 403.6738944011275,
+      "delivered_kwh": 369.6180691749323,
       "group_means": [
-        0.6506248672383338,
-        0.9599411954897166,
-        0.9845711847850676
+        0.7230878810574548,
+        0.9431881955463092,
+        0.9766867810024542
       ],
       "worst_segment_index": 0
     },
     "utilitarian": {
-      "mean_satisfaction": 0.9403826361009302,
-      "min_satisfaction": 0.17721709638246685,
-      "worst_segment_mean": 0.9081450522041521,
-      "group_disparity": 0.046959184259972586,
-      "revenue_value": 377.1116715550422,
-      "delivered_kwh": 369.19716074317694,
+      "mean_satisfaction": 0.9444833398681217,
+      "min_satisfaction": 0.2511299525649569,
+      "worst_segment_mean": 0.9390457521253661,
+      "group_disparity": 0.009362905029926982,
+      "revenue_value": 382.74129021288826,
+      "delivered_kwh": 369.6180691749323,
       "group_means": [
-        0.9081450522041521,
-        0.9551042364641247,
-        0.9490102888480149
+        0.9484086571552931,
+        0.9390457521253661,
+        0.9454948732496569
       ],
-      "worst_segment_index": 0
+      "worst_segment_index": 1
     },
     "maximin": {
-      "mean_satisfaction": 0.9292463313456704,
-      "min_satisfaction": 0.2072123650476487,
-      "worst_segment_mean": 0.9238271845151326,
-      "group_disparity": 0.008404817809895548,
-      "revenue_value": 373.9565601998396,
-      "delivered_kwh": 369.19716074317694,
+      "mean_satisfaction": 0.93606145211046,
+      "min_satisfaction": 0.2949994210531361,
+      "worst_segment_mean": 0.9326278164860957,
+      "group_disparity": 0.00527798162457449,
+      "revenue_value": 382.9891192638912,
+      "delivered_kwh": 369.6180691749323,
       "group_means": [
-        0.9322320023250281,
-        0.9238271845151326,
-        0.930417505919525
+        0.9379057981106702,
+        0.9326278164860957,
+        0.9363782058610387
       ],
       "worst_segment_index": 1
     },
     "egalitarian_equal": {
-      "mean_satisfaction": 0.9172712524507868,
-      "min_satisfaction": 0.18200518156321008,
-      "worst_segment_mean": 0.9172712524507868,
-      "group_disparity": 1.1102230246251565e-16,
-      "revenue_value": 365.74144636476547,
-      "delivered_kwh": 360.57028755647667,
+      "mean_satisfaction": 0.9250438080578158,
+      "min_satisfaction": 0.28753377903557686,
+      "worst_segment_mean": 0.9220000337331666,
+      "group_disparity": 0.0030437743246497506,
+      "revenue_value": 376.5542261378017,
+      "delivered_kwh": 363.2713843902636,
       "group_means": [
-        0.9172712524507868,
-        0.9172712524507869,
-        0.9172712524507869
+        0.9250438080578162,
+        0.9220000337331666,
+        0.9250438080578164
       ],
-      "worst_segment_index": 0
+      "worst_segment_index": 1
     },
-    "price_of_fairness_revenue": 0.07796546709106858,
-    "price_of_fairness_meansat": -0.06603453481100478,
-    "utilitarian_mean_sat_ceiling": 0.9403826361009302,
-    "maximin_min_sat_ceiling": 0.9238271845151326
+    "price_of_fairness_revenue": 0.05124130002974812,
+    "price_of_fairness_meansat": -0.058589528078291354,
+    "utilitarian_mean_sat_ceiling": 0.9444833398681217,
+    "maximin_min_sat_ceiling": 0.9326278164860957
   },
   "robustness": {
     "rows": [
       {
         "premium_weight": 1.2,
-        "profit_premium_sat": 0.9845711847850676,
-        "maximin_premium_sat": 0.930417505919525,
-        "premium_sat_loss": 0.054153678865542565,
-        "profit_budget_sat": 0.6511419746166773,
-        "maximin_budget_sat": 0.9322320023250281,
-        "budget_sat_gain": 0.2810900277083508,
-        "mean_sat_profit": 0.8718199013235834,
-        "mean_sat_maximin": 0.9292463313456704,
-        "pof_revenue_pct": 6.452320065898695
+        "profit_premium_sat": 0.9766394705091543,
+        "maximin_premium_sat": 0.9363782058610387,
+        "premium_sat_loss": 0.040261264648115636,
+        "profit_budget_sat": 0.7219491779265423,
+        "maximin_budget_sat": 0.9379057981106702,
+        "budget_sat_gain": 0.21595662018412787,
+        "mean_sat_profit": 0.8837612351698062,
+        "mean_sat_maximin": 0.93606145211046,
+        "pof_revenue_pct": 4.209357983449373
       },
       {
         "premium_weight": 1.5,
-        "profit_premium_sat": 0.9845711847850676,
-        "maximin_premium_sat": 0.930417505919525,
-        "premium_sat_loss": 0.054153678865542565,
-        "profit_budget_sat": 0.6506248672383338,
-        "maximin_budget_sat": 0.9322320023250281,
-        "budget_sat_gain": 0.2816071350866943,
-        "mean_sat_profit": 0.8716850167001204,
-        "mean_sat_maximin": 0.9292463313456704,
-        "pof_revenue_pct": 7.796546709106858
+        "profit_premium_sat": 0.9766867810024542,
+        "maximin_premium_sat": 0.9363782058610387,
+        "premium_sat_loss": 0.040308575141415504,
+        "profit_budget_sat": 0.7230878810574548,
+        "maximin_budget_sat": 0.9379057981106702,
+        "budget_sat_gain": 0.2148179170532154,
+        "mean_sat_profit": 0.8842534591770882,
+        "mean_sat_maximin": 0.93606145211046,
+        "pof_revenue_pct": 5.1241300029748125
       },
       {
         "premium_weight": 2.0,
-        "profit_premium_sat": 0.9845711847850676,
-        "maximin_premium_sat": 0.930417505919525,
-        "premium_sat_loss": 0.054153678865542565,
-        "profit_budget_sat": 0.6530911773749379,
-        "maximin_budget_sat": 0.9322320023250281,
-        "budget_sat_gain": 0.2791408249500902,
-        "mean_sat_profit": 0.8725797584228574,
-        "mean_sat_maximin": 0.9292463313456704,
-        "pof_revenue_pct": 9.496922543513788
+        "profit_premium_sat": 0.9766898049177483,
+        "maximin_premium_sat": 0.9363782058610387,
+        "premium_sat_loss": 0.04031159905670956,
+        "profit_budget_sat": 0.7238603230840865,
+        "maximin_budget_sat": 0.9379057981106702,
+        "budget_sat_gain": 0.21404547502658366,
+        "mean_sat_profit": 0.8845331580890208,
+        "mean_sat_maximin": 0.93606145211046,
+        "pof_revenue_pct": 6.28464675425543
       },
       {
         "premium_weight": 3.0,
-        "profit_premium_sat": 0.9845646831379545,
-        "maximin_premium_sat": 0.930417505919525,
-        "premium_sat_loss": 0.05414717721842954,
-        "profit_budget_sat": 0.6544124583148131,
-        "maximin_budget_sat": 0.9322320023250281,
-        "budget_sat_gain": 0.277819544010215,
-        "mean_sat_profit": 0.8730014488651692,
-        "mean_sat_maximin": 0.9292463313456704,
-        "pof_revenue_pct": 11.71660242527867
+        "profit_premium_sat": 0.9766751463470188,
+        "maximin_premium_sat": 0.9363782058610387,
+        "premium_sat_loss": 0.04029694048598009,
+        "profit_budget_sat": 0.7236790619713862,
+        "maximin_budget_sat": 0.9379057981106702,
+        "budget_sat_gain": 0.214226736139284,
+        "mean_sat_profit": 0.8845689138660238,
+        "mean_sat_maximin": 0.93606145211046,
+        "pof_revenue_pct": 7.805298626731094
       }
     ]
   },
   "tariffs": {
     "rows": [
       {
-        "disparity": 0.33394631754673376,
-        "worst_segment": 0.6506248672383338,
+        "disparity": 0.2535988999449994,
+        "worst_segment": 0.7230878810574548,
         "worst_segment_name": "budget",
-        "revenue_value": 405.5776078365743,
-        "mean_satisfaction": 0.8716850167001204,
+        "revenue_value": 403.6738944011275,
+        "mean_satisfaction": 0.8842534591770882,
         "group_means": [
-          0.6506248672383338,
-          0.9599411954897166,
-          0.9845711847850676
+          0.7230878810574548,
+          0.9431881955463092,
+          0.9766867810024542
         ],
         "subsidy": 0.0,
         "budget_weight": 0.6
       },
       {
-        "disparity": 0.3334453700648512,
-        "worst_segment": 0.6511258147202164,
+        "disparity": 0.25458751682812,
+        "worst_segment": 0.722099434928873,
         "worst_segment_name": "budget",
-        "revenue_value": 423.35475312918425,
-        "mean_satisfaction": 0.8718278463126486,
+        "revenue_value": 422.05767763950865,
+        "mean_satisfaction": 0.8840386267245075,
         "group_means": [
-          0.6511258147202164,
-          0.9599517251474337,
-          0.9845711847850676
+          0.722099434928873,
+          0.9435354853418579,
+          0.9766869517569929
         ],
         "subsidy": 0.2,
         "budget_weight": 0.8
       },
       {
-        "disparity": 0.17653924854801795,
-        "worst_segment": 0.8080319362370496,
-        "worst_segment_name": "budget",
-        "revenue_value": 441.1318984217942,
-        "mean_satisfaction": 0.8867449471097497,
+        "disparity": 0.12600275006365558,
+        "worst_segment": 0.8506843134436763,
+        "worst_segment_name": "mid",
+        "revenue_value": 440.44146087788977,
+        "mean_satisfaction": 0.897870549009778,
         "group_means": [
-          0.8080319362370496,
-          0.8572240915988761,
-          0.9845711847850676
+          0.856648576331565,
+          0.8506843134436763,
+          0.9766870635073319
         ],
         "subsidy": 0.4,
         "budget_weight": 1.0
       },
       {
-        "disparity": 0.2743816953433271,
-        "worst_segment": 0.7101894894417404,
+        "disparity": 0.2548980789767672,
+        "worst_segment": 0.7217888459353825,
         "worst_segment_name": "mid",
-        "revenue_value": 469.011375400424,
-        "mean_satisfaction": 0.8679157529693258,
+        "revenue_value": 466.67699683075773,
+        "mean_satisfaction": 0.88886734426155,
         "group_means": [
-          0.9061054852768948,
-          0.7101894894417404,
-          0.9845711847850676
+          0.9470657918788755,
+          0.7217888459353825,
+          0.9766869249121497
         ],
         "subsidy": 0.6,
         "budget_weight": 1.2
       },
       {
-        "disparity": 0.2741225666592654,
-        "worst_segment": 0.7104486181258022,
+        "disparity": 0.2561733246915662,
+        "worst_segment": 0.7205136348639527,
         "worst_segment_name": "mid",
-        "revenue_value": 496.8908523790538,
-        "mean_satisfaction": 0.8678160085875867,
+        "revenue_value": 492.91253278362564,
+        "mean_satisfaction": 0.8883664172996075,
         "group_means": [
-          0.905075307802566,
-          0.7104486181258022,
-          0.9845711847850676
+          0.9469806178470197,
+          0.7205136348639527,
+          0.9766869595555189
         ],
         "subsidy": 0.8,
         "budget_weight": 1.4
       },
       {
-        "disparity": 0.2735816293022295,
-        "worst_segment": 0.7093618996988484,
+        "disparity": 0.2590442511468337,
+        "worst_segment": 0.721803792598629,
         "worst_segment_name": "mid",
-        "revenue_value": 526.4035119466485,
-        "mean_satisfaction": 0.8696850661751898,
+        "revenue_value": 520.0329339546385,
+        "mean_satisfaction": 0.8880103492183716,
         "group_means": [
-          0.982943529001078,
-          0.7093618996988484,
-          0.9231647482946916
+          0.9808480437454627,
+          0.721803792598629,
+          0.9410154187278816
         ],
         "subsidy": 1.0,
         "budget_weight": 1.6
       },
       {
-        "disparity": 0.27163854210055494,
-        "worst_segment": 0.711304986900523,
+        "disparity": 0.2596184574361593,
+        "worst_segment": 0.7212300897923355,
         "worst_segment_name": "mid",
-        "revenue_value": 557.5493541032076,
-        "mean_satisfaction": 0.8700299284507265,
+        "revenue_value": 548.038200343796,
+        "mean_satisfaction": 0.8878276189068911,
         "group_means": [
-          0.982943529001078,
-          0.711304986900523,
-          0.9225599308379091
+          0.9808485472284948,
+          0.7212300897923355,
+          0.9408271282939937
         ],
         "subsidy": 1.2,
         "budget_weight": 1.7999999999999998
@@ -357,94 +380,94 @@
       1.0,
       1.5
     ],
-    "value_weighted_disparity": 0.33394631754673376,
+    "value_weighted_disparity": 0.2535988999449994,
     "value_weighted_worst_segment_name": "budget",
-    "flat_tariff_disparity": 0.04364935017724014,
-    "flat_tariff_worst_segment": 0.8721567300692448,
-    "flat_tariff_revenue": 369.19716074317694,
-    "price_driven_gap": 0.2902969673694936,
-    "residual_scarcity_gap": 0.04364935017724014,
-    "price_driven_reduction_pct": 86.92923121081459,
-    "best_budget_only_disparity": 0.17653924854801795,
+    "flat_tariff_disparity": 0.007642151057014601,
+    "flat_tariff_worst_segment": 0.900739620043855,
+    "flat_tariff_revenue": 369.6180691749323,
+    "price_driven_gap": 0.2459567488879848,
+    "residual_scarcity_gap": 0.007642151057014601,
+    "price_driven_reduction_pct": 96.98652004068738,
+    "best_budget_only_disparity": 0.12600275006365558,
     "best_budget_only_subsidy": 0.4,
-    "best_budget_only_worst_segment": "budget",
+    "best_budget_only_worst_segment": "mid",
     "premium_cap": {
       "rows": [
         {
-          "disparity": 0.33394631754673376,
-          "worst_segment": 0.6506248672383338,
+          "disparity": 0.2535988999449994,
+          "worst_segment": 0.7230878810574548,
           "worst_segment_name": "budget",
-          "revenue_value": 405.5776078365743,
-          "mean_satisfaction": 0.8716850167001204,
+          "revenue_value": 403.6738944011275,
+          "mean_satisfaction": 0.8842534591770882,
           "group_means": [
-            0.6506248672383338,
-            0.9599411954897166,
-            0.9845711847850676
+            0.7230878810574548,
+            0.9431881955463092,
+            0.9766867810024542
           ],
           "cap": 1.5
         },
         {
-          "disparity": 0.3319940080394811,
-          "worst_segment": 0.6525771767455865,
+          "disparity": 0.25496994793503625,
+          "worst_segment": 0.7216893538003086,
           "worst_segment_name": "budget",
-          "revenue_value": 376.80371276512744,
-          "mean_satisfaction": 0.8722487071461573,
+          "revenue_value": 375.34453771994447,
+          "mean_satisfaction": 0.8836689524848944,
           "group_means": [
-            0.6525771767455865,
-            0.9599434135059383,
-            0.9845711847850676
+            0.7216893538003086,
+            0.9430822319285138,
+            0.9766593017353449
           ],
           "cap": 1.3
         },
         {
-          "disparity": 0.33191363542135166,
-          "worst_segment": 0.6526575493637159,
+          "disparity": 0.2550955981581514,
+          "worst_segment": 0.7215590456894241,
           "worst_segment_name": "budget",
-          "revenue_value": 348.0298176936805,
-          "mean_satisfaction": 0.8722263207892652,
+          "revenue_value": 347.0151810387615,
+          "mean_satisfaction": 0.8835264797781102,
           "group_means": [
-            0.6526575493637159,
-            0.9599621833388161,
-            0.9845711847850676
+            0.7215590456894241,
+            0.9430096473010416,
+            0.9766546438475755
           ],
           "cap": 1.1
         },
         {
-          "disparity": 0.3193063429543528,
-          "worst_segment": 0.6551575452771397,
+          "disparity": 0.24227430909365555,
+          "worst_segment": 0.7205012380225361,
           "worst_segment_name": "budget",
-          "revenue_value": 333.6428701579571,
-          "mean_satisfaction": 0.8749013340560889,
+          "revenue_value": 332.85050269817003,
+          "mean_satisfaction": 0.8847275343369105,
           "group_means": [
-            0.6551575452771397,
-            0.9744638882314924,
-            0.9734635734947783
+            0.7205012380225361,
+            0.9627755471161916,
+            0.9620720792564122
           ],
           "cap": 1.0
         },
         {
-          "disparity": 0.33106171598212486,
-          "worst_segment": 0.6437608729987826,
+          "disparity": 0.24439366274705465,
+          "worst_segment": 0.7179495299929382,
           "worst_segment_name": "budget",
-          "revenue_value": 277.5805833019316,
-          "mean_satisfaction": 0.870987981239989,
+          "revenue_value": 277.3106721015647,
+          "mean_satisfaction": 0.8836928323975721,
           "group_means": [
-            0.6437608729987826,
-            0.9748225889809075,
-            0.9718353223802215
+            0.7179495299929382,
+            0.9623431927399928,
+            0.9622351068126693
           ],
           "cap": 0.8
         },
         {
-          "disparity": 0.06131714690946277,
-          "worst_segment": 0.8554569768524685,
-          "worst_segment_name": "budget",
-          "revenue_value": 221.51829644590615,
-          "mean_satisfaction": 0.8886743445292841,
+          "disparity": 0.0030551218834397043,
+          "worst_segment": 0.8996841071812267,
+          "worst_segment_name": "mid",
+          "revenue_value": 221.77084150495938,
+          "mean_satisfaction": 0.9013589474088436,
           "group_means": [
-            0.8554569768524685,
-            0.9167741237619312,
-            0.8826201966067451
+            0.9027392290646664,
+            0.8996841071812267,
+            0.9021026655425112
           ],
           "cap": 0.6
         }
@@ -455,7 +478,7 @@
         1.5
       ]
     },
-    "best_partial_cap_disparity": 0.3193063429543528
+    "best_partial_cap_disparity": 0.24227430909365555
   },
   "capacity": {
     "rows": [
@@ -465,7 +488,7 @@
         "served_mean_sat": 0.7074124217033386,
         "worst10_sat": 0.0,
         "profit_mean": 169.73501586914062,
-        "oracle_profit_disparity": 0.5514584404230289
+        "oracle_profit_disparity": 0.5063536908158868
       },
       {
         "grid_kw": 25.0,
@@ -473,7 +496,7 @@
         "served_mean_sat": 0.7585278749465942,
         "worst10_sat": 0.0,
         "profit_mean": 191.95631408691406,
-        "oracle_profit_disparity": 0.42949204357630644
+        "oracle_profit_disparity": 0.38477982729470206
       },
       {
         "grid_kw": 30.0,
@@ -481,7 +504,7 @@
         "served_mean_sat": 0.8055121302604675,
         "worst10_sat": 0.0,
         "profit_mean": 212.31851196289062,
-        "oracle_profit_disparity": 0.33394631754673376
+        "oracle_profit_disparity": 0.2535988999449994
       },
       {
         "grid_kw": 40.0,
@@ -489,7 +512,7 @@
         "served_mean_sat": 0.858905553817749,
         "worst10_sat": 0.0,
         "profit_mean": 243.72621154785156,
-        "oracle_profit_disparity": 0.12298101115383164
+        "oracle_profit_disparity": 0.05820152778833454
       },
       {
         "grid_kw": 50.0,
@@ -497,7 +520,7 @@
         "served_mean_sat": 0.8856809735298157,
         "worst10_sat": 0.0,
         "profit_mean": 257.5574951171875,
-        "oracle_profit_disparity": 0.018301939419761326
+        "oracle_profit_disparity": 0.007256918272156576
       },
       {
         "grid_kw": 70.0,
@@ -505,7 +528,7 @@
         "served_mean_sat": 0.8924545645713806,
         "worst10_sat": 0.0,
         "profit_mean": 263.6976318359375,
-        "oracle_profit_disparity": 0.010950748895181217
+        "oracle_profit_disparity": 0.0038427180773216163
       },
       {
         "grid_kw": 100.0,
@@ -513,7 +536,7 @@
         "served_mean_sat": 0.8928697109222412,
         "worst10_sat": 0.0,
         "profit_mean": 256.7142639160156,
-        "oracle_profit_disparity": 0.010950748895181217
+        "oracle_profit_disparity": 0.003882717422519111
       },
       {
         "grid_kw": 150.0,
@@ -521,7 +544,7 @@
         "served_mean_sat": 0.8928697109222412,
         "worst10_sat": 0.0,
         "profit_mean": 256.64166259765625,
-        "oracle_profit_disparity": 0.010950748895181217
+        "oracle_profit_disparity": 0.003882717422519111
       },
       {
         "grid_kw": 300.0,
@@ -529,7 +552,7 @@
         "served_mean_sat": 0.8928697109222412,
         "worst10_sat": 0.0,
         "profit_mean": 256.64166259765625,
-        "oracle_profit_disparity": 0.010950748895181217
+        "oracle_profit_disparity": 0.003882717422519111
       },
       {
         "grid_kw": 600.0,
@@ -537,11 +560,11 @@
         "served_mean_sat": 0.8928697109222412,
         "worst10_sat": 0.0,
         "profit_mean": 256.64166259765625,
-        "oracle_profit_disparity": 0.010950748895181217
+        "oracle_profit_disparity": 0.003882717422519111
       }
     ],
     "abundant_gini": 0.26234662532806396,
-    "abundant_disparity": 0.010950748895181217,
+    "abundant_disparity": 0.003882717422519111,
     "threshold_kw_gini": 50.0,
     "threshold_kw_oracle": 70.0,
     "threshold_kw": 50.0
