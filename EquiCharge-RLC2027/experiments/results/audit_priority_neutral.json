@@ -1,0 +1,50 @@
+{
+ "n_days": 256,
+ "margins": [
+  0.6,
+  1.0,
+  1.5
+ ],
+ "objectives": {
+  "profit": {
+   "tier_means": [
+    0.4113,
+    0.8103,
+    0.9567
+   ],
+   "gamma": 0.5454,
+   "revenue_mean": 406.43,
+   "delivered_kwh_mean": 350.83
+  },
+  "utilitarian": {
+   "tier_means": [
+    0.8312,
+    0.8293,
+    0.8401
+   ],
+   "gamma": 0.0108,
+   "revenue_mean": 365.37,
+   "delivered_kwh_mean": 350.83
+  },
+  "maximin": {
+   "tier_means": [
+    0.8201,
+    0.8218,
+    0.8197
+   ],
+   "gamma": 0.0021,
+   "revenue_mean": 364.74,
+   "delivered_kwh_mean": 350.83
+  }
+ },
+ "price_of_neutrality_pct": {
+  "median": 9.83,
+  "iqr": 8.64,
+  "ratio_of_means": 10.1
+ },
+ "price_of_fairness_pct": {
+  "median": 10.51,
+  "iqr": 7.43,
+  "ratio_of_means": 10.26
+ }
+}
