@@ -63,8 +63,10 @@ N_DAYS = int(os.environ.get("EQUICHARGE_N_DAYS") or 32)
 ETAS = (0.0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
 
 # Tier<->income coupling strengths to propagate the tier disparity to an income-level
-# disparate impact. rho=1 is perfect sorting; rho=1/3 is independence (no correlation,
-# no disparate impact). The EV-access/charging literature supports a substantial (but
+# disparate impact. rho=1 is perfect sorting; rho=0 is independence (under the mixing
+# model P(income=m | tier=g) = rho*1[m==g] + (1-rho)/3 every income bracket then sees the
+# same tier mix, so there is no income-level disparate impact; rho=1/3 is weak, not zero,
+# coupling). The EV-access/charging literature supports a substantial (but
 # imperfect) correlation, so the plausible operating range is roughly 0.5-0.8.
 RHOS = (1.0, 0.8, 0.7, 0.6, 0.5, 0.4, 1 / 3)
 
@@ -184,7 +186,7 @@ def main():
             "elasticity range (eta in (0,1]) -- the finding is NOT an artifact of eta=0.6 -- "
             "and it propagates to a material income-level disparate impact for any real "
             "tier-income correlation. The disparity vanishes only at eta=0 (all tiers priced "
-            "equally) and rho=1/3 (tier independent of income), i.e. exactly when the premise "
+            "equally) and rho=0 (tier independent of income), i.e. exactly when the premise "
             "of the harm is switched off, which is the correct sanity behavior."
             if eta_robust else
             "Budget is NOT robustly worst across the elasticity range; report the dependence."),

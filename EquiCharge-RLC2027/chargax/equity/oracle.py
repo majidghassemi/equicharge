@@ -151,12 +151,22 @@ def _customers_from_log(masks, desired, window, pmax, group) -> list:
 # ---------------------------------------------------------------------------
 # LP assembly helpers
 # ---------------------------------------------------------------------------
-def _build_base_lp(cust, grid_limit_kw, minutes_per_timestep, horizon_steps):
+def _build_base_lp(cust, grid_limit_kw, minutes_per_timestep, horizon_steps, battery=None):
     """Assemble the variable map and the two structural constraint blocks shared
     by every objective: per-step grid energy and per-customer energy demand.
 
     Returns ``(var_index, ub, cust_vars, rows, cols, data, b_ub, n_rows)`` where the
     constraint matrix is in COO form so callers can append objective-specific rows.
+
+    ``battery`` optionally adds the station's on-site battery as a LOSSLESS store:
+    ``(capacity_kwh, max_kw, soc0_kwh)``. Per step it may charge from the grid
+    (``c_t``) or discharge to the chargers (``d_t``), each at most ``max_kw``, and its
+    state of charge ``soc0 + sum_{tau<=t}(c_tau - d_tau)`` stays in ``[0, capacity]``.
+    The grid limit then applies to net import, ``sum_i x[i,t] + c_t - d_t <= P dt``,
+    which is how the simulator treats discharge (it adds to the power available at the
+    root). Dropping the round-trip losses only enlarges the feasible set, so the LP
+    remains an upper bound on any causal policy that uses the battery. The battery
+    variables carry no objective weight and are appended after the customer variables.
     """
     dt_h = minutes_per_timestep / 60.0
     e_grid = grid_limit_kw * dt_h  # max energy delivered per step (kWh)
@@ -179,12 +189,37 @@ def _build_base_lp(cust, grid_limit_kw, minutes_per_timestep, horizon_steps):
 
     rows, cols, data, b_ub = [], [], [], []
     r = 0
-    # (1) per-step grid energy: sum_i x[i,t] <= e_grid
-    for t, vs in step_vars.items():
-        for v in vs:
-            rows.append(r); cols.append(v); data.append(1.0)
-        b_ub.append(e_grid)
-        r += 1
+    if battery is None:
+        # (1) per-step grid energy: sum_i x[i,t] <= e_grid
+        for t, vs in step_vars.items():
+            for v in vs:
+                rows.append(r); cols.append(v); data.append(1.0)
+            b_ub.append(e_grid)
+            r += 1
+    else:
+        cap_kwh, max_kw, soc0 = (float(v) for v in battery)
+        c_var, d_var = {}, {}
+        for t in range(horizon_steps):          # charge / discharge per step
+            c_var[t] = len(ub); ub.append(max_kw * dt_h)
+            d_var[t] = len(ub); ub.append(max_kw * dt_h)
+        # (1b) per-step net grid import: sum_i x[i,t] + c_t - d_t <= e_grid
+        for t in range(horizon_steps):
+            for v in step_vars.get(t, []):
+                rows.append(r); cols.append(v); data.append(1.0)
+            rows.append(r); cols.append(c_var[t]); data.append(1.0)
+            rows.append(r); cols.append(d_var[t]); data.append(-1.0)
+            b_ub.append(e_grid); r += 1
+        # (1c) state of charge within [0, capacity] after every step
+        for t in range(horizon_steps):
+            for tau in range(t + 1):            # sum (c - d) <= cap - soc0
+                rows.append(r); cols.append(c_var[tau]); data.append(1.0)
+                rows.append(r); cols.append(d_var[tau]); data.append(-1.0)
+            b_ub.append(cap_kwh - soc0); r += 1
+            for tau in range(t + 1):            # sum (d - c) <= soc0
+                rows.append(r); cols.append(d_var[tau]); data.append(1.0)
+                rows.append(r); cols.append(c_var[tau]); data.append(-1.0)
+            b_ub.append(soc0); r += 1
+        n_xy = len(ub)
     # (2) per-customer energy cap: sum_t x[i,t] <= desired_i  (=> satisfaction <= 1)
     for i, vs in cust_vars.items():
         for v in vs:
@@ -233,8 +268,12 @@ def solve_oracle_lp(
     objective: str = "utilitarian",
     price_by_group: tuple = (),
     n_groups: int | None = None,
+    battery: tuple | None = None,
 ) -> dict:
     """Solve the clairvoyant allocation LP. Returns per-customer satisfactions.
+
+    ``battery=(capacity_kwh, max_kw, soc0_kwh)`` adds the on-site battery as a lossless
+    store (see :func:`_build_base_lp`); ``None`` keeps the original battery-free LP.
 
     See the module docstring for the objective semantics. The maximin variants use
     a two-stage (lexicographic) LP so the returned allocation is *Pareto efficient*
@@ -255,7 +294,7 @@ def solve_oracle_lp(
         }
 
     (var_index, ub, cust_vars, rows0, cols0, data0, b_ub0, n_rows0, n_xy) = _build_base_lp(
-        cust, grid_limit_kw, minutes_per_timestep, horizon_steps
+        cust, grid_limit_kw, minutes_per_timestep, horizon_steps, battery=battery
     )
     if n_xy == 0:
         return _package(np.zeros(n), np.zeros(n), cust, objective, price_by_group)

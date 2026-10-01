@@ -1,0 +1,313 @@
+{
+  "n_days": 256,
+  "policy": "margin_greedy",
+  "day_key": 7,
+  "estimator": "max-min of day-averaged inclusive per-tier mean satisfaction",
+  "reference": {
+    "n_days": 256,
+    "days_used": 256,
+    "days_skipped_no_tier": 0,
+    "profit_per_day": {
+      "median": 171.35823822021484,
+      "iqr": 61.93968963623047,
+      "min": 60.40669631958008,
+      "max": 351.8227233886719,
+      "mean": 177.7527530938387
+    },
+    "gamma": 0.372947336546531,
+    "day_averaged_group_means": [
+      0.30286539669668855,
+      0.553647612396162,
+      0.6758127332432196
+    ],
+    "per_day_gap": {
+      "median": 0.429723784327507,
+      "iqr": 0.2124913539737463,
+      "min": 0.015530645847320557,
+      "max": 0.8826567903161049,
+      "mean": 0.4243852706213147
+    },
+    "worst_tier_counts": {
+      "budget": 218,
+      "mid": 27,
+      "premium": 11
+    },
+    "budget_worst_share": 0.8515625,
+    "worst_tier_entropy": 0.46358575801680246,
+    "reading": "systematic between-tier (one tier is worst on most days)",
+    "offline_profit_optimal": {
+      "gamma": 0.5410268712487265,
+      "day_averaged_group_means": [
+        0.415894813159078,
+        0.8127710977780536,
+        0.9569216844078046
+      ],
+      "per_day_gap": {
+        "median": 0.5902373902975918,
+        "iqr": 0.3450329660900989,
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.5674092694321147
+      },
+      "worst_tier_counts": {
+        "budget": 232,
+        "mid": 17,
+        "premium": 7
+      },
+      "budget_worst_share": 0.90625,
+      "worst_tier_entropy": 0.3347133023478247,
+      "reading": "systematic between-tier (one tier is worst on most days)",
+      "days_used": 256
+    }
+  },
+  "other_online_baselines": {
+    "max_charge": {
+      "n_days": 256,
+      "days_used": 256,
+      "days_skipped_no_tier": 0,
+      "profit_per_day": {
+        "median": 160.94499969482422,
+        "iqr": 66.75914764404297,
+        "min": 52.88456726074219,
+        "max": 334.9600830078125,
+        "mean": 167.68125265836716
+      },
+      "gamma": 0.005937907670158893,
+      "day_averaged_group_means": [
+        0.546275872446131,
+        0.5403379647759721,
+        0.5458539426908828
+      ],
+      "per_day_gap": {
+        "median": 0.1680372655391693,
+        "iqr": 0.14239683002233505,
+        "min": 0.011180520057678223,
+        "max": 0.5105913579463959,
+        "mean": 0.177197071374394
+      },
+      "worst_tier_counts": {
+        "budget": 82,
+        "mid": 96,
+        "premium": 78
+      },
+      "budget_worst_share": 0.3203125,
+      "worst_tier_entropy": 0.9963341066253825,
+      "reading": "NON-SYSTEMATIC / rotating (day-averaging would hide the per-day harm)"
+    },
+    "proportional_fair": {
+      "n_days": 256,
+      "days_used": 256,
+      "days_skipped_no_tier": 0,
+      "profit_per_day": {
+        "median": 149.13905334472656,
+        "iqr": 60.283294677734375,
+        "min": 41.50143051147461,
+        "max": 328.83685302734375,
+        "mean": 156.32007037103176
+      },
+      "gamma": 0.007662694493774325,
+      "day_averaged_group_means": [
+        0.4607336764456704,
+        0.46839637093944475,
+        0.4634292118716985
+      ],
+      "per_day_gap": {
+        "median": 0.14615188539028168,
+        "iqr": 0.1368754357099533,
+        "min": 0.008254915475845337,
+        "max": 0.42993591725826263,
+        "mean": 0.16372572915861383
+      },
+      "worst_tier_counts": {
+        "budget": 96,
+        "mid": 80,
+        "premium": 80
+      },
+      "budget_worst_share": 0.375,
+      "worst_tier_entropy": 0.9965119062478287,
+      "reading": "NON-SYSTEMATIC / rotating (day-averaging would hide the per-day harm)"
+    },
+    "least_laxity": {
+      "n_days": 256,
+      "days_used": 256,
+      "days_skipped_no_tier": 0,
+      "profit_per_day": {
+        "median": 154.4093246459961,
+        "iqr": 58.12689208984375,
+        "min": 56.072200775146484,
+        "max": 317.93634033203125,
+        "mean": 160.48721112310886
+      },
+      "gamma": 0.012054859718773514,
+      "day_averaged_group_means": [
+        0.5342519220430404,
+        0.5327446736046113,
+        0.5447995333233848
+      ],
+      "per_day_gap": {
+        "median": 0.1641218364238739,
+        "iqr": 0.14264361560344696,
+        "min": 0.005106896162033081,
+        "max": 0.4952540993690491,
+        "mean": 0.183379263675306
+      },
+      "worst_tier_counts": {
+        "budget": 89,
+        "mid": 90,
+        "premium": 77
+      },
+      "budget_worst_share": 0.34765625,
+      "worst_tier_entropy": 0.9977818436078091,
+      "reading": "NON-SYSTEMATIC / rotating (day-averaging would hide the per-day harm)"
+    },
+    "saffe": {
+      "n_days": 256,
+      "days_used": 256,
+      "days_skipped_no_tier": 0,
+      "profit_per_day": {
+        "median": 147.36427307128906,
+        "iqr": 60.756282806396484,
+        "min": 41.201332092285156,
+        "max": 327.12530517578125,
+        "mean": 154.7583771944046
+      },
+      "gamma": 0.007043546764180064,
+      "day_averaged_group_means": [
+        0.45095134794246405,
+        0.4579948947066441,
+        0.45315790057065897
+      ],
+      "per_day_gap": {
+        "median": 0.14896683394908905,
+        "iqr": 0.1390753909945488,
+        "min": 0.007227718830108643,
+        "max": 0.4427493214607239,
+        "mean": 0.1666441409906838
+      },
+      "worst_tier_counts": {
+        "budget": 97,
+        "mid": 76,
+        "premium": 83
+      },
+      "budget_worst_share": 0.37890625,
+      "worst_tier_entropy": 0.9952859942974688,
+      "reading": "NON-SYSTEMATIC / rotating (day-averaging would hide the per-day harm)"
+    }
+  },
+  "margin_greedy_profit_premium_pct": {
+    "max_charge": 6.006336591444179,
+    "proportional_fair": 13.710768343309033,
+    "least_laxity": 10.758204251787978,
+    "saffe": 14.858243098789025
+  },
+  "scarcity_sweep": [
+    {
+      "n_days": 256,
+      "days_used": 256,
+      "days_skipped_no_tier": 0,
+      "profit_per_day": {
+        "median": 171.35823822021484,
+        "iqr": 61.93968963623047,
+        "min": 60.40669631958008,
+        "max": 351.8227233886719,
+        "mean": 177.7527530938387
+      },
+      "gamma": 0.372947336546531,
+      "day_averaged_group_means": [
+        0.30286539669668855,
+        0.553647612396162,
+        0.6758127332432196
+      ],
+      "per_day_gap": {
+        "median": 0.429723784327507,
+        "iqr": 0.2124913539737463,
+        "min": 0.015530645847320557,
+        "max": 0.8826567903161049,
+        "mean": 0.4243852706213147
+      },
+      "worst_tier_counts": {
+        "budget": 218,
+        "mid": 27,
+        "premium": 11
+      },
+      "budget_worst_share": 0.8515625,
+      "worst_tier_entropy": 0.46358575801680246,
+      "reading": "systematic between-tier (one tier is worst on most days)",
+      "grid_kw": 30.0
+    },
+    {
+      "n_days": 256,
+      "days_used": 256,
+      "days_skipped_no_tier": 0,
+      "profit_per_day": {
+        "median": 196.17273712158203,
+        "iqr": 70.25535202026367,
+        "min": 72.55484771728516,
+        "max": 434.2079772949219,
+        "mean": 200.21834886074066
+      },
+      "gamma": 0.12263697244634386,
+      "day_averaged_group_means": [
+        0.562198245912441,
+        0.6711956713697873,
+        0.6848352183587849
+      ],
+      "per_day_gap": {
+        "median": 0.20223155617713928,
+        "iqr": 0.16709155589342117,
+        "min": 0.010293543338775635,
+        "max": 0.5800705552101135,
+        "mean": 0.21947662862658035
+      },
+      "worst_tier_counts": {
+        "budget": 155,
+        "mid": 45,
+        "premium": 56
+      },
+      "budget_worst_share": 0.60546875,
+      "worst_tier_entropy": 0.8573138857143657,
+      "reading": "NON-SYSTEMATIC / rotating (day-averaging would hide the per-day harm)",
+      "grid_kw": 45.0
+    },
+    {
+      "n_days": 256,
+      "days_used": 256,
+      "days_skipped_no_tier": 0,
+      "profit_per_day": {
+        "median": 205.0150909423828,
+        "iqr": 72.99885177612305,
+        "min": 77.0921630859375,
+        "max": 423.8447570800781,
+        "mean": 206.50304090976715
+      },
+      "gamma": 0.020729555340949446,
+      "day_averaged_group_means": [
+        0.6687278994941153,
+        0.6894574548350647,
+        0.6889718111488037
+      ],
+      "per_day_gap": {
+        "median": 0.14015159010887146,
+        "iqr": 0.1279575675725937,
+        "min": 0.015301108360290527,
+        "max": 0.5713052153587341,
+        "mean": 0.15965132508426905
+      },
+      "worst_tier_counts": {
+        "budget": 98,
+        "mid": 77,
+        "premium": 81
+      },
+      "budget_worst_share": 0.3828125,
+      "worst_tier_entropy": 0.9949171244831058,
+      "reading": "NON-SYSTEMATIC / rotating (day-averaging would hide the per-day harm)",
+      "grid_kw": 60.0
+    }
+  ],
+  "scarcity_sweep_gamma": {
+    "30": 0.372947336546531,
+    "45": 0.12263697244634386,
+    "60": 0.020729555340949446
+  },
+  "station": "reference site WITHOUT on-site battery"
+}

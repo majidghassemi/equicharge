@@ -1,0 +1,84 @@
+{
+ "n_days": 256,
+ "max_kw": 40.0,
+ "soc0_fraction": 0.25,
+ "rows": [
+  {
+   "capacity_kwh": 0.0,
+   "gamma": 0.5454,
+   "tier_means": [
+    0.4113,
+    0.8103,
+    0.9567
+   ],
+   "budget_worst_share": 0.9141,
+   "delivered_kwh_mean": 350.83
+  },
+  {
+   "capacity_kwh": 10.0,
+   "gamma": 0.5291,
+   "tier_means": [
+    0.4303,
+    0.8357,
+    0.9594
+   ],
+   "budget_worst_share": 0.9102,
+   "delivered_kwh_mean": 360.58
+  },
+  {
+   "capacity_kwh": 25.0,
+   "gamma": 0.4857,
+   "tier_means": [
+    0.4757,
+    0.8672,
+    0.9614
+   ],
+   "budget_worst_share": 0.8867,
+   "delivered_kwh_mean": 374.52
+  },
+  {
+   "capacity_kwh": 50.0,
+   "gamma": 0.4046,
+   "tier_means": [
+    0.5577,
+    0.9111,
+    0.9624
+   ],
+   "budget_worst_share": 0.8672,
+   "delivered_kwh_mean": 396.6
+  },
+  {
+   "capacity_kwh": 75.0,
+   "gamma": 0.3146,
+   "tier_means": [
+    0.6478,
+    0.9371,
+    0.9625
+   ],
+   "budget_worst_share": 0.832,
+   "delivered_kwh_mean": 416.87
+  },
+  {
+   "capacity_kwh": 100.0,
+   "gamma": 0.2295,
+   "tier_means": [
+    0.733,
+    0.9485,
+    0.9625
+   ],
+   "budget_worst_share": 0.7852,
+   "delivered_kwh_mean": 434.7
+  },
+  {
+   "capacity_kwh": 150.0,
+   "gamma": 0.0961,
+   "tier_means": [
+    0.8664,
+    0.9562,
+    0.9625
+   ],
+   "budget_worst_share": 0.6172,
+   "delivered_kwh_mean": 462.12
+  }
+ ]
+}
