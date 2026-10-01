@@ -94,8 +94,9 @@ for cfg, label, margins, spread in [
         ("budget_tied_to_mid", "budget subsidy to parity", "1.0, 1.0, 1.5", "0.5"),
         ("fully_flat", "income neutral (equal)", "all equal", "0.0")]:
     checks.append(("Table 3 " + cfg, "%s & %s & %s & %s &" % (label, margins, spread, f2(tm[cfg]["gap"]))))
-checks.append(("rank chart caption", "($%s$ versus $%s$)" % (f2(tm["premium_capped_to_mid"]["gap"]),
-                                                              f2(tm["budget_tied_to_mid"]["gap"]))))
+checks.append(("mechanism text cap", "barely moves, from $%s$ to $%s$" % (f2(tm["status_quo_distinct"]["gap"]),
+                                                                          f2(tm["premium_capped_to_mid"]["gap"]))))
+checks.append(("mechanism text subsidy", "the gap drops to $%s$" % f2(tm["budget_tied_to_mid"]["gap"])))
 
 # --- Table 4 (sites) -----------------------------------------------------------------------
 sites = [("reference_16ch_30kW_residential_eu", "reference (16 ch, 30 kW)", "%.2f"),
