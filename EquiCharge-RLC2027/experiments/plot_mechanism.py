@@ -118,7 +118,7 @@ def plot_oracle(M):
     bars[0].set_color(HARM)  # profit optimum earns the premium -- the cost of fairness
     S.clean(ax2)
     ax2.set_xticks(x); ax2.set_xticklabels(xl)
-    ax2.set_ylabel("revenue (€/day)"); ax2.set_ylim(0, max(revs) * 1.22)
+    ax2.set_ylabel("margin-weighted kWh/day"); ax2.set_ylim(0, max(revs) * 1.22)
     S.label_line(ax2, x[0], revs[0], "revenue-optimal", HARM, dy=9, ha="center", va="bottom")
     S.savefig(fig, os.path.join(FIGDIR, "oracle_tradeoff.png"))
 
@@ -385,7 +385,10 @@ def main(argv=None):
     acn_mech = _load_optional("audit_mechanism_acn.json")
     plot_scarcity_boundary(_load("audit_robustness.json"), chk, acn_chk, acn_mech)
     plot_levers(_load("audit_levers.json"))
-    plot_capacity(_load("audit_capacity.json"))
+    # The paper audits the reference site without its on-site battery, so the capacity
+    # sweep comes from the battery-free run when it exists (experiments/run_nobattery.py).
+    cap_nb = _load_optional("audit_capacity_nobattery.json")
+    plot_capacity(cap_nb if cap_nb is not None else _load("audit_capacity.json"))
     if not a.outdir:
         sync_to_paper()
 

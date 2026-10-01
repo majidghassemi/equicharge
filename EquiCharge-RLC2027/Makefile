@@ -11,9 +11,9 @@ LATEX  ?= pdflatex
 DAYS   ?=
 export EQUICHARGE_N_DAYS = $(DAYS)
 BIBTEX ?= bibtex
-PAPER  ?= facct27_equicharge
+PAPER  ?= archive_facct27_equicharge_2026-08
 
-.PHONY: all audit theory gate figures test learn acn paper paper-clean clean help
+.PHONY: all audit theory gate figures test learn acn paper paper-clean clean help manuscript-check
 
 help:
 	@grep -E '^[a-z-]+:.*?## .*$$' $(MAKEFILE_LIST) | sed 's/:.*## /\t/' | column -t -s "$$(printf '\t')"
@@ -72,3 +72,8 @@ paper-clean:  ## remove LaTeX build artifacts
 	cd paper && rm -f *.aux *.bbl *.blg *.log *.out *.toc
 
 clean: paper-clean  ## remove build artifacts
+
+manuscript-check:  ## check the live (Overleaf) manuscript: make manuscript-check TEX=path/to/main.tex
+	@test -n "$(TEX)" || { echo "usage: make manuscript-check TEX=path/to/main.tex"; exit 1; }
+	$(PYTHON) experiments/check_manuscript_numbers.py $(TEX)
+	$(PYTHON) -m experiments.check_paper_numbers --tex $(TEX)

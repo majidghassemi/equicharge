@@ -169,7 +169,7 @@ LABEL_POS = {  # site -> (dx, dy, ha, va)
     "highway": (0, 7, "center", "bottom"),
     "shopping": (7, -1, "left", "center"),
     "workplace": (-6, 5, "right", "bottom"),
-    "acn": (7, 4, "left", "bottom"),
+    "acn": (0, -7, "center", "top"),  # below the point, clear of the highway label and the curve
 }
 #: Used for any site without an explicit entry, so adding a site never crashes the plot.
 LABEL_POS_DEFAULT = (7, 0, "left", "center")

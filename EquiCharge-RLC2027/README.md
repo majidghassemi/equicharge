@@ -235,7 +235,7 @@ env = EquiChargax(station=station, welfare_alpha=0.0, welfare_outer="rawlsian",
   [`tariffs`](chargax/equity/tariffs.py) analysis, and real-data
   [`data_calibration`](chargax/equity/data_calibration.py) provenance + ACN-Data hook.
 * **Data provenance** (what is real vs. modelled): see [`docs/DATA.md`](docs/DATA.md).
-* **Paper** (the socio-technical audit): [`paper/facct27_equicharge.tex`](paper/facct27_equicharge.tex).
+* **Paper** (the socio-technical audit): the live manuscript is kept in Overleaf, see [`paper/README.md`](paper/README.md).
   Submission checklist and change log: [`docs/FACCT_SUBMISSION.md`](docs/FACCT_SUBMISSION.md).
 * **Reproduce:**
   ```bash
